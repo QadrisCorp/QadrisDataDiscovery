@@ -1,0 +1,39 @@
+You are a Taiwan financial data expert. Analyze this API endpoint and classify it.
+
+## Endpoint Information
+- Source: {source}
+- Type: {endpoint_type}
+- Path: {path}
+- Description: {description}
+- Category: {category}
+- Sample Fields: {sample_fields}
+
+## Task
+1. Assign one or more `domain_tags` from the predefined list below.
+2. Write a one-line `fields_summary` in English describing what data fields this endpoint provides.
+
+## Predefined domain_tags (choose ONLY from this list)
+- price: Stock price data (OHLCV, closing price, daily quotes)
+- volume: Trading volume and turnover data
+- index: Market indices
+- dividend: Dividend distribution, cash/stock dividends
+- corporate_action: Ex-rights, ex-dividend dates, capital reduction, capital increase
+- financial_statement: Income statement, balance sheet, cash flow, quarterly/annual reports
+- revenue: Monthly revenue reports
+- margin_trading: Margin buying, short selling, securities borrowing/lending
+- institutional: Foreign/domestic institutional investor trading
+- ownership: Shareholding, directors, supervisors, major shareholders, insider trading
+- governance: Corporate governance, board composition, ESG, penalties
+- ipo_listing: IPO, listing/delisting, new listings
+- valuation: PE ratio, PB ratio, dividend yield
+- bond: Bond trading, convertible bonds
+- etf_fund: ETF, mutual fund related
+- warrant: Warrants, structured products
+- futures_options: Futures, options, derivatives
+- announcement: Company announcements, material information, news
+- reference: Company master data, basic info, industry classification
+- other: Does not fit any above category
+
+## Output
+Return ONLY a JSON object, no explanation:
+{{"domain_tags": ["tag1", "tag2"], "fields_summary": "One line English summary of the data fields"}}
