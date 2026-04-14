@@ -20,7 +20,7 @@ paths:
       operationId: getCatalog
       summary: Get the full endpoint catalog
       description: |
-        Returns a JSON object containing metadata about 594 official
+        Returns a JSON object containing metadata about 606 official
         Taiwan financial data API endpoints from TWSE, TPEx, and MOPS.
         Each endpoint includes URL, method, description, domain tags,
         field summaries, and request examples.
@@ -31,6 +31,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Catalog"
+        "404":
+          description: Not found. GitHub Pages returns an HTML error page, not JSON.
 
   /llms.txt:
     get:
@@ -44,6 +46,8 @@ paths:
             text/plain:
               schema:
                 type: string
+        "404":
+          description: Not found. GitHub Pages returns an HTML error page, not JSON.
 
 components:
   schemas:
@@ -65,6 +69,7 @@ components:
 
     CatalogMeta:
       type: object
+      required: [title, version, generated_at, total_endpoints, sources]
       properties:
         title:
           type: string

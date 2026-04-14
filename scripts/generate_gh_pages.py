@@ -152,6 +152,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Catalog"
+        "404":
+          description: Not found. GitHub Pages returns an HTML error page, not JSON.
 
   /llms.txt:
     get:
@@ -165,6 +167,8 @@ paths:
             text/plain:
               schema:
                 type: string
+        "404":
+          description: Not found. GitHub Pages returns an HTML error page, not JSON.
 
 components:
   schemas:
@@ -186,6 +190,7 @@ components:
 
     CatalogMeta:
       type: object
+      required: [title, version, generated_at, total_endpoints, sources]
       properties:
         title:
           type: string
