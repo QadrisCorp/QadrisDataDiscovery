@@ -1,0 +1,54 @@
+# Taiwan Official Financial Data Catalog
+
+> Machine-readable catalog of 594 official API endpoints from
+> Taiwan's TWSE, TPEx, and MOPS. Designed for AI agents to discover
+> available financial data sources.
+
+## How to use
+
+1. Fetch the full catalog: GET https://qadriscorp.github.io/QadrisDataDiscovery/catalog.json
+2. Search endpoints by domain_tags, description, or category
+3. Use the endpoint's url, method, and request_example to call the actual API
+
+## OpenAPI spec
+
+GET https://qadriscorp.github.io/QadrisDataDiscovery/openapi.yaml
+
+## Sources
+
+- **TWSE** (Taiwan Stock Exchange / 臺灣證券交易所): 231 endpoints
+  - OpenAPI: https://openapi.twse.com.tw/v1 (real-time, current day)
+  - Web: https://www.twse.com.tw (historical, add &response=json)
+- **TPEx** (Taipei Exchange / 證券櫃檯買賣中心): 301 endpoints
+  - OpenAPI: https://www.tpex.org.tw/openapi/v1 (real-time, current day)
+  - Web: https://www.tpex.org.tw (historical)
+- **MOPS** (Market Observation Post System / 公開資訊觀測站): 62 endpoints
+  - Web: https://mopsov.twse.com.tw (financial statements, revenue, governance)
+
+## Available domain tags
+
+volume, price, governance, financial_statement, index, reference, ownership, announcement, margin_trading, institutional, corporate_action, bond, warrant, valuation, ipo_listing, dividend, revenue, etf_fund
+
+## Endpoint fields
+
+Each endpoint in catalog.json includes:
+- id, source, endpoint_type, url, path, method
+- description (often in Chinese), category
+- domain_tags — semantic classification
+- granularity — daily, monthly, quarterly, yearly, snapshot
+- coverage — listed_only, otc_only, all
+- fields_summary — natural language description of response fields
+- sample_fields — actual field names from API response
+- supports_history, history_method, date_params
+- request_example — complete request with URL, method, params
+- response_format — json or html_table
+- id_field — stock/company identifier field name
+
+## Tips for AI agents
+
+- Use domain_tags to filter endpoints by topic (e.g. "price", "revenue", "financial")
+- Check supports_history and history_method for time-series data
+- request_example has ready-to-use request parameters
+- MOPS endpoints use POST method and ROC calendar dates
+- TWSE/TPEx OpenAPI endpoints are real-time snapshots (no history)
+- TWSE/TPEx Web endpoints support historical queries with date parameters

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taiwan Financial Data Catalog</title>
+<style>
+  :root {
+    --bg: #0a0a0a; --surface: #141414; --border: #2a2a2a;
+    --text: #e0e0e0; --text-muted: #888; --accent: #4fc3f7;
+    --tag-bg: #1a2a3a; --tag-text: #7fdbff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+    padding: 2rem; max-width: 1200px; margin: 0 auto;
+  }
+  h1 { color: var(--accent); font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .subtitle { color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem; }
+  .controls {
+    display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;
+  }
+  input, select {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); padding: 0.5rem 0.75rem; border-radius: 4px;
+    font-size: 0.875rem;
+  }
+  input { flex: 1; min-width: 200px; }
+  input:focus, select:focus { outline: none; border-color: var(--accent); }
+  .stats {
+    color: var(--text-muted); font-size: 0.8rem; margin-bottom: 1rem;
+  }
+  .endpoint {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 1rem; margin-bottom: 0.75rem;
+    cursor: pointer; transition: border-color 0.2s;
+  }
+  .endpoint:hover { border-color: var(--accent); }
+  .endpoint-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 1rem; margin-bottom: 0.5rem;
+  }
+  .endpoint-title {
+    font-size: 0.9rem; font-weight: 600; word-break: break-all;
+  }
+  .endpoint-source {
+    font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 3px;
+    background: var(--tag-bg); color: var(--tag-text); white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .endpoint-desc {
+    color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem;
+  }
+  .endpoint-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .tag {
+    font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 3px;
+    background: var(--tag-bg); color: var(--tag-text);
+  }
+  .endpoint-detail {
+    display: none; margin-top: 0.75rem; padding-top: 0.75rem;
+    border-top: 1px solid var(--border); font-size: 0.8rem;
+  }
+  .endpoint.expanded .endpoint-detail { display: block; }
+  .detail-row {
+    display: flex; gap: 0.5rem; margin-bottom: 0.3rem;
+  }
+  .detail-label {
+    color: var(--text-muted); min-width: 120px; flex-shrink: 0;
+  }
+  .detail-value { word-break: break-all; }
+  pre {
+    background: var(--bg); border: 1px solid var(--border);
+    padding: 0.5rem; border-radius: 4px; overflow-x: auto;
+    font-size: 0.75rem; margin-top: 0.3rem;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .agent-links {
+    margin-bottom: 1.5rem; font-size: 0.85rem;
+    display: flex; gap: 1.5rem;
+  }
+  .agent-links a {
+    padding: 0.3rem 0.6rem; border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Taiwan Financial Data Catalog</h1>
+<p class="subtitle">594 official API endpoints from TWSE, TPEx, MOPS</p>
+
+<div class="agent-links">
+  <a href="catalog.json">catalog.json</a>
+  <a href="openapi.yaml">openapi.yaml</a>
+  <a href="llms.txt">llms.txt</a>
+</div>
+
+<div class="controls">
+  <input type="text" id="search" placeholder="Search description, tags, fields...">
+  <select id="source-filter">
+    <option value="">All Sources</option>
+    <option value="twse">TWSE</option>
+    <option value="tpex">TPEx</option>
+    <option value="mops">MOPS</option>
+  </select>
+  <select id="tag-filter">
+    <option value="">All Tags</option>
+  </select>
+  <select id="granularity-filter">
+    <option value="">All Granularity</option>
+  </select>
+</div>
+
+<div class="stats" id="stats"></div>
+<div id="endpoints"></div>
+
+<script>
+let catalog = null;
+
+async function init() {
+  const res = await fetch("catalog.json");
+  catalog = await res.json();
+
+  // Populate tag filter
+  const tagSelect = document.getElementById("tag-filter");
+  Object.entries(catalog.tags)
+    .sort((a, b) => b[1] - a[1])
+    .forEach(([tag, count]) => {
+      const opt = document.createElement("option");
+      opt.value = tag;
+      opt.textContent = `${tag} (${count})`;
+      tagSelect.appendChild(opt);
+    });
+
+  // Populate granularity filter
+  const granSet = new Set(catalog.endpoints.map(e => e.granularity).filter(Boolean));
+  const granSelect = document.getElementById("granularity-filter");
+  [...granSet].sort().forEach(g => {
+    const opt = document.createElement("option");
+    opt.value = g;
+    opt.textContent = g;
+    granSelect.appendChild(opt);
+  });
+
+  render();
+}
+
+function render() {
+  const query = document.getElementById("search").value.toLowerCase();
+  const source = document.getElementById("source-filter").value;
+  const tag = document.getElementById("tag-filter").value;
+  const gran = document.getElementById("granularity-filter").value;
+
+  const filtered = catalog.endpoints.filter(ep => {
+    if (source && ep.source !== source) return false;
+    if (tag && !ep.domain_tags.includes(tag)) return false;
+    if (gran && ep.granularity !== gran) return false;
+    if (query) {
+      const haystack = [
+        ep.description, ep.fields_summary, ep.category, ep.path,
+        ...ep.domain_tags, ...ep.sample_fields
+      ].join(" ").toLowerCase();
+      return haystack.includes(query);
+    }
+    return true;
+  });
+
+  document.getElementById("stats").textContent =
+    `Showing ${filtered.length} of ${catalog.endpoints.length} endpoints`;
+
+  const container = document.getElementById("endpoints");
+  container.innerHTML = filtered.slice(0, 200).map(ep => `
+    <div class="endpoint" onclick="this.classList.toggle('expanded')">
+      <div class="endpoint-header">
+        <span class="endpoint-title">${ep.description || ep.path}</span>
+        <span class="endpoint-source">${ep.source.toUpperCase()} / ${ep.endpoint_type}</span>
+      </div>
+      <div class="endpoint-desc">${ep.path}</div>
+      <div class="endpoint-tags">
+        ${ep.domain_tags.map(t => `<span class="tag">${t}</span>`).join("")}
+        ${ep.granularity ? `<span class="tag">${ep.granularity}</span>` : ""}
+        ${ep.supports_history ? '<span class="tag">history</span>' : ""}
+      </div>
+      <div class="endpoint-detail">
+        <div class="detail-row"><span class="detail-label">URL</span><span class="detail-value"><a href="${ep.url}" target="_blank">${ep.url}</a></span></div>
+        <div class="detail-row"><span class="detail-label">Method</span><span class="detail-value">${ep.method}</span></div>
+        ${ep.fields_summary ? `<div class="detail-row"><span class="detail-label">Fields Summary</span><span class="detail-value">${ep.fields_summary}</span></div>` : ""}
+        ${ep.sample_fields.length ? `<div class="detail-row"><span class="detail-label">Sample Fields</span><span class="detail-value">${ep.sample_fields.join(", ")}</span></div>` : ""}
+        ${ep.coverage ? `<div class="detail-row"><span class="detail-label">Coverage</span><span class="detail-value">${ep.coverage}</span></div>` : ""}
+        ${ep.id_field ? `<div class="detail-row"><span class="detail-label">ID Field</span><span class="detail-value">${ep.id_field}</span></div>` : ""}
+        ${ep.history_method ? `<div class="detail-row"><span class="detail-label">History Method</span><span class="detail-value">${ep.history_method}</span></div>` : ""}
+        ${ep.request_example ? `<div class="detail-row"><span class="detail-label">Request Example</span></div><pre>${JSON.stringify(ep.request_example, null, 2)}</pre>` : ""}
+      </div>
+    </div>
+  `).join("");
+}
+
+document.getElementById("search").addEventListener("input", render);
+document.getElementById("source-filter").addEventListener("change", render);
+document.getElementById("tag-filter").addEventListener("change", render);
+document.getElementById("granularity-filter").addEventListener("change", render);
+
+init();
+</script>
+</body>
+</html>

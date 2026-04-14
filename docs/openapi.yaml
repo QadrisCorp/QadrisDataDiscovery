@@ -1,0 +1,152 @@
+openapi: "3.1.0"
+info:
+  title: Taiwan Financial Data Catalog API
+  description: |
+    Static catalog of official Taiwan financial data API endpoints (TWSE, TPEx, MOPS).
+    AI agents can fetch /catalog.json to discover available data sources,
+    then call the actual endpoints directly.
+  version: "1.0.0"
+  contact:
+    name: QadrisCorp
+    url: https://github.com/QadrisCorp/QadrisDataDiscovery
+
+servers:
+  - url: https://qadriscorp.github.io/QadrisDataDiscovery
+    description: GitHub Pages
+
+paths:
+  /catalog.json:
+    get:
+      operationId: getCatalog
+      summary: Get the full endpoint catalog
+      description: |
+        Returns a JSON object containing metadata about 594 official
+        Taiwan financial data API endpoints from TWSE, TPEx, and MOPS.
+        Each endpoint includes URL, method, description, domain tags,
+        field summaries, and request examples.
+      responses:
+        "200":
+          description: Full catalog of financial data endpoints
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Catalog"
+
+  /llms.txt:
+    get:
+      operationId: getLlmsTxt
+      summary: AI agent discovery file
+      description: Human/AI-readable summary of what this catalog provides.
+      responses:
+        "200":
+          description: Plain text discovery file
+          content:
+            text/plain:
+              schema:
+                type: string
+
+components:
+  schemas:
+    Catalog:
+      type: object
+      required: [meta, tags, endpoints]
+      properties:
+        meta:
+          $ref: "#/components/schemas/CatalogMeta"
+        tags:
+          type: object
+          description: Map of domain tag to endpoint count
+          additionalProperties:
+            type: integer
+        endpoints:
+          type: array
+          items:
+            $ref: "#/components/schemas/Endpoint"
+
+    CatalogMeta:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        version:
+          type: string
+        generated_at:
+          type: string
+          format: date-time
+        total_endpoints:
+          type: integer
+        sources:
+          type: object
+          description: Source metadata (name, base_urls)
+
+    Endpoint:
+      type: object
+      required: [id, source, endpoint_type, url, method, description]
+      properties:
+        id:
+          type: string
+          description: "Unique ID: {source}:{endpoint_type}:{path}"
+          example: "twse:openapi:/exchangeReport/STOCK_DAY_ALL"
+        source:
+          type: string
+          enum: [twse, tpex, mops]
+        endpoint_type:
+          type: string
+          enum: [openapi, web, xbrl]
+        url:
+          type: string
+          format: uri
+          description: Full URL to call the endpoint
+        path:
+          type: string
+          description: Path portion of the endpoint URL
+        method:
+          type: string
+          enum: [GET, POST]
+        description:
+          type: string
+          description: Human-readable description (often in Chinese)
+        category:
+          type: string
+          description: Category or domain classification
+        domain_tags:
+          type: array
+          items:
+            type: string
+          description: Semantic tags (e.g. price, volume, financial, revenue)
+        granularity:
+          type: string
+          enum: [daily, monthly, quarterly, yearly, snapshot]
+        coverage:
+          type: string
+          enum: [listed_only, otc_only, all]
+        fields_summary:
+          type: string
+          description: LLM-generated summary of response fields
+        sample_fields:
+          type: array
+          items:
+            type: string
+          description: Field names from sample API response
+        supports_history:
+          type: boolean
+          description: Whether historical data can be fetched
+        history_method:
+          type: string
+          description: How to fetch historical data
+        id_field:
+          type: string
+          description: Stock/company identifier field name
+        request_example:
+          type: object
+          description: Complete request example with URL, method, params
+        response_format:
+          type: string
+          enum: [json, html_table]
+        date_params:
+          type: array
+          items:
+            type: string
+          description: Date parameter names for historical queries
