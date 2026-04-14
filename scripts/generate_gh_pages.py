@@ -73,12 +73,12 @@ def _endpoint_to_dict(ep: EndpointInfo, settings: DiscoverySettings) -> dict[str
         "description": ep.description,
         "category": ep.category,
         "domain_tags": ep.domain_tags,
-        "granularity": ep.granularity,
-        "coverage": ep.coverage,
+        "granularity": ep.granularity or None,
+        "coverage": ep.coverage or None,
         "fields_summary": ep.fields_summary,
         "sample_fields": ep.sample_fields,
         "supports_history": ep.supports_history,
-        "response_format": ep.response_format,
+        "response_format": ep.response_format or None,
     }
     if ep.history_method:
         entry["history_method"] = ep.history_method
@@ -200,7 +200,22 @@ components:
           type: integer
         sources:
           type: object
-          description: Source metadata (name, base_urls)
+          description: "Map of source key (twse, tpex, mops) to source metadata"
+          additionalProperties:
+            type: object
+            properties:
+              name:
+                type: string
+                description: English name of the data source
+              name_zh:
+                type: string
+                description: Chinese name of the data source
+              base_urls:
+                type: object
+                description: "Map of endpoint_type to base URL"
+                additionalProperties:
+                  type: string
+                  format: uri
 
     Endpoint:
       type: object
@@ -238,11 +253,11 @@ components:
             type: string
           description: Semantic tags (e.g. price, volume, financial, revenue)
         granularity:
-          type: string
-          enum: [daily, monthly, quarterly, yearly, snapshot]
+          type: [string, "null"]
+          enum: [daily, monthly, quarterly, yearly, snapshot, null]
         coverage:
-          type: string
-          enum: [listed_only, otc_only, all]
+          type: [string, "null"]
+          enum: [listed_only, otc_only, all, null]
         fields_summary:
           type: string
           description: LLM-generated summary of response fields
@@ -264,8 +279,8 @@ components:
           type: object
           description: Complete request example with URL, method, params
         response_format:
-          type: string
-          enum: [json, html_table]
+          type: [string, "null"]
+          enum: [json, html_table, null]
         date_params:
           type: array
           items:
