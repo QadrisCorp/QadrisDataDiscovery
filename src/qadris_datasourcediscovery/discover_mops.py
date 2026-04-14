@@ -651,7 +651,6 @@ def discover(*, settings: DiscoverySettings | None = None) -> list[EndpointInfo]
         description="MOPS SPA backend API architecture note",
         category="API Architecture",
         method="POST",
-        status="ok",
         state="discovered",
         notes=(
             "New API base: https://mops.interinfo.com.tw:8443/mops/api/ "

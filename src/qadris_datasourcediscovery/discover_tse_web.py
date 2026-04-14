@@ -389,28 +389,29 @@ def probe_discovered(
         if data is not None:
             stat = data.get("stat", "") if isinstance(data, dict) else ""
             if re.match(r"(?i)^ok$", stat):
-                updates["status"] = "ok"
-
                 # Extract fields and record count
+                record_count = 0
                 if "tables" in data and isinstance(data["tables"], list):
-                    total_rows = 0
                     all_fields: list[str] = []
                     for t in data["tables"]:
                         if isinstance(t, dict):
                             rows = t.get("data", [])
-                            total_rows += len(rows)
+                            record_count += len(rows)
                             fields = t.get("fields", [])
                             if fields and not all_fields:
                                 all_fields = [str(f) for f in fields[:15]]
-                    updates["record_count"] = total_rows
+                    updates["record_count"] = record_count
                     if all_fields:
                         updates["sample_fields"] = all_fields
                 elif "data" in data and isinstance(data["data"], list):
-                    updates["record_count"] = len(data["data"])
+                    record_count = len(data["data"])
+                    updates["record_count"] = record_count
                     if "fields" in data and isinstance(data["fields"], list):
                         updates["sample_fields"] = [
                             str(f) for f in data["fields"][:15]
                         ]
+
+                updates["status"] = "ok" if record_count > 0 else "empty"
 
                 # Save sample
                 sample_name = api_path.strip("/").replace("/", "_")
@@ -482,22 +483,30 @@ def discover(*, settings: DiscoverySettings | None = None) -> list[EndpointInfo]
         if data is not None:
             stat = data.get("stat", "") if isinstance(data, dict) else ""
             if stat == "OK" or isinstance(data, list):
-                ep.status = "ok"
                 if isinstance(data, dict):
-                    for key in ("data", "tables", "aaData"):
-                        if key in data and isinstance(data[key], list):
-                            ep.record_count = len(data[key])
-                            break
-                    if "fields" in data and isinstance(data["fields"], list):
-                        ep.sample_fields = data["fields"][:10]
-                    elif "fields9" in data:
-                        ep.sample_fields = (
-                            data["fields9"][:10]
-                            if isinstance(data["fields9"], list)
-                            else []
-                        )
+                    if "tables" in data and isinstance(data["tables"], list):
+                        for t in data["tables"]:
+                            if isinstance(t, dict):
+                                rows = t.get("data", [])
+                                ep.record_count += len(rows)
+                                fields = t.get("fields", [])
+                                if fields and not ep.sample_fields:
+                                    ep.sample_fields = [
+                                        str(f) for f in fields[:10]
+                                    ]
+                    elif "data" in data and isinstance(data["data"], list):
+                        ep.record_count = len(data["data"])
+                    elif "aaData" in data and isinstance(data["aaData"], list):
+                        ep.record_count = len(data["aaData"])
+
+                    if not ep.sample_fields:
+                        if "fields" in data and isinstance(data["fields"], list):
+                            ep.sample_fields = data["fields"][:10]
+                        elif "fields9" in data and isinstance(data["fields9"], list):
+                            ep.sample_fields = data["fields9"][:10]
                 elif isinstance(data, list):
                     ep.record_count = len(data)
+                ep.status = "ok" if ep.record_count > 0 else "empty"
 
                 sample_path = (
                     settings.samples_dir

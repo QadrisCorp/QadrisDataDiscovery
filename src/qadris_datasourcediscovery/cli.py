@@ -343,6 +343,9 @@ def probe(
     if source == "twse":
         from qadris_datasourcediscovery.discover_tse_web import probe_discovered
         results = probe_discovered(settings=settings, limit=limit)
+    elif source == "tpex":
+        from qadris_datasourcediscovery.discover_otc_web import probe_discovered
+        results = probe_discovered(settings=settings, limit=limit)
     elif source == "mops":
         from qadris_datasourcediscovery.discover_mops import probe_discovered
         results = probe_discovered(settings=settings, limit=limit)
@@ -401,36 +404,6 @@ def enrich(
         )
 
     action = "Would enrich" if dry_run else "Enriched"
-    console.print(f"\n[bold]{action} {count} endpoints[/bold]")
-
-
-@app.command()
-def migrate(
-    catalog_dir: Annotated[
-        Optional[str], typer.Option("--catalog-dir", help="Directory with JSON catalogs")
-    ] = None,
-    dry_run: Annotated[
-        bool, typer.Option("--dry-run", help="Show what would be imported without writing")
-    ] = False,
-) -> None:
-    """Import existing JSON catalog files into SQLite database."""
-    from pathlib import Path
-
-    from qadris_datasourcediscovery.store.migrate_json import migrate_json_to_sqlite
-
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
-
-    settings = _get_settings()
-    cat_dir = Path(catalog_dir) if catalog_dir else settings.catalog_dir
-
-    count = migrate_json_to_sqlite(
-        catalog_dir=cat_dir,
-        db_path=settings.db_path,
-        samples_dir=settings.samples_dir,
-        dry_run=dry_run,
-    )
-
-    action = "Would import" if dry_run else "Imported"
     console.print(f"\n[bold]{action} {count} endpoints[/bold]")
 
 
