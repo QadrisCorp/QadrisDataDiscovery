@@ -57,9 +57,7 @@ _CREATE_INDEXES = [
 def get_schema_version(conn: sqlite3.Connection) -> int:
     """Return current schema version, 0 if table doesn't exist."""
     try:
-        row = conn.execute(
-            "SELECT MAX(version) FROM schema_version"
-        ).fetchone()
+        row = conn.execute("SELECT MAX(version) FROM schema_version").fetchone()
         return row[0] or 0
     except sqlite3.OperationalError:
         return 0

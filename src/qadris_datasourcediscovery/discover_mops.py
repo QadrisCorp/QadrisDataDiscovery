@@ -15,7 +15,7 @@ from typing import Any
 
 import pandas as pd
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 from qadris_datasourcediscovery.catalog import EndpointInfo
 from qadris_datasourcediscovery.config import DiscoverySettings
@@ -33,8 +33,13 @@ MOPS_ENDPOINTS: list[dict[str, Any]] = [
         "description": "Monthly revenue summary (IFRS) - Listed",
         "category": "Revenue",
         "form_data": {
-            "encodeURIComponent": "1", "step": "1", "firstin": "1",
-            "off": "1", "year": "114", "month": "02", "TYPEK": "sii",
+            "encodeURIComponent": "1",
+            "step": "1",
+            "firstin": "1",
+            "off": "1",
+            "year": "114",
+            "month": "02",
+            "TYPEK": "sii",
         },
         "date_params": ["year", "month"],
         "notes": "TYPEK: sii(listed)/otc(OTC)/rotc(emerging)/pub(public)",
@@ -45,8 +50,13 @@ MOPS_ENDPOINTS: list[dict[str, Any]] = [
         "description": "Monthly revenue summary (IFRS) - OTC",
         "category": "Revenue",
         "form_data": {
-            "encodeURIComponent": "1", "step": "1", "firstin": "1",
-            "off": "1", "year": "114", "month": "02", "TYPEK": "otc",
+            "encodeURIComponent": "1",
+            "step": "1",
+            "firstin": "1",
+            "off": "1",
+            "year": "114",
+            "month": "02",
+            "TYPEK": "otc",
         },
         "date_params": ["year", "month"],
         "notes": "TYPEK=otc",
@@ -57,8 +67,13 @@ MOPS_ENDPOINTS: list[dict[str, Any]] = [
         "description": "Financial statements (Income statement)",
         "category": "Financial",
         "form_data": {
-            "encodeURIComponent": "1", "step": "1", "firstin": "1",
-            "off": "1", "co_id": "2330", "year": "113", "season": "3",
+            "encodeURIComponent": "1",
+            "step": "1",
+            "firstin": "1",
+            "off": "1",
+            "co_id": "2330",
+            "year": "113",
+            "season": "3",
         },
         "date_params": ["year", "season"],
         "notes": "By company code, year=ROC year, season=1~4",
@@ -69,8 +84,13 @@ MOPS_ENDPOINTS: list[dict[str, Any]] = [
         "description": "Financial statements (Balance sheet)",
         "category": "Financial",
         "form_data": {
-            "encodeURIComponent": "1", "step": "1", "firstin": "1",
-            "off": "1", "co_id": "2330", "year": "113", "season": "3",
+            "encodeURIComponent": "1",
+            "step": "1",
+            "firstin": "1",
+            "off": "1",
+            "co_id": "2330",
+            "year": "113",
+            "season": "3",
         },
         "date_params": ["year", "season"],
         "notes": "By company code, year=ROC year, season=1~4",
@@ -81,8 +101,13 @@ MOPS_ENDPOINTS: list[dict[str, Any]] = [
         "description": "Financial statements (Cash flow statement)",
         "category": "Financial",
         "form_data": {
-            "encodeURIComponent": "1", "step": "1", "firstin": "1",
-            "off": "1", "co_id": "2330", "year": "113", "season": "3",
+            "encodeURIComponent": "1",
+            "step": "1",
+            "firstin": "1",
+            "off": "1",
+            "co_id": "2330",
+            "year": "113",
+            "season": "3",
         },
         "date_params": ["year", "season"],
         "notes": "By company code, year=ROC year, season=1~4",
@@ -93,8 +118,12 @@ MOPS_ENDPOINTS: list[dict[str, Any]] = [
         "description": "Dividend distribution",
         "category": "Dividend",
         "form_data": {
-            "encodeURIComponent": "1", "step": "1", "firstin": "1",
-            "off": "1", "co_id": "2330", "ESSION_str": "",
+            "encodeURIComponent": "1",
+            "step": "1",
+            "firstin": "1",
+            "off": "1",
+            "co_id": "2330",
+            "ESSION_str": "",
         },
         "date_params": [],
         "notes": "Historical dividend by company code",
@@ -105,7 +134,9 @@ MOPS_ENDPOINTS: list[dict[str, Any]] = [
         "description": "Real-time material information",
         "category": "Announcement",
         "form_data": {
-            "encodeURIComponent": "1", "step": "1", "firstin": "1",
+            "encodeURIComponent": "1",
+            "step": "1",
+            "firstin": "1",
             "off": "1",
         },
         "date_params": [],
@@ -117,8 +148,13 @@ MOPS_ENDPOINTS: list[dict[str, Any]] = [
         "description": "Profitability analysis (IFRS)",
         "category": "Financial",
         "form_data": {
-            "encodeURIComponent": "1", "step": "1", "firstin": "1",
-            "off": "1", "co_id": "2330", "year": "113", "season": "3",
+            "encodeURIComponent": "1",
+            "step": "1",
+            "firstin": "1",
+            "off": "1",
+            "co_id": "2330",
+            "year": "113",
+            "season": "3",
         },
         "date_params": ["year", "season"],
         "notes": "By company code",
@@ -130,8 +166,13 @@ MOPS_ENDPOINTS: list[dict[str, Any]] = [
         "description": "XBRL instance document query (single company)",
         "category": "XBRL",
         "form_data": {
-            "encodeURIComponent": "1", "step": "1", "firstin": "1",
-            "off": "1", "co_id": "2330", "year": "113", "season": "3",
+            "encodeURIComponent": "1",
+            "step": "1",
+            "firstin": "1",
+            "off": "1",
+            "co_id": "2330",
+            "year": "113",
+            "season": "3",
         },
         "date_params": ["year", "season"],
         "notes": (
@@ -145,8 +186,13 @@ MOPS_ENDPOINTS: list[dict[str, Any]] = [
         "description": "XBRL instance document batch download",
         "category": "XBRL",
         "form_data": {
-            "encodeURIComponent": "1", "step": "1", "firstin": "1",
-            "off": "1", "year": "113", "season": "3", "TYPEK": "sii",
+            "encodeURIComponent": "1",
+            "step": "1",
+            "firstin": "1",
+            "off": "1",
+            "year": "113",
+            "season": "3",
+            "TYPEK": "sii",
         },
         "date_params": ["year", "season"],
         "notes": (
@@ -176,10 +222,12 @@ SITEMAP_URL = f"{MOPS_OLD}/mops/web/t146sb08"
 def _create_mops_session(*, settings: DiscoverySettings) -> requests.Session:
     """Create an HTTP session configured for MOPS requests."""
     session = requests.Session()
-    session.headers.update({
-        "User-Agent": settings.user_agent,
-        "Accept-Language": "zh-TW,zh;q=0.9",
-    })
+    session.headers.update(
+        {
+            "User-Agent": settings.user_agent,
+            "Accept-Language": "zh-TW,zh;q=0.9",
+        }
+    )
     return session
 
 
@@ -195,9 +243,7 @@ def _try_old_mops_ajax(
 
     MOPS AJAX may return HTML tables directly, or a popup link to static HTML.
     """
-    session.get(
-        f"{MOPS_OLD}/mops/web/{page}", timeout=settings.request_timeout
-    )
+    session.get(f"{MOPS_OLD}/mops/web/{page}", timeout=settings.request_timeout)
     delay(1)
 
     resp = session.post(
@@ -232,15 +278,39 @@ def _try_old_mops_ajax(
 
 # Multiple parameter strategies to try when probing
 _PROBE_STRATEGIES = [
-    {"year": "113", "month": "12", "TYPEK": "sii", "co_id": "2330",
-     "season": "3", "YM": "11312", "day": "15",
-     "smonth": "10", "emonth": "12"},
-    {"year": "113", "month": "6", "TYPEK": "sii", "co_id": "2330",
-     "season": "2", "YM": "11306", "day": "10",
-     "smonth": "4", "emonth": "6"},
-    {"year": "114", "month": "3", "TYPEK": "all", "co_id": "2330",
-     "season": "1", "YM": "11403", "day": "7",
-     "smonth": "1", "emonth": "3"},
+    {
+        "year": "113",
+        "month": "12",
+        "TYPEK": "sii",
+        "co_id": "2330",
+        "season": "3",
+        "YM": "11312",
+        "day": "15",
+        "smonth": "10",
+        "emonth": "12",
+    },
+    {
+        "year": "113",
+        "month": "6",
+        "TYPEK": "sii",
+        "co_id": "2330",
+        "season": "2",
+        "YM": "11306",
+        "day": "10",
+        "smonth": "4",
+        "emonth": "6",
+    },
+    {
+        "year": "114",
+        "month": "3",
+        "TYPEK": "all",
+        "co_id": "2330",
+        "season": "1",
+        "YM": "11403",
+        "day": "7",
+        "smonth": "1",
+        "emonth": "3",
+    },
 ]
 
 
@@ -264,23 +334,24 @@ def _extract_ajax_form(
 ) -> tuple[str, dict[str, str]] | None:
     """Extract the main AJAX form action and inputs from a MOPS page."""
     for f in soup.find_all("form"):
-        action = f.get("action", "")
+        action_raw = f.get("action", "")
+        action = str(action_raw)
         if "autoComplete" in action or not action.startswith("/mops/web/"):
             continue
 
         inputs: dict[str, str] = {}
         for inp in f.find_all("input"):
-            name = inp.get("name")
-            if name:
-                inputs[name] = inp.get("value", "")
+            name_raw = inp.get("name")
+            if name_raw:
+                inputs[str(name_raw)] = str(inp.get("value", ""))
 
         # Also grab first option from select elements
         for sel in f.find_all("select"):
-            name = sel.get("name")
-            if name and name not in inputs:
+            name_raw = sel.get("name")
+            if name_raw and str(name_raw) not in inputs:
                 opts = sel.find_all("option")
                 if opts:
-                    inputs[name] = opts[0].get("value", "")
+                    inputs[str(name_raw)] = str(opts[0].get("value", ""))
 
         return action, inputs
 
@@ -307,7 +378,8 @@ def probe_discovered(
         discovered = db.get_endpoints(source="mops", state="discovered")
         # Also retry previously failed endpoints
         failed = [
-            ep for ep in db.get_all_endpoints()
+            ep
+            for ep in db.get_all_endpoints()
             if ep.source == "mops" and ep.status == "error"
         ]
 
@@ -327,7 +399,8 @@ def probe_discovered(
 
     # Filter out non-probeable paths
     probeable = [
-        ep for ep in to_retry
+        ep
+        for ep in to_retry
         if ep.path.startswith("/mops/web/")
         and not ep.path.endswith((".doc", ".pdf", ".zip"))
         and "/server-java/" not in ep.path
@@ -337,7 +410,8 @@ def probe_discovered(
     to_probe = probeable[:limit]
     logger.info(
         "=== Probing %d/%d MOPS endpoints ===",
-        len(to_probe), len(probeable),
+        len(to_probe),
+        len(probeable),
     )
 
     session = _create_mops_session(settings=settings)
@@ -357,11 +431,15 @@ def probe_discovered(
             form_info = _extract_ajax_form(soup)
             if not form_info:
                 logger.warning("  No AJAX form found")
-                results.append(ep.model_copy(update={
-                    "state": "probed",
-                    "status": "error",
-                    "notes": (ep.notes + " | no ajax form").strip(" | "),
-                }))
+                results.append(
+                    ep.model_copy(
+                        update={
+                            "state": "probed",
+                            "status": "error",
+                            "notes": (ep.notes + " | no ajax form").strip(" | "),
+                        }
+                    )
+                )
                 delay(settings.web_delay)
                 continue
 
@@ -378,8 +456,11 @@ def probe_discovered(
 
                 ajax_path = action.rsplit("/", 1)[-1]
                 tables, result_type = _try_old_mops_ajax(
-                    session, page_code, ajax_path,
-                    form_data, settings=settings,
+                    session,
+                    page_code,
+                    ajax_path,
+                    form_data,
+                    settings=settings,
                 )
 
                 if tables:
@@ -394,9 +475,7 @@ def probe_discovered(
                 )
                 resp2.encoding = "utf-8"
 
-                ext_match = re.search(
-                    r"window\.open\('(https?://[^']+)'", resp2.text
-                )
+                ext_match = re.search(r"window\.open\('(https?://[^']+)'", resp2.text)
                 if ext_match:
                     ext_url = ext_match.group(1)
                     logger.info("  Following external URL: %s", ext_url)
@@ -421,16 +500,19 @@ def probe_discovered(
 
                 # Check for step 2 form
                 soup2 = BeautifulSoup(resp2.text, "html.parser")
-                form2 = soup2.find("form")
-                if form2 and form2.get("action", "").startswith("/mops/web/"):
+                form2_tag = soup2.find("form")
+                if not isinstance(form2_tag, Tag):
+                    form2_tag = None
+                form2_action = str(form2_tag.get("action", "")) if form2_tag else ""
+                if form2_tag and form2_action.startswith("/mops/web/"):
                     inputs2 = {
-                        inp.get("name"): inp.get("value", "")
-                        for inp in form2.find_all("input")
+                        str(inp.get("name")): str(inp.get("value", ""))
+                        for inp in form2_tag.find_all("input")
                         if inp.get("name")
                     }
                     delay(1)
                     resp3 = session.post(
-                        f"{MOPS_OLD}{form2['action']}",
+                        f"{MOPS_OLD}{form2_action}",
                         data=inputs2,
                         timeout=settings.request_timeout,
                     )
@@ -439,7 +521,7 @@ def probe_discovered(
                         try:
                             tables = pd.read_html(StringIO(resp3.text))
                             if tables:
-                                result_type = f"step2:{form2['action']}"
+                                result_type = f"step2:{form2_action}"
                                 used_strategy = i
                                 break
                         except Exception:
@@ -470,7 +552,9 @@ def probe_discovered(
                 )
                 logger.info(
                     "  OK: %d tables, %d rows (strategy %d)",
-                    len(tables), updates["record_count"], used_strategy,
+                    len(tables),
+                    updates["record_count"],
+                    used_strategy,
                 )
             else:
                 updates["status"] = "error"
@@ -481,11 +565,15 @@ def probe_discovered(
 
         except Exception as e:
             logger.error("  Exception: %s", e)
-            results.append(ep.model_copy(update={
-                "state": "probed",
-                "status": "error",
-                "notes": f"error: {e}",
-            }))
+            results.append(
+                ep.model_copy(
+                    update={
+                        "state": "probed",
+                        "status": "error",
+                        "notes": f"error: {e}",
+                    }
+                )
+            )
 
         delay(settings.web_delay)
 
@@ -514,7 +602,7 @@ def discover_from_sitemap(
     current_category = ""
 
     for a in all_links:
-        href = a["href"]
+        href = str(a["href"])
         text = a.get_text(strip=True)
 
         if not text:
@@ -540,7 +628,11 @@ def discover_from_sitemap(
         )
         endpoints.append(ep)
 
-    logger.info("Sitemap: found %d pages in %d categories", len(endpoints), len({ep.category for ep in endpoints}))
+    logger.info(
+        "Sitemap: found %d pages in %d categories",
+        len(endpoints),
+        len({ep.category for ep in endpoints}),
+    )
     return endpoints
 
 
@@ -593,9 +685,7 @@ def discover(*, settings: DiscoverySettings | None = None) -> list[EndpointInfo]
                 typek = ep_def["form_data"].get("TYPEK", "")
                 if typek:
                     sample_name += f"_{typek}"
-                sample_path = (
-                    settings.samples_dir / "mops" / f"{sample_name}.json"
-                )
+                sample_path = settings.samples_dir / "mops" / f"{sample_name}.json"
                 save_sample(
                     biggest.head(settings.max_sample_records),
                     sample_path,
@@ -644,9 +734,7 @@ def discover(*, settings: DiscoverySettings | None = None) -> list[EndpointInfo]
         state="discovered",
     )
     endpoints.append(ep_taxonomy)
-    logger.info(
-        "  Recorded %d taxonomy files", len(MOPS_XBRL_TAXONOMY_URLS)
-    )
+    logger.info("  Recorded %d taxonomy files", len(MOPS_XBRL_TAXONOMY_URLS))
 
     # === API architecture info ===
     ep_api = EndpointInfo(

@@ -8,6 +8,7 @@ import logging
 import re
 import subprocess
 from pathlib import Path
+from typing import Any
 
 from qadris_datasourcediscovery.exceptions import LLMError
 
@@ -60,7 +61,7 @@ class ClaudeCLI:
                 f"{self._command} not found. Is it installed and in PATH?"
             ) from e
 
-    def prompt_json(self, text: str, timeout: int | None = None) -> dict:
+    def prompt_json(self, text: str, timeout: int | None = None) -> dict[str, Any]:
         """送出 prompt，解析並回傳 JSON 回應。"""
         raw = self.prompt(text, timeout=timeout)
         return extract_json(raw)
@@ -87,26 +88,26 @@ def load_prompt_template(template_path: Path, **kwargs: str) -> str:
 
 
 def _fix_malformed_json(s: str) -> str:
-    """修復 LLM 常見的 JSON 格式錯誤。"""
-    s = re.sub(r',\s*"[^"]*"\s*([}\]])', r"\1", s)
-    s = re.sub(r',\s*"[^"]*\s*([}\]])', r"\1", s)
+    """修復 LLM 常見的 JSON 格式錯誤（僅移除 trailing commas）。"""
     s = re.sub(r",\s*([}\]])", r"\1", s)
     return s
 
 
-def extract_json(text: str) -> dict:
+def extract_json(text: str) -> dict[str, Any]:
     """從 LLM 回應中擷取 JSON。"""
     text = text.strip()
 
-    def _try_parse(s: str) -> dict | None:
+    def _try_parse(s: str) -> dict[str, Any] | None:
         try:
-            return json.loads(s)
+            result = json.loads(s)
         except json.JSONDecodeError:
-            pass
-        try:
-            return json.loads(_fix_malformed_json(s))
-        except json.JSONDecodeError:
-            return None
+            try:
+                result = json.loads(_fix_malformed_json(s))
+            except json.JSONDecodeError:
+                return None
+        if isinstance(result, dict):
+            return result
+        return None
 
     if (result := _try_parse(text)) is not None:
         return result

@@ -169,7 +169,8 @@ KNOWN_ENDPOINTS: list[dict[str, Any]] = [
 
 
 def discover_from_homepage(
-    *, settings: DiscoverySettings,
+    *,
+    settings: DiscoverySettings,
 ) -> list[EndpointInfo]:
     """從 TPEx 首頁 mega menu 解析所有報表頁面（Selenium 渲染）。"""
     logger.info("=== TPEx Homepage discovery (%s) ===", TPEX_HOME_URL)
@@ -192,7 +193,7 @@ def discover_from_homepage(
     seen: set[str] = set()
 
     for a in soup.find_all("a", href=True):
-        href = a["href"]
+        href = str(a["href"])
         text = a.get_text(strip=True)
 
         if not text or not href.startswith("/zh-tw/") or not href.endswith(".html"):
@@ -249,7 +250,9 @@ def probe_discovered(
     settings: DiscoverySettings | None = None,
     limit: int = 10,
 ) -> list[EndpointInfo]:
-    """Probe discovered TPEx web endpoints: extract API action via Selenium, then fetch JSON.
+    """Probe discovered TPEx web endpoints.
+
+    Extract API action via Selenium, then fetch JSON.
 
     TPEx API pattern: https://www.tpex.org.tw/www/zh-tw/{action}
     Action is found in: tables.init({action:"..."}) on each page.
@@ -263,9 +266,9 @@ def probe_discovered(
         discovered = db.get_endpoints(source="tpex", state="discovered")
         # Also retry previously failed endpoints with stat errors
         failed = [
-            ep for ep in db.get_all_endpoints()
-            if ep.source == "tpex" and ep.status == "error"
-            and "stat=" in ep.notes
+            ep
+            for ep in db.get_all_endpoints()
+            if ep.source == "tpex" and ep.status == "error" and "stat=" in ep.notes
         ]
 
     to_retry = discovered + failed
@@ -284,11 +287,11 @@ def probe_discovered(
     to_probe = unique[:limit]
     logger.info(
         "=== Probing %d/%d discovered TPEx endpoints ===",
-        len(to_probe), len(discovered),
+        len(to_probe),
+        len(discovered),
     )
 
     # Phase 1: Selenium — extract tables.init action from each page
-    from selenium.webdriver.common.by import By
 
     driver = get_selenium_driver(settings=settings)
     action_map: dict[str, str] = {}  # page_path -> action
@@ -300,6 +303,7 @@ def probe_discovered(
             try:
                 driver.get(page_url)
                 import time
+
                 time.sleep(3)
 
                 # Extract action from tables.init({action:"..."})
@@ -339,11 +343,15 @@ def probe_discovered(
     for ep in to_probe:
         action = action_map.get(ep.path)
         if not action:
-            results.append(ep.model_copy(update={
-                "state": "probed",
-                "status": "error",
-                "notes": "No tables.init action found (static page?)",
-            }))
+            results.append(
+                ep.model_copy(
+                    update={
+                        "state": "probed",
+                        "status": "error",
+                        "notes": "No tables.init action found (static page?)",
+                    }
+                )
+            )
             continue
 
         api_url = f"{settings.tpex_web_base}/www/zh-tw/{action}"
@@ -407,9 +415,7 @@ def probe_discovered(
             updates["notes"] = f"api={action}, strategy={best_strategy}"
 
             sample_name = action.replace("/", "_")
-            sample_path = (
-                settings.samples_dir / "otc_web" / f"{sample_name}.json"
-            )
+            sample_path = settings.samples_dir / "otc_web" / f"{sample_name}.json"
             save_sample(best_data, sample_path, max_records=settings.max_sample_records)
         else:
             updates["status"] = "error"
@@ -473,9 +479,7 @@ def discover(*, settings: DiscoverySettings | None = None) -> list[EndpointInfo]
                         if isinstance(table, dict):
                             if "data" in table and isinstance(table["data"], list):
                                 ep.record_count += len(table["data"])
-                            if "fields" in table and isinstance(
-                                table["fields"], list
-                            ):
+                            if "fields" in table and isinstance(table["fields"], list):
                                 ep.sample_fields = table["fields"][:10]
                             if "title" in table:
                                 ep.notes += f" | {table['title']}"
@@ -487,9 +491,7 @@ def discover(*, settings: DiscoverySettings | None = None) -> list[EndpointInfo]
             ep.status = "ok" if ep.record_count > 0 else "empty"
 
             sample_name = path.strip("/").replace("/", "_")
-            sample_path = (
-                settings.samples_dir / "otc_web" / f"{sample_name}.json"
-            )
+            sample_path = settings.samples_dir / "otc_web" / f"{sample_name}.json"
             save_sample(data, sample_path, max_records=settings.max_sample_records)
         else:
             ep.status = "error"

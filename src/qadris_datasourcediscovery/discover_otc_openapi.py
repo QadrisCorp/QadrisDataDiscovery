@@ -30,9 +30,7 @@ def discover(*, settings: DiscoverySettings | None = None) -> list[EndpointInfo]
 
     logger.info("Fetching TPEx OpenAPI swagger.json ...")
     try:
-        swagger, status = fetch_json(
-            SWAGGER_URL, session=session, settings=settings
-        )
+        swagger, status = fetch_json(SWAGGER_URL, session=session, settings=settings)
     except FetchError:
         logger.error("Failed to fetch swagger.json")
         return endpoints

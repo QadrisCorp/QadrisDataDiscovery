@@ -205,7 +205,8 @@ KNOWN_ENDPOINTS: list[dict[str, Any]] = [
 
 
 def discover_from_report_index(
-    *, settings: DiscoverySettings,
+    *,
+    settings: DiscoverySettings,
 ) -> list[EndpointInfo]:
     """從 TWSE report-index.html 解析所有報表頁面（Selenium 渲染）。"""
     logger.info("=== TWSE Report Index discovery (%s) ===", REPORT_INDEX_URL)
@@ -224,8 +225,10 @@ def discover_from_report_index(
         return []
 
     soup = BeautifulSoup(html, "html.parser")
+    from bs4 import Tag
+
     table = soup.find("table")
-    if not table:
+    if not table or not isinstance(table, Tag):
         logger.error("No table found in report-index page")
         return []
 
@@ -247,7 +250,7 @@ def discover_from_report_index(
         if not link or not link.get("href"):
             continue
 
-        href = link["href"]
+        href = str(link["href"])
 
         # Extract path from full URL: https://www.twse.com.tw/zh/trading/historical/mi-index.html
         m = re.search(r"twse\.com\.tw(/zh/[^?#]+)", href)
@@ -300,7 +303,9 @@ def probe_discovered(
     settings: DiscoverySettings | None = None,
     limit: int = 10,
 ) -> list[EndpointInfo]:
-    """Probe discovered TWSE web endpoints: extract data-api via Selenium, then fetch JSON.
+    """Probe discovered TWSE web endpoints.
+
+    Extract data-api via Selenium, then fetch JSON.
 
     Reads state='discovered' endpoints from DB, finds their JSON API path,
     hits the API for sample data, and returns updated EndpointInfo with state='probed'.
@@ -320,7 +325,8 @@ def probe_discovered(
     to_probe = discovered[:limit]
     logger.info(
         "=== Probing %d/%d discovered TWSE endpoints ===",
-        len(to_probe), len(discovered),
+        len(to_probe),
+        len(discovered),
     )
 
     # Phase 1: Selenium — extract data-api from each page
@@ -336,6 +342,7 @@ def probe_discovered(
             try:
                 driver.get(page_url)
                 import time
+
                 time.sleep(3)
                 forms = driver.find_elements(By.CSS_SELECTOR, "form[data-api]")
                 if forms:
@@ -355,11 +362,15 @@ def probe_discovered(
     for ep in to_probe:
         api_path = api_map.get(ep.path)
         if not api_path:
-            results.append(ep.model_copy(update={
-                "state": "probed",
-                "status": "error",
-                "notes": (ep.notes + " | No data-api found").strip(" | "),
-            }))
+            results.append(
+                ep.model_copy(
+                    update={
+                        "state": "probed",
+                        "status": "error",
+                        "notes": (ep.notes + " | No data-api found").strip(" | "),
+                    }
+                )
+            )
             continue
 
         api_url = f"{settings.twse_web_base}/rwd/zh{api_path}"
@@ -373,11 +384,15 @@ def probe_discovered(
                 params={"response": "json"},
             )
         except FetchError as e:
-            results.append(ep.model_copy(update={
-                "state": "probed",
-                "status": "error",
-                "notes": (ep.notes + f" | API error: {e}").strip(" | "),
-            }))
+            results.append(
+                ep.model_copy(
+                    update={
+                        "state": "probed",
+                        "status": "error",
+                        "notes": (ep.notes + f" | API error: {e}").strip(" | "),
+                    }
+                )
+            )
             delay(settings.web_delay)
             continue
 
@@ -407,17 +422,13 @@ def probe_discovered(
                     record_count = len(data["data"])
                     updates["record_count"] = record_count
                     if "fields" in data and isinstance(data["fields"], list):
-                        updates["sample_fields"] = [
-                            str(f) for f in data["fields"][:15]
-                        ]
+                        updates["sample_fields"] = [str(f) for f in data["fields"][:15]]
 
                 updates["status"] = "ok" if record_count > 0 else "empty"
 
                 # Save sample
                 sample_name = api_path.strip("/").replace("/", "_")
-                sample_path = (
-                    settings.samples_dir / "tse_web" / f"{sample_name}.json"
-                )
+                sample_path = settings.samples_dir / "tse_web" / f"{sample_name}.json"
                 save_sample(data, sample_path, max_records=settings.max_sample_records)
             else:
                 updates["status"] = "error"
@@ -491,9 +502,7 @@ def discover(*, settings: DiscoverySettings | None = None) -> list[EndpointInfo]
                                 ep.record_count += len(rows)
                                 fields = t.get("fields", [])
                                 if fields and not ep.sample_fields:
-                                    ep.sample_fields = [
-                                        str(f) for f in fields[:10]
-                                    ]
+                                    ep.sample_fields = [str(f) for f in fields[:10]]
                     elif "data" in data and isinstance(data["data"], list):
                         ep.record_count = len(data["data"])
                     elif "aaData" in data and isinstance(data["aaData"], list):
@@ -513,9 +522,7 @@ def discover(*, settings: DiscoverySettings | None = None) -> list[EndpointInfo]
                     / "tse_web"
                     / f"{path.strip('/').replace('/', '_')}.json"
                 )
-                save_sample(
-                    data, sample_path, max_records=settings.max_sample_records
-                )
+                save_sample(data, sample_path, max_records=settings.max_sample_records)
             else:
                 ep.status = "error"
                 ep.notes = f"stat={stat}"

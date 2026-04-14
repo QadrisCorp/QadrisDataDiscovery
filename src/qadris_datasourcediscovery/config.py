@@ -20,11 +20,11 @@ class DiscoverySettings(BaseSettings):
     tpex_web_base: str = "https://www.tpex.org.tw"
     mops_base: str = "https://mops.twse.com.tw"
 
-    # Output paths
-    project_root: Path = Path(__file__).resolve().parent.parent.parent
-    samples_dir: Path = project_root / "samples"
-    catalog_dir: Path = project_root / "catalog"
-    db_path: Path = project_root / "catalog" / "catalog.db"
+    # Output paths — default to cwd, overridable via RSR_PROJECT_ROOT
+    project_root: Path = Path.cwd()
+    samples_dir: Path = Path("")
+    catalog_dir: Path = Path("")
+    db_path: Path = Path("")
 
     # Request settings
     request_timeout: int = 30
@@ -39,6 +39,27 @@ class DiscoverySettings(BaseSettings):
     )
 
     model_config = {"env_prefix": "RSR_"}
+
+    def model_post_init(self, __context: object) -> None:
+        """Derive paths from project_root after init."""
+        if self.samples_dir == Path(""):
+            self.samples_dir = self.project_root / "samples"
+        if self.catalog_dir == Path(""):
+            self.catalog_dir = self.project_root / "catalog"
+        if self.db_path == Path(""):
+            self.db_path = self.project_root / "catalog" / "catalog.db"
+
+    def get_base_url(self, source: str, endpoint_type: str) -> str:
+        """Return base URL for a given source and endpoint type."""
+        mapping: dict[tuple[str, str], str] = {
+            ("twse", "openapi"): self.twse_openapi_base,
+            ("twse", "web"): self.twse_web_base,
+            ("tpex", "openapi"): self.tpex_openapi_base,
+            ("tpex", "web"): self.tpex_web_base,
+            ("mops", "web"): self.mops_base,
+            ("mops", "xbrl"): self.mops_base,
+        }
+        return mapping.get((source, endpoint_type), "")
 
     def validate_settings(self) -> None:
         """Validate that required settings are configured.

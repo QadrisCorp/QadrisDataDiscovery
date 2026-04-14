@@ -2,24 +2,29 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
+
+Source = Literal["twse", "tpex", "mops"]
+EndpointType = Literal["openapi", "web", "xbrl"]
+Status = Literal["unknown", "ok", "error", "timeout", "empty", "skipped"]
+State = Literal["discovered", "probed", "enriched"]
 
 
 class EndpointInfo(BaseModel):
     """Metadata for a single discovered API endpoint."""
 
     # --- 基礎探索欄位 ---
-    source: str  # twse, tpex, mops
-    endpoint_type: str  # openapi, web, xbrl
+    source: Source
+    endpoint_type: EndpointType
     path: str
     description: str = ""
     category: str = ""
     method: str = "GET"
     supports_history: bool = False
     date_params: list[str] = Field(default_factory=list)
-    status: str = "unknown"  # ok, error, timeout, empty
+    status: Status = "unknown"
     record_count: int = 0
     sample_fields: list[str] = Field(default_factory=list)
     notes: str = ""
@@ -35,5 +40,5 @@ class EndpointInfo(BaseModel):
     fields_summary: str = ""
 
     # --- Pipeline state ---
-    state: str = "discovered"  # discovered, probed, enriched
+    state: State = "discovered"
     sample_path: str = ""

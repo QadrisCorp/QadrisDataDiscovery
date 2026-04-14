@@ -4,9 +4,10 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Any
+from typing import Any, Protocol
 
 from qadris_datasourcediscovery.catalog import EndpointInfo
+from qadris_datasourcediscovery.config import DiscoverySettings
 from qadris_datasourcediscovery.exceptions import LLMError
 from qadris_datasourcediscovery.llm import ClaudeCLI, load_prompt_template
 
@@ -25,18 +26,34 @@ _KNOWN_ID_FIELDS = [
     "公司代碼",
 ]
 
-# --- Base URL mapping ---
-_BASE_URLS: dict[tuple[str, str], str] = {
-    ("twse", "openapi"): "https://openapi.twse.com.tw/v1",
-    ("twse", "web"): "https://www.twse.com.tw",
-    ("tpex", "openapi"): "https://www.tpex.org.tw/openapi/v1",
-    ("tpex", "web"): "https://www.tpex.org.tw",
-    ("mops", "web"): "https://mopsov.twse.com.tw",
-    ("mops", "xbrl"): "https://mops.twse.com.tw",
-}
+# --- Default settings for base URL resolution ---
+_default_settings = DiscoverySettings()
 
 # --- Prompt template 路徑 ---
-_PROMPTS_DIR = Path(__file__).resolve().parent.parent.parent / "prompts"
+# 優先使用套件內的 prompts/，fallback 到 project_root/prompts/
+_PACKAGE_PROMPTS_DIR = Path(__file__).resolve().parent / "prompts"
+_REPO_PROMPTS_DIR = Path(__file__).resolve().parent.parent.parent / "prompts"
+
+
+def _get_prompts_dir() -> Path:
+    """Return the prompts directory, preferring package-local."""
+    if _PACKAGE_PROMPTS_DIR.is_dir():
+        return _PACKAGE_PROMPTS_DIR
+    return _REPO_PROMPTS_DIR
+
+
+class CatalogStore(Protocol):
+    """Protocol for catalog DB access (avoids circular import)."""
+
+    def get_all_endpoints(self) -> list[EndpointInfo]: ...
+    def get_endpoints(
+        self,
+        *,
+        source: str | None = None,
+        status: str | None = None,
+        state: str | None = None,
+    ) -> list[EndpointInfo]: ...
+    def upsert_endpoints(self, endpoints: list[EndpointInfo]) -> int: ...
 
 
 # ====================================================================
@@ -111,7 +128,7 @@ def infer_id_field(ep: EndpointInfo) -> str:
 
 def infer_request_example(ep: EndpointInfo) -> dict[str, Any]:
     """建構完整請求範例。"""
-    base = _BASE_URLS.get((ep.source, ep.endpoint_type), "")
+    base = _default_settings.get_base_url(ep.source, ep.endpoint_type)
     if not base:
         return {}
 
@@ -177,9 +194,9 @@ def enrich_rule_based(ep: EndpointInfo) -> dict[str, Any]:
         if val:
             updates["id_field"] = val
     if not ep.request_example:
-        val = infer_request_example(ep)
-        if val:
-            updates["request_example"] = val
+        req_example = infer_request_example(ep)
+        if req_example:
+            updates["request_example"] = req_example
     if not ep.response_format:
         updates["response_format"] = infer_response_format(ep)
     if not ep.coverage:
@@ -197,7 +214,7 @@ def enrich_rule_based(ep: EndpointInfo) -> dict[str, Any]:
 
 def enrich_llm(ep: EndpointInfo, llm: ClaudeCLI) -> dict[str, Any]:
     """用 claude -p 推斷語意欄位（domain_tags, fields_summary）。"""
-    template_path = _PROMPTS_DIR / "enrich_endpoint.txt"
+    template_path = _get_prompts_dir() / "enrich_endpoint.txt"
 
     fields_str = ", ".join(ep.sample_fields[:15]) if ep.sample_fields else "(none)"
     prompt_text = load_prompt_template(
@@ -263,7 +280,7 @@ def enrich_endpoint(
 
 def enrich_all(
     *,
-    db: Any,  # CatalogDB — use Any to avoid circular import
+    db: CatalogStore,
     llm: ClaudeCLI | None = None,
     rules_only: bool = False,
     llm_only: bool = False,

@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import logging
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -86,17 +86,22 @@ class CatalogDB:
                 response_format = excluded.response_format,
                 coverage        = excluded.coverage,
                 fields_summary  = excluded.fields_summary,
-                state           = CASE
-                    WHEN excluded.state = 'enriched' THEN 'enriched'
-                    WHEN excluded.state = 'probed' AND endpoints.state != 'enriched' THEN 'probed'
-                    WHEN endpoints.state = '' OR endpoints.state = 'discovered' THEN excluded.state
+                state = CASE
+                    WHEN excluded.state = 'enriched'
+                        THEN 'enriched'
+                    WHEN excluded.state = 'probed'
+                        AND endpoints.state != 'enriched'
+                        THEN 'probed'
+                    WHEN endpoints.state = ''
+                        OR endpoints.state = 'discovered'
+                        THEN excluded.state
                     ELSE endpoints.state
                 END,
                 sample_path     = excluded.sample_path,
                 updated_at      = excluded.updated_at
         """
 
-        now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
         count = 0
         for ep in endpoints:
             params = self._endpoint_to_params(ep)
@@ -155,12 +160,23 @@ class CatalogDB:
     # State management
     # ------------------------------------------------------------------
 
+    _STATE_ORDER = {"": 0, "discovered": 1, "probed": 2, "enriched": 3}
+
     def update_state(self, source: str, path: str, state: str) -> None:
-        """Update pipeline state for a single endpoint."""
-        now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        """Update pipeline state (monotonic — only increases)."""
+        now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+        new_order = self._STATE_ORDER.get(state, 0)
+        # Only update if new state is higher than current
+        conditions = " OR ".join(
+            f"state = '{s}'"
+            for s, order in self._STATE_ORDER.items()
+            if order < new_order
+        )
+        if not conditions:
+            return
         self._conn.execute(
-            "UPDATE endpoints SET state = ?, updated_at = ? "
-            "WHERE source = ? AND path = ?",
+            f"UPDATE endpoints SET state = ?, updated_at = ? "
+            f"WHERE source = ? AND path = ? AND ({conditions})",
             (state, now, source, path),
         )
         self._conn.commit()
@@ -190,7 +206,8 @@ class CatalogDB:
         row = self._conn.execute(
             f"SELECT COUNT(*) FROM endpoints{where}", params
         ).fetchone()
-        return row[0]
+        count: int = row[0]
+        return count
 
     # ------------------------------------------------------------------
     # Serialization helpers

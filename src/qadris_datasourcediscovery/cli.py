@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import logging
 from collections import Counter
-from typing import Annotated, Optional
+from typing import Annotated
 
 import typer
 from rich.console import Console
@@ -74,26 +74,27 @@ def _match_endpoint(
 @app.command()
 def search(
     tag: Annotated[
-        Optional[list[str]], typer.Option("--tag", "-t", help="Filter by domain tag")
+        list[str] | None, typer.Option("--tag", "-t", help="Filter by domain tag")
     ] = None,
     keyword: Annotated[
-        Optional[str], typer.Option("--keyword", "-k", help="Full-text keyword search")
+        str | None, typer.Option("--keyword", "-k", help="Full-text keyword search")
     ] = None,
     source: Annotated[
-        Optional[str], typer.Option("--source", "-s", help="Filter by source (twse/tpex/mops)")
+        str | None,
+        typer.Option("--source", "-s", help="Filter by source (twse/tpex/mops)"),
     ] = None,
     status: Annotated[
-        Optional[str], typer.Option("--status", help="Filter by status (ok/empty/error)")
+        str | None, typer.Option("--status", help="Filter by status (ok/empty/error)")
     ] = None,
     state: Annotated[
-        Optional[str], typer.Option("--state", help="Filter by state (discovered/probed/enriched)")
+        str | None,
+        typer.Option("--state", help="Filter by state (discovered/probed/enriched)"),
     ] = None,
     history: Annotated[
-        Optional[bool], typer.Option("--history/--no-history", help="Filter by history support")
+        bool | None,
+        typer.Option("--history/--no-history", help="Filter by history support"),
     ] = None,
-    output_json: Annotated[
-        bool, typer.Option("--json", help="Output as JSON")
-    ] = False,
+    output_json: Annotated[bool, typer.Option("--json", help="Output as JSON")] = False,
 ) -> None:
     """Search endpoints by tag, keyword, source, status, or state."""
     endpoints = _load_endpoints(source=source, status=status, state=state)
@@ -104,7 +105,11 @@ def search(
     ]
 
     if output_json:
-        typer.echo(json.dumps([ep.model_dump() for ep in matches], ensure_ascii=False, indent=2))
+        typer.echo(
+            json.dumps(
+                [ep.model_dump() for ep in matches], ensure_ascii=False, indent=2
+            )
+        )
         return
 
     if not matches:
@@ -137,7 +142,12 @@ def search(
 
 @app.command()
 def show(
-    identifier: Annotated[str, typer.Argument(help="Endpoint ID: source:path (e.g. twse:/opendata/t187ap45_L)")],
+    identifier: Annotated[
+        str,
+        typer.Argument(
+            help="Endpoint ID: source:path (e.g. twse:/opendata/t187ap45_L)"
+        ),
+    ],
     output_json: Annotated[bool, typer.Option("--json", help="Output as JSON")] = False,
 ) -> None:
     """Show detailed info for a single endpoint."""
@@ -328,9 +338,7 @@ def stats(
 
 @app.command()
 def probe(
-    source: Annotated[
-        str, typer.Argument(help="Source to probe (twse)")
-    ] = "twse",
+    source: Annotated[str, typer.Argument(help="Source to probe (twse)")] = "twse",
     limit: Annotated[
         int, typer.Option("--limit", "-n", help="Max endpoints to probe")
     ] = 10,
@@ -342,12 +350,15 @@ def probe(
 
     if source == "twse":
         from qadris_datasourcediscovery.discover_tse_web import probe_discovered
+
         results = probe_discovered(settings=settings, limit=limit)
     elif source == "tpex":
         from qadris_datasourcediscovery.discover_otc_web import probe_discovered
+
         results = probe_discovered(settings=settings, limit=limit)
     elif source == "mops":
         from qadris_datasourcediscovery.discover_mops import probe_discovered
+
         results = probe_discovered(settings=settings, limit=limit)
     else:
         console.print(f"[red]Probe not implemented for source: {source}[/red]")

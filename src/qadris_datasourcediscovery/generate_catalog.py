@@ -70,8 +70,7 @@ def _generate_markdown(endpoints: list[EndpointInfo]) -> str:
         for etype, type_eps in sorted(source_by_type.items()):
             type_names = {"openapi": "OpenAPI", "web": "Web", "xbrl": "XBRL"}
             lines.append(
-                f"### {type_names.get(etype, etype)} "
-                f"({len(type_eps)} endpoints)"
+                f"### {type_names.get(etype, etype)} ({len(type_eps)} endpoints)"
             )
             lines.append("")
 
@@ -83,27 +82,21 @@ def _generate_markdown(endpoints: list[EndpointInfo]) -> str:
                 lines.append(f"#### {cat}")
                 lines.append("")
                 lines.append(
-                    "| Path | Description | Status "
-                    "| History | Count | Fields |"
+                    "| Path | Description | Status | History | Count | Fields |"
                 )
                 lines.append(
-                    "|------|-------------|--------"
-                    "|---------|-------|--------|"
+                    "|------|-------------|--------|---------|-------|--------|"
                 )
 
                 for ep in cat_eps:
                     fields_str = (
-                        ", ".join(ep.sample_fields[:5])
-                        if ep.sample_fields
-                        else ""
+                        ", ".join(ep.sample_fields[:5]) if ep.sample_fields else ""
                     )
                     if len(fields_str) > 50:
                         fields_str = fields_str[:47] + "..."
                     hist_flag = "Y" if ep.supports_history else "N"
                     path_short = (
-                        ep.path
-                        if len(ep.path) <= 50
-                        else "..." + ep.path[-47:]
+                        ep.path if len(ep.path) <= 50 else "..." + ep.path[-47:]
                     )
                     lines.append(
                         f"| `{path_short}` | {ep.description} "
@@ -118,8 +111,7 @@ def _generate_markdown(endpoints: list[EndpointInfo]) -> str:
     lines.append("")
     lines.append("### TWSE")
     lines.append(
-        "- **OpenAPI**: `https://openapi.twse.com.tw/v1`"
-        " — real-time, current day only"
+        "- **OpenAPI**: `https://openapi.twse.com.tw/v1` — real-time, current day only"
     )
     lines.append(
         "- **Web**: `https://www.twse.com.tw`"
@@ -134,26 +126,19 @@ def _generate_markdown(endpoints: list[EndpointInfo]) -> str:
         " — real-time, current day only"
     )
     lines.append(
-        "- **Web**: `https://www.tpex.org.tw/www/zh-tw/`"
-        " — new API, partial JSON"
+        "- **Web**: `https://www.tpex.org.tw/www/zh-tw/` — new API, partial JSON"
     )
-    lines.append(
-        "- Date format: OpenAPI `YYYYMMDD`,"
-        " old web ROC year `YYY/MM/DD`"
-    )
+    lines.append("- Date format: OpenAPI `YYYYMMDD`, old web ROC year `YYY/MM/DD`")
     lines.append("")
     lines.append("### MOPS")
     lines.append(
-        "- **New SPA**: `https://mops.twse.com.tw/mops/`"
-        " — Vue SPA, requires Selenium"
+        "- **New SPA**: `https://mops.twse.com.tw/mops/` — Vue SPA, requires Selenium"
     )
     lines.append(
-        "- **Old**: `https://mopsov.twse.com.tw`"
-        " — still works via requests + AJAX"
+        "- **Old**: `https://mopsov.twse.com.tw` — still works via requests + AJAX"
     )
     lines.append(
-        "- **API**: `https://mops.interinfo.com.tw:8443`"
-        " — browser Worker only"
+        "- **API**: `https://mops.interinfo.com.tw:8443` — browser Worker only"
     )
     lines.append("- Monthly revenue via `/nas/t21/{type}/` static HTML")
     lines.append("- Financial statements return HTML tables directly")
