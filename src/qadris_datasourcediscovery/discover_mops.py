@@ -404,7 +404,12 @@ def probe_discovered(
                         ext_resp = session.get(
                             ext_url, timeout=settings.request_timeout
                         )
-                        ext_resp.encoding = "utf-8"
+                        # External MOPS URLs (siis.twse, doc.twse) are Big5
+                        ct = ext_resp.headers.get("content-type", "")
+                        if "charset=" in ct:
+                            ext_resp.encoding = ct.split("charset=")[-1].strip()
+                        else:
+                            ext_resp.encoding = "big5"
                         if "<table" in ext_resp.text.lower():
                             tables = pd.read_html(StringIO(ext_resp.text))
                             if tables:
