@@ -24,6 +24,7 @@ class DiscoverySettings(BaseSettings):
     project_root: Path = Path(__file__).resolve().parent.parent.parent
     samples_dir: Path = project_root / "samples"
     catalog_dir: Path = project_root / "catalog"
+    db_path: Path = project_root / "catalog" / "catalog.db"
 
     # Request settings
     request_timeout: int = 30

@@ -4,8 +4,9 @@ from __future__ import annotations
 
 import logging
 
-from qadris_datasourcediscovery.catalog import EndpointInfo, load_all_endpoints
+from qadris_datasourcediscovery.catalog import EndpointInfo
 from qadris_datasourcediscovery.config import DiscoverySettings
+from qadris_datasourcediscovery.store import CatalogDB
 
 logger = logging.getLogger(__name__)
 
@@ -166,7 +167,8 @@ def main() -> None:
     """Load all catalogs and generate consolidated report."""
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     settings = DiscoverySettings()
-    endpoints = load_all_endpoints(catalog_dir=settings.catalog_dir)
+    with CatalogDB(settings.db_path) as db:
+        endpoints = db.get_all_endpoints()
     logger.info("Total loaded: %d endpoints", len(endpoints))
 
     md_content = _generate_markdown(endpoints)

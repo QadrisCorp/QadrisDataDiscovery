@@ -1,6 +1,9 @@
 # Samples (too large for git)
 samples/
 
+# Database
+catalog/catalog.db
+
 # Python
 __pycache__/
 *.py[cod]

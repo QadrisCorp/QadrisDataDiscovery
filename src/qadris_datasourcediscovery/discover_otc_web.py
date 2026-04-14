@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from qadris_datasourcediscovery.catalog import Catalog, EndpointInfo
+from qadris_datasourcediscovery.catalog import EndpointInfo
 from qadris_datasourcediscovery.config import DiscoverySettings
 from qadris_datasourcediscovery.exceptions import FetchError
 from qadris_datasourcediscovery.fetcher import (
@@ -143,12 +143,12 @@ KNOWN_ENDPOINTS: list[dict[str, Any]] = [
 ]
 
 
-def discover(*, settings: DiscoverySettings | None = None) -> Catalog:
+def discover(*, settings: DiscoverySettings | None = None) -> list[EndpointInfo]:
     """Discover TPEx new website API endpoints."""
     if settings is None:
         settings = DiscoverySettings()
 
-    catalog = Catalog()
+    endpoints: list[EndpointInfo] = []
     session = _create_session(settings=settings)
 
     for ep_def in KNOWN_ENDPOINTS:
@@ -168,6 +168,7 @@ def discover(*, settings: DiscoverySettings | None = None) -> Catalog:
             supports_history=ep_def.get("supports_history", True),
             date_params=ep_def.get("date_params", []),
             notes="New website API, date format: YYYYMMDD",
+            state="probed",
         )
 
         try:
@@ -177,7 +178,7 @@ def discover(*, settings: DiscoverySettings | None = None) -> Catalog:
         except FetchError as e:
             ep.status = "error"
             ep.notes += f" | {e}"
-            catalog.add(ep)
+            endpoints.append(ep)
             delay(settings.web_delay)
             continue
 
@@ -210,25 +211,27 @@ def discover(*, settings: DiscoverySettings | None = None) -> Catalog:
             ep.status = "error"
             ep.notes += f" | HTTP {status}"
 
-        catalog.add(ep)
+        endpoints.append(ep)
         delay(settings.web_delay)
 
-    return catalog
+    return endpoints
 
 
 def main() -> None:
-    """Run TPEx web discovery and save catalog."""
+    """Run TPEx web discovery and save to database."""
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     settings = DiscoverySettings()
-    catalog = discover(settings=settings)
-    output = settings.catalog_dir / "otc_web_catalog.json"
-    catalog.to_json(output)
-    logger.info(
-        "TPEx Web catalog saved: %s (%d endpoints)", output, len(catalog.endpoints)
-    )
+    endpoints = discover(settings=settings)
 
-    ok_count = sum(1 for ep in catalog.endpoints if ep.status == "ok")
-    error_count = sum(1 for ep in catalog.endpoints if ep.status == "error")
+    from qadris_datasourcediscovery.store import CatalogDB
+
+    with CatalogDB(settings.db_path) as db:
+        db.upsert_endpoints(endpoints)
+
+    logger.info("TPEx Web: %d endpoints saved to DB", len(endpoints))
+
+    ok_count = sum(1 for ep in endpoints if ep.status == "ok")
+    error_count = sum(1 for ep in endpoints if ep.status == "error")
     logger.info("Stats: ok=%d, error=%d", ok_count, error_count)
 
 

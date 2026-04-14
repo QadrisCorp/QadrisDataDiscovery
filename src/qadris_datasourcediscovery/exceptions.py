@@ -19,3 +19,7 @@ class ParseError(DataSourceDiscoveryError):
 
 class LLMError(DataSourceDiscoveryError):
     """Raised when LLM CLI call fails."""
+
+
+class StoreError(DataSourceDiscoveryError):
+    """Raised when database operations fail."""

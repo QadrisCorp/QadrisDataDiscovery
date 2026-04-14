@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from qadris_datasourcediscovery.catalog import Catalog, EndpointInfo
+from qadris_datasourcediscovery.catalog import EndpointInfo
 from qadris_datasourcediscovery.config import DiscoverySettings
 from qadris_datasourcediscovery.exceptions import FetchError
 from qadris_datasourcediscovery.fetcher import (
@@ -20,12 +20,12 @@ logger = logging.getLogger(__name__)
 SWAGGER_URL = "https://openapi.twse.com.tw/v1/swagger.json"
 
 
-def discover(*, settings: DiscoverySettings | None = None) -> Catalog:
+def discover(*, settings: DiscoverySettings | None = None) -> list[EndpointInfo]:
     """Discover all TWSE OpenAPI endpoints from swagger.json."""
     if settings is None:
         settings = DiscoverySettings()
 
-    catalog = Catalog()
+    endpoints: list[EndpointInfo] = []
     session = _create_session(settings=settings)
 
     logger.info("Fetching TWSE OpenAPI swagger.json ...")
@@ -35,11 +35,11 @@ def discover(*, settings: DiscoverySettings | None = None) -> Catalog:
         )
     except FetchError:
         logger.error("Failed to fetch swagger.json")
-        return catalog
+        return endpoints
 
     if not swagger:
         logger.error("Empty swagger.json (status=%s)", status)
-        return catalog
+        return endpoints
 
     paths: dict[str, Any] = swagger.get("paths", {})
     logger.info("Found %d endpoints", len(paths))
@@ -62,6 +62,7 @@ def discover(*, settings: DiscoverySettings | None = None) -> Catalog:
                 category=category,
                 method=method,
                 supports_history=False,
+                state="probed",
             )
 
             if method == "GET":
@@ -71,7 +72,7 @@ def discover(*, settings: DiscoverySettings | None = None) -> Catalog:
                     )
                 except FetchError:
                     ep.status = "error"
-                    catalog.add(ep)
+                    endpoints.append(ep)
                     delay(settings.openapi_delay)
                     continue
 
@@ -117,28 +118,28 @@ def discover(*, settings: DiscoverySettings | None = None) -> Catalog:
                 ep.status = "skipped"
                 ep.notes = f"Non-GET method: {method}"
 
-            catalog.add(ep)
+            endpoints.append(ep)
             delay(settings.openapi_delay)
 
-    return catalog
+    return endpoints
 
 
 def main() -> None:
-    """Run TWSE OpenAPI discovery and save catalog."""
+    """Run TWSE OpenAPI discovery and save to database."""
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     settings = DiscoverySettings()
-    catalog = discover(settings=settings)
-    output = settings.catalog_dir / "tse_openapi_catalog.json"
-    catalog.to_json(output)
-    logger.info(
-        "TWSE OpenAPI catalog saved: %s (%d endpoints)",
-        output,
-        len(catalog.endpoints),
-    )
+    endpoints = discover(settings=settings)
 
-    ok_count = sum(1 for ep in catalog.endpoints if ep.status == "ok")
-    empty_count = sum(1 for ep in catalog.endpoints if ep.status == "empty")
-    error_count = sum(1 for ep in catalog.endpoints if ep.status == "error")
+    from qadris_datasourcediscovery.store import CatalogDB
+
+    with CatalogDB(settings.db_path) as db:
+        db.upsert_endpoints(endpoints)
+
+    logger.info("TWSE OpenAPI: %d endpoints saved to DB", len(endpoints))
+
+    ok_count = sum(1 for ep in endpoints if ep.status == "ok")
+    empty_count = sum(1 for ep in endpoints if ep.status == "empty")
+    error_count = sum(1 for ep in endpoints if ep.status == "error")
     logger.info("Stats: ok=%d, empty=%d, error=%d", ok_count, empty_count, error_count)
 
 

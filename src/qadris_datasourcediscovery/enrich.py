@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-import json
 import logging
 from pathlib import Path
 from typing import Any
 
-from qadris_datasourcediscovery.catalog import EndpointInfo, load_catalog
-from qadris_datasourcediscovery.config import DiscoverySettings
+from qadris_datasourcediscovery.catalog import EndpointInfo
 from qadris_datasourcediscovery.exceptions import LLMError
 from qadris_datasourcediscovery.llm import ClaudeCLI, load_prompt_template
 
@@ -162,8 +160,6 @@ def infer_coverage(ep: EndpointInfo) -> str:
         return "otc_only"
     if ep.source == "mops":
         # MOPS 的 TYPEK 參數決定涵蓋範圍
-        if "TYPEK" in ep.notes:
-            return "all"  # 支援 sii/otc/rotc/pub
         return "all"
     return ""
 
@@ -238,27 +234,15 @@ def enrich_llm(ep: EndpointInfo, llm: ClaudeCLI) -> dict[str, Any]:
 # ====================================================================
 
 
-def load_overrides(catalog_dir: Path) -> dict[str, dict[str, Any]]:
-    """載入手動 override 檔。"""
-    override_path = catalog_dir / "enrichment_overrides.json"
-    if not override_path.exists():
-        return {}
-    data: dict[str, dict[str, Any]] = json.loads(
-        override_path.read_text(encoding="utf-8")
-    )
-    return data
-
-
 def enrich_endpoint(
     ep: EndpointInfo,
     *,
-    overrides: dict[str, dict[str, Any]],
     llm: ClaudeCLI | None = None,
     rules_only: bool = False,
     llm_only: bool = False,
     force: bool = False,
 ) -> EndpointInfo:
-    """組合 rule-based + LLM + override 豐富單一 endpoint。"""
+    """組合 rule-based + LLM 豐富單一 endpoint。"""
     updates: dict[str, Any] = {}
 
     # Rule-based
@@ -272,20 +256,14 @@ def enrich_endpoint(
             llm_updates = enrich_llm(ep, llm)
             updates.update(llm_updates)
 
-    # Override（最高優先）
-    key = f"{ep.source}:{ep.path}"
-    if key in overrides:
-        updates.update(overrides[key])
-
     if updates:
         return ep.model_copy(update=updates)
     return ep
 
 
-def enrich_catalog_file(
-    path: Path,
+def enrich_all(
     *,
-    overrides: dict[str, dict[str, Any]],
+    db: Any,  # CatalogDB — use Any to avoid circular import
     llm: ClaudeCLI | None = None,
     rules_only: bool = False,
     llm_only: bool = False,
@@ -293,23 +271,20 @@ def enrich_catalog_file(
     limit: int = 0,
     dry_run: bool = False,
 ) -> int:
-    """豐富單一 catalog JSON 檔案，回傳更新數量。"""
-    data = load_catalog(path)
-    if not data:
-        return 0
+    """豐富 endpoints，從 DB 讀取並寫回。"""
+    if force:
+        endpoints = db.get_all_endpoints()
+    else:
+        endpoints = db.get_endpoints(state="probed")
 
-    endpoints = [EndpointInfo(**item) for item in data]
     enriched_count = 0
-    results: list[dict[str, Any]] = []
 
     for ep in endpoints:
         if limit and enriched_count >= limit:
-            results.append(ep.model_dump())
-            continue
+            break
 
         updated = enrich_endpoint(
             ep,
-            overrides=overrides,
             llm=llm,
             rules_only=rules_only,
             llm_only=llm_only,
@@ -325,43 +300,8 @@ def enrich_catalog_file(
                     updated.path,
                     updated.domain_tags,
                 )
-
-        results.append(updated.model_dump())
-
-    if not dry_run and enriched_count > 0:
-        path.write_text(
-            json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
+            else:
+                updated = updated.model_copy(update={"state": "enriched"})
+                db.upsert_endpoints([updated])
 
     return enriched_count
-
-
-def enrich_all(
-    *,
-    catalog_dir: Path,
-    llm: ClaudeCLI | None = None,
-    rules_only: bool = False,
-    llm_only: bool = False,
-    force: bool = False,
-    limit: int = 0,
-    dry_run: bool = False,
-) -> int:
-    """豐富所有 catalog JSON 檔案。"""
-    overrides = load_overrides(catalog_dir)
-    total = 0
-
-    for catalog_file in sorted(catalog_dir.glob("*_catalog.json")):
-        count = enrich_catalog_file(
-            catalog_file,
-            overrides=overrides,
-            llm=llm,
-            rules_only=rules_only,
-            llm_only=llm_only,
-            force=force,
-            limit=limit,
-            dry_run=dry_run,
-        )
-        logger.info("Enriched %s: %d endpoints", catalog_file.name, count)
-        total += count
-
-    return total

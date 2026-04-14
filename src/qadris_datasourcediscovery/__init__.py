@@ -1,11 +1,6 @@
 """qadris-datasourcediscovery: Taiwan official financial data source discovery tool."""
 
-from qadris_datasourcediscovery.catalog import (
-    Catalog,
-    EndpointInfo,
-    load_all_endpoints,
-    load_catalog,
-)
+from qadris_datasourcediscovery.catalog import EndpointInfo
 from qadris_datasourcediscovery.config import DiscoverySettings
 from qadris_datasourcediscovery.enrich import enrich_all
 from qadris_datasourcediscovery.exceptions import (
@@ -14,10 +9,12 @@ from qadris_datasourcediscovery.exceptions import (
     FetchError,
     LLMError,
     ParseError,
+    StoreError,
 )
+from qadris_datasourcediscovery.store import CatalogDB
 
 __all__ = [
-    "Catalog",
+    "CatalogDB",
     "ConfigurationError",
     "DataSourceDiscoveryError",
     "DiscoverySettings",
@@ -25,7 +22,6 @@ __all__ = [
     "FetchError",
     "LLMError",
     "ParseError",
+    "StoreError",
     "enrich_all",
-    "load_all_endpoints",
-    "load_catalog",
 ]

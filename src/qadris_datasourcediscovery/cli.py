@@ -5,17 +5,17 @@ from __future__ import annotations
 import json
 import logging
 from collections import Counter
-from pathlib import Path
 from typing import Annotated, Optional
 
 import typer
 from rich.console import Console
 from rich.table import Table
 
-from qadris_datasourcediscovery.catalog import EndpointInfo, load_all_endpoints
+from qadris_datasourcediscovery.catalog import EndpointInfo
 from qadris_datasourcediscovery.config import DiscoverySettings
 from qadris_datasourcediscovery.enrich import enrich_all
 from qadris_datasourcediscovery.llm import ClaudeCLI
+from qadris_datasourcediscovery.store import CatalogDB
 
 app = typer.Typer(help="Taiwan financial data source catalog tool.")
 console = Console()
@@ -25,9 +25,19 @@ def _get_settings() -> DiscoverySettings:
     return DiscoverySettings()
 
 
-def _load_endpoints() -> list[EndpointInfo]:
+def _get_db() -> CatalogDB:
     settings = _get_settings()
-    return load_all_endpoints(catalog_dir=settings.catalog_dir)
+    return CatalogDB(settings.db_path)
+
+
+def _load_endpoints(
+    *,
+    source: str | None = None,
+    status: str | None = None,
+    state: str | None = None,
+) -> list[EndpointInfo]:
+    with _get_db() as db:
+        return db.get_endpoints(source=source, status=status, state=state)
 
 
 def _match_endpoint(
@@ -35,15 +45,9 @@ def _match_endpoint(
     *,
     tag: list[str] | None = None,
     keyword: str | None = None,
-    source: str | None = None,
-    status: str | None = None,
     history: bool | None = None,
 ) -> bool:
-    """Check if endpoint matches all given filters."""
-    if source and ep.source != source:
-        return False
-    if status and ep.status != status:
-        return False
+    """Check if endpoint matches in-memory filters (tag, keyword, history)."""
     if history is not None and ep.supports_history != history:
         return False
     if tag:
@@ -81,6 +85,9 @@ def search(
     status: Annotated[
         Optional[str], typer.Option("--status", help="Filter by status (ok/empty/error)")
     ] = None,
+    state: Annotated[
+        Optional[str], typer.Option("--state", help="Filter by state (discovered/probed/enriched)")
+    ] = None,
     history: Annotated[
         Optional[bool], typer.Option("--history/--no-history", help="Filter by history support")
     ] = None,
@@ -88,14 +95,12 @@ def search(
         bool, typer.Option("--json", help="Output as JSON")
     ] = False,
 ) -> None:
-    """Search endpoints by tag, keyword, source, or status."""
-    endpoints = _load_endpoints()
+    """Search endpoints by tag, keyword, source, status, or state."""
+    endpoints = _load_endpoints(source=source, status=status, state=state)
     matches = [
         ep
         for ep in endpoints
-        if _match_endpoint(
-            ep, tag=tag, keyword=keyword, source=source, status=status, history=history
-        )
+        if _match_endpoint(ep, tag=tag, keyword=keyword, history=history)
     ]
 
     if output_json:
@@ -112,7 +117,7 @@ def search(
     table.add_column("Path", style="green", max_width=40)
     table.add_column("Description", max_width=30)
     table.add_column("Tags", style="magenta", max_width=25)
-    table.add_column("Granularity", width=10)
+    table.add_column("State", width=10)
     table.add_column("Status", width=6)
 
     for ep in matches:
@@ -123,7 +128,7 @@ def search(
             ep.path,
             ep.description[:30],
             tags_str,
-            ep.granularity or "-",
+            ep.state,
             ep.status,
         )
 
@@ -136,23 +141,19 @@ def show(
     output_json: Annotated[bool, typer.Option("--json", help="Output as JSON")] = False,
 ) -> None:
     """Show detailed info for a single endpoint."""
-    endpoints = _load_endpoints()
-
-    # Parse identifier
     if ":" not in identifier:
         console.print("[red]Format: source:path (e.g. twse:/opendata/t187ap45_L)[/red]")
         raise typer.Exit(1)
 
     src, path = identifier.split(":", 1)
-    match = None
-    for ep in endpoints:
-        if ep.source == src and ep.path == path:
-            match = ep
-            break
+
+    with _get_db() as db:
+        match = db.get_endpoint(src, path)
 
     if not match:
         # Fuzzy: try path contains
-        candidates = [ep for ep in endpoints if src == ep.source and path in ep.path]
+        all_eps = _load_endpoints(source=src)
+        candidates = [ep for ep in all_eps if path in ep.path]
         if len(candidates) == 1:
             match = candidates[0]
         elif candidates:
@@ -177,6 +178,7 @@ def show(
         ("Category", match.category),
         ("Method", match.method),
         ("Status", match.status),
+        ("State", match.state),
         ("Record Count", str(match.record_count)),
         ("History", "Yes" if match.supports_history else "No"),
         ("Date Params", ", ".join(match.date_params) if match.date_params else "-"),
@@ -325,6 +327,41 @@ def stats(
 
 
 @app.command()
+def probe(
+    source: Annotated[
+        str, typer.Argument(help="Source to probe (twse)")
+    ] = "twse",
+    limit: Annotated[
+        int, typer.Option("--limit", "-n", help="Max endpoints to probe")
+    ] = 10,
+) -> None:
+    """Probe discovered endpoints to extract API data and sample fields."""
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
+    settings = _get_settings()
+
+    if source == "twse":
+        from qadris_datasourcediscovery.discover_tse_web import probe_discovered
+        results = probe_discovered(settings=settings, limit=limit)
+    elif source == "mops":
+        from qadris_datasourcediscovery.discover_mops import probe_discovered
+        results = probe_discovered(settings=settings, limit=limit)
+    else:
+        console.print(f"[red]Probe not implemented for source: {source}[/red]")
+        raise typer.Exit(1)
+
+    with _get_db() as db:
+        db.upsert_endpoints(results)
+
+    ok = sum(1 for ep in results if ep.status == "ok")
+    err = sum(1 for ep in results if ep.status == "error")
+    console.print(
+        f"\n[bold]Probed {len(results)} endpoints: "
+        f"[green]{ok} ok[/green], [red]{err} error[/red][/bold]"
+    )
+
+
+@app.command()
 def enrich(
     rules_only: Annotated[
         bool, typer.Option("--rules-only", help="Only run rule-based enrichment")
@@ -336,7 +373,7 @@ def enrich(
         bool, typer.Option("--force", help="Re-enrich even if already enriched")
     ] = False,
     limit: Annotated[
-        int, typer.Option("--limit", "-n", help="Max endpoints to LLM-enrich per file")
+        int, typer.Option("--limit", "-n", help="Max endpoints to LLM-enrich")
     ] = 0,
     dry_run: Annotated[
         bool, typer.Option("--dry-run", help="Show what would change without writing")
@@ -348,23 +385,52 @@ def enrich(
     """Run enrichment on catalog (rule-based and/or LLM)."""
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
-    settings = _get_settings()
     llm: ClaudeCLI | None = None
-
     if not rules_only:
         llm = ClaudeCLI(model=model)
 
-    count = enrich_all(
-        catalog_dir=settings.catalog_dir,
-        llm=llm,
-        rules_only=rules_only,
-        llm_only=llm_only,
-        force=force,
-        limit=limit,
+    with _get_db() as db:
+        count = enrich_all(
+            db=db,
+            llm=llm,
+            rules_only=rules_only,
+            llm_only=llm_only,
+            force=force,
+            limit=limit,
+            dry_run=dry_run,
+        )
+
+    action = "Would enrich" if dry_run else "Enriched"
+    console.print(f"\n[bold]{action} {count} endpoints[/bold]")
+
+
+@app.command()
+def migrate(
+    catalog_dir: Annotated[
+        Optional[str], typer.Option("--catalog-dir", help="Directory with JSON catalogs")
+    ] = None,
+    dry_run: Annotated[
+        bool, typer.Option("--dry-run", help="Show what would be imported without writing")
+    ] = False,
+) -> None:
+    """Import existing JSON catalog files into SQLite database."""
+    from pathlib import Path
+
+    from qadris_datasourcediscovery.store.migrate_json import migrate_json_to_sqlite
+
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
+    settings = _get_settings()
+    cat_dir = Path(catalog_dir) if catalog_dir else settings.catalog_dir
+
+    count = migrate_json_to_sqlite(
+        catalog_dir=cat_dir,
+        db_path=settings.db_path,
+        samples_dir=settings.samples_dir,
         dry_run=dry_run,
     )
 
-    action = "Would enrich" if dry_run else "Enriched"
+    action = "Would import" if dry_run else "Imported"
     console.print(f"\n[bold]{action} {count} endpoints[/bold]")
 
 
