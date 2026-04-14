@@ -79,7 +79,22 @@ components:
           type: integer
         sources:
           type: object
-          description: Source metadata (name, base_urls)
+          description: "Map of source key (twse, tpex, mops) to source metadata"
+          additionalProperties:
+            type: object
+            properties:
+              name:
+                type: string
+                description: English name of the data source
+              name_zh:
+                type: string
+                description: Chinese name of the data source
+              base_urls:
+                type: object
+                description: "Map of endpoint_type to base URL"
+                additionalProperties:
+                  type: string
+                  format: uri
 
     Endpoint:
       type: object
@@ -117,11 +132,11 @@ components:
             type: string
           description: Semantic tags (e.g. price, volume, financial, revenue)
         granularity:
-          type: string
-          enum: [daily, monthly, quarterly, yearly, snapshot]
+          type: [string, "null"]
+          enum: [daily, monthly, quarterly, yearly, snapshot, null]
         coverage:
-          type: string
-          enum: [listed_only, otc_only, all]
+          type: [string, "null"]
+          enum: [listed_only, otc_only, all, null]
         fields_summary:
           type: string
           description: LLM-generated summary of response fields
@@ -143,8 +158,8 @@ components:
           type: object
           description: Complete request example with URL, method, params
         response_format:
-          type: string
-          enum: [json, html_table]
+          type: [string, "null"]
+          enum: [json, html_table, null]
         date_params:
           type: array
           items:

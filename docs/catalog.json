@@ -3,7 +3,7 @@
     "title": "Taiwan Official Financial Data Catalog",
     "description": "Machine-readable catalog of TWSE, TPEx, and MOPS API endpoints. Designed for AI agents to discover official Taiwan financial data sources.",
     "version": "1.0.0",
-    "generated_at": "2026-04-14T07:58:43.335913+00:00",
+    "generated_at": "2026-04-14T08:47:48.160800+00:00",
     "total_endpoints": 594,
     "sources": {
       "twse": {
@@ -4183,8 +4183,8 @@
         "reference",
         "valuation"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "TPEx listed company master data with stock code, company name, book value per share, and industry classification",
       "sample_fields": [
         "股票代號",
@@ -4193,7 +4193,7 @@
         "產業類別"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4211,8 +4211,8 @@
         "ipo_listing",
         "reference"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Delisted company records including stock code, company name, delisting date, reason, and company information URL",
       "sample_fields": [
         "股票代號",
@@ -4222,7 +4222,7 @@
         "公司資料網址"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4239,8 +4239,8 @@
       "domain_tags": [
         "reference"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "OTC-listed companies ranked by capital amount, including company code, name, and capital in millions",
       "sample_fields": [
         "排名",
@@ -4251,7 +4251,7 @@
         "公司名稱網址"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4269,8 +4269,8 @@
         "valuation",
         "reference"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Company EPS rankings with company codes and names",
       "sample_fields": [
         "排名",
@@ -4281,7 +4281,7 @@
         "公司名稱網址"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4298,8 +4298,8 @@
       "domain_tags": [
         "revenue"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Monthly revenue rankings for TPEx listed companies with revenue growth rates",
       "sample_fields": [
         "排行",
@@ -4310,7 +4310,7 @@
         "成長率(%)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4327,8 +4327,8 @@
       "domain_tags": [
         "financial_statement"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Listing of quarterly financial reports for TPEx listed companies with downloadable financial data files",
       "sample_fields": [
         "資料日期",
@@ -4336,7 +4336,7 @@
         "ODS下載"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4354,8 +4354,8 @@
         "ipo_listing",
         "reference"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Recently listed TPEx companies with stock codes, company names, listing dates, par values, and company information links.",
       "sample_fields": [
         "索引",
@@ -4367,7 +4367,7 @@
         "近期上櫃資訊連結"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4385,8 +4385,8 @@
         "dividend",
         "financial_statement"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Monthly profitability and dividend distribution information for TPEx-listed companies",
       "sample_fields": [
         "資料月份",
@@ -4394,7 +4394,7 @@
         "ODS檔案下載"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4411,8 +4411,8 @@
       "domain_tags": [
         "corporate_action"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Monthly capital raising and fundraising information for TPEx listed companies",
       "sample_fields": [
         "日期",
@@ -4420,7 +4420,7 @@
         "下載ODS"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4437,8 +4437,8 @@
       "domain_tags": [
         "revenue"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Monthly revenue and endorsement guarantee amounts for TPEx-listed companies",
       "sample_fields": [
         "資料日期",
@@ -4446,7 +4446,7 @@
         "ODS下載"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4463,8 +4463,8 @@
       "domain_tags": [
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Daily block trading volume and value statistics with market share percentages by category",
       "sample_fields": [
         "成交日期",
@@ -4476,7 +4476,7 @@
         "成交金額占全市場比重(%)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4493,8 +4493,8 @@
       "domain_tags": [
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Monthly block trading statistics including transaction counts, share volumes, trading amounts, and market share percentages",
       "sample_fields": [
         "成交月份",
@@ -4506,7 +4506,7 @@
         "成交金額占全市場比重(%)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4524,8 +4524,8 @@
         "price",
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Large block trading transaction data including stock code, transaction price, trading volume, and settlement period",
       "sample_fields": [
         "交易型態",
@@ -4538,7 +4538,7 @@
         "成交時間"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4556,8 +4556,8 @@
         "price",
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Block trading prices and volumes for individual stocks, including high/low/weighted average prices and transaction counts",
       "sample_fields": [
         "證券代號",
@@ -4573,7 +4573,7 @@
         "交割期別"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4591,8 +4591,8 @@
         "volume",
         "institutional"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Annual block trading statistics including transaction count, volume, amount, and their market share percentages",
       "sample_fields": [
         "成交年度",
@@ -4604,7 +4604,7 @@
         "成交金額占全市場比重(%)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4621,8 +4621,8 @@
       "domain_tags": [
         "margin_trading"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Securities borrowing fee rates and loan details for same-day offsetting trades by stock",
       "sample_fields": [
         "券差日期",
@@ -4632,7 +4632,7 @@
         "借券費率 (%)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4649,8 +4649,8 @@
       "domain_tags": [
         "reference"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Securities eligible for day trading with their current trading suspension status",
       "sample_fields": [
         "證券代號",
@@ -4658,7 +4658,7 @@
         "暫停現股賣出後現款買進當沖註記"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4676,8 +4676,8 @@
         "margin_trading",
         "announcement"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Historical suspension records of same-day short-sell and buy-back transactions, including suspension periods and reasons",
       "sample_fields": [
         "股票代號",
@@ -4687,7 +4687,7 @@
         "原因"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4704,8 +4704,8 @@
       "domain_tags": [
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Daily average trading volume rankings for individual stocks with stock code and name",
       "sample_fields": [
         "排 行",
@@ -4714,7 +4714,7 @@
         " 日均張數"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4732,8 +4732,8 @@
         "institutional",
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Broker trading ranking showing buy and sell amounts by stock transaction value",
       "sample_fields": [
         "排行 - 股票名稱(代號)",
@@ -4743,7 +4743,7 @@
         "賣出金額(仟元)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4761,8 +4761,8 @@
         "volume",
         "institutional"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Broker buy and sell volume rankings for actively traded stocks on TPEx mainboard, ordered by trading volume",
       "sample_fields": [
         "排行 - 股票名稱(代號)",
@@ -4772,7 +4772,7 @@
         "總賣量(張)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4791,8 +4791,8 @@
         "valuation",
         "reference"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Individual stock market value rankings with closing prices, issued shares, and market capitalization in millions",
       "sample_fields": [
         "排名",
@@ -4803,7 +4803,7 @@
         "市值(佰萬元)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4821,8 +4821,8 @@
         "valuation",
         "price"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "P/E ratios with stock codes, names, closing prices, and earnings per share",
       "sample_fields": [
         "排名",
@@ -4833,7 +4833,7 @@
         "本益比"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4852,8 +4852,8 @@
         "volume",
         "valuation"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Weekly OHLCV prices, trading volume, turnover, transaction count, and PE ratio for TPEx-listed securities",
       "sample_fields": [
         "代號",
@@ -4871,7 +4871,7 @@
         "本益比"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4888,8 +4888,8 @@
       "domain_tags": [
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Sector-wise historical trading volume, amount, and proportion metrics",
       "sample_fields": [
         "類股名稱",
@@ -4899,7 +4899,7 @@
         " 成交比重(%)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4917,8 +4917,8 @@
         "governance",
         "reference"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Stock regulatory status and trading restrictions including managed stock classification, altered trading, sub-session trading, halted stocks, and related announcements",
       "sample_fields": [
         "證券代號",
@@ -4933,7 +4933,7 @@
         "財務重點專區連結"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4951,8 +4951,8 @@
         "index",
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Daily OTC market index with trading volume, turnover amount, transaction count, and index movements",
       "sample_fields": [
         "日期",
@@ -4963,7 +4963,7 @@
         "漲/跌"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -4981,8 +4981,8 @@
         "valuation",
         "dividend"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Daily PE ratio, PB ratio, dividend per share, and dividend yield for individual stocks",
       "sample_fields": [
         "股票代號",
@@ -4995,7 +4995,7 @@
         "財報年/季"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5013,8 +5013,8 @@
         "index",
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "TPEx market overview with index level, daily trading volume/turnover, and market breadth statistics (advancing/declining/limit companies)",
       "sample_fields": [
         "上櫃家數",
@@ -5032,7 +5032,7 @@
         "未成交(含暫停交易)家數"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5050,8 +5050,8 @@
         "index",
         "price"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "TPEx stock price indices with closing values, daily price changes in absolute and percentage terms",
       "sample_fields": [
         "指數",
@@ -5061,7 +5061,7 @@
         "大盤資訊連結"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5079,8 +5079,8 @@
         "price",
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Intraday odd-lot closing quotes with OHLC prices, trading volume, and bid-ask information",
       "sample_fields": [
         "代號",
@@ -5099,7 +5099,7 @@
         "最後賣量(股)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5117,8 +5117,8 @@
         "price",
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Post-market stock quotes with transaction prices, volumes, and order book depth information",
       "sample_fields": [
         "代號",
@@ -5135,7 +5135,7 @@
         "委賣未成交張數"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5153,8 +5153,8 @@
         "price",
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Real-time TPEx stock quotes including OHLCV data, trading volume and value, trade count, and bid-ask spreads",
       "sample_fields": [
         "代號",
@@ -5174,7 +5174,7 @@
         "最後賣量(張數)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5191,8 +5191,8 @@
       "domain_tags": [
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Daily and monthly trading volume statistics by broker, including transaction amounts and trading percentages",
       "sample_fields": [
         "排名",
@@ -5207,7 +5207,7 @@
         "本月成交比率"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5225,8 +5225,8 @@
         "volume",
         "institutional"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Daily and monthly trading volume statistics and rankings by securities broker",
       "sample_fields": [
         "排名",
@@ -5240,7 +5240,7 @@
         "本月成交比率"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5257,8 +5257,8 @@
       "domain_tags": [
         "margin_trading"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Daily short selling and securities borrowing transaction volumes and amounts by stock",
       "sample_fields": [
         "代號",
@@ -5269,7 +5269,7 @@
         "借券賣出成交金額(元)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5287,8 +5287,8 @@
         "valuation",
         "dividend"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Stock valuation metrics including PE ratio, price-to-book ratio, and dividend yield by stock code",
       "sample_fields": [
         "日期",
@@ -5299,7 +5299,7 @@
         "財報年/季"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5317,8 +5317,8 @@
         "price",
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Stock trading price and volume breakdown by price levels with price remarks",
       "sample_fields": [
         "股票代號",
@@ -5328,7 +5328,7 @@
         "  成交張數"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5346,8 +5346,8 @@
         "institutional",
         "ownership"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Sector-level shareholding statistics for overseas Chinese and mainland Chinese investors, including company counts, issued shares, and shareholding ratios",
       "sample_fields": [
         "類股",
@@ -5357,7 +5357,7 @@
         "僑外資及陸資持股比率(%)(C=B/A)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5374,8 +5374,8 @@
       "domain_tags": [
         "ownership"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Foreign and mainland investor shareholding rankings with share quantities, shareholding ratios, and regulatory investment limits for TPEx-listed stocks",
       "sample_fields": [
         "排行",
@@ -5390,7 +5390,7 @@
         "備註"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5408,8 +5408,8 @@
         "institutional",
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Daily buying/selling amounts and net trading positions for three major institutional investor groups",
       "sample_fields": [
         "單位名稱",
@@ -5418,7 +5418,7 @@
         "買賣超(元)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5435,8 +5435,8 @@
       "domain_tags": [
         "margin_trading"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Margin trading ratio adjustments for securities with effective dates and adjustment reasons",
       "sample_fields": [
         "證券代號",
@@ -5452,7 +5452,7 @@
         "監視業務督導會報決議"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5469,8 +5469,8 @@
       "domain_tags": [
         "margin_trading"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Daily securities borrowing auction records with stock codes, borrowing volumes, bid prices, and award outcomes",
       "sample_fields": [
         "標借日期",
@@ -5484,7 +5484,7 @@
         "不足張數"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5501,8 +5501,8 @@
       "domain_tags": [
         "margin_trading"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "List of securities with margin/short-selling and securities borrowing/lending suspension statuses",
       "sample_fields": [
         "證券代號",
@@ -5512,7 +5512,7 @@
         "前一交易日收盤價跌停本日禁止平盤下融(借)券賣出"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5529,8 +5529,8 @@
       "domain_tags": [
         "margin_trading"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Monthly average margin buying and short selling balances for stocks ranked by market share percentage",
       "sample_fields": [
         "排名",
@@ -5544,7 +5544,7 @@
         "市場佔有率"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5561,8 +5561,8 @@
       "domain_tags": [
         "margin_trading"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Short selling securities borrowing inventory and balance data by stock, including daily borrowing/returning transactions and lending limits.",
       "sample_fields": [
         "股票代號",
@@ -5582,7 +5582,7 @@
         "備註"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5599,8 +5599,8 @@
       "domain_tags": [
         "margin_trading"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Securities short sale suspension notices including codes, names, suspension date ranges, and suspension reasons",
       "sample_fields": [
         "證券代號",
@@ -5610,7 +5610,7 @@
         "原因"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5627,8 +5627,8 @@
       "domain_tags": [
         "margin_trading"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Margin trading and short selling balances, daily transactions, and usage rates by stock",
       "sample_fields": [
         "代號",
@@ -5648,7 +5648,7 @@
         "券餘額"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5665,8 +5665,8 @@
       "domain_tags": [
         "price"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Daily stock price gainers ranked by change percentage with closing price, code, name, and change amount/percentage",
       "sample_fields": [
         "代號",
@@ -5676,7 +5676,7 @@
         "漲幅百分比(%)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5693,8 +5693,8 @@
       "domain_tags": [
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Real-time individual stock trading volume and turnover values ranked by trading amount",
       "sample_fields": [
         "代號",
@@ -5703,7 +5703,7 @@
         "成交值(仟元)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5720,8 +5720,8 @@
       "domain_tags": [
         "institutional"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Ranked list of securities brokers by trading amount (buy/sell volume) in real-time stock trading",
       "sample_fields": [
         "排行 - 股票名稱(代號)",
@@ -5731,7 +5731,7 @@
         "賣出金額(仟元)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5749,8 +5749,8 @@
         "volume",
         "institutional"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Ranking of brokers' buy and sell volumes for the most actively traded stocks",
       "sample_fields": [
         "排行 - 股票名稱(代號)",
@@ -5760,7 +5760,7 @@
         "總賣量(張)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5777,8 +5777,8 @@
       "domain_tags": [
         "price"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Individual stock decline rankings with closing prices, price changes, and decline percentages",
       "sample_fields": [
         "代號",
@@ -5788,7 +5788,7 @@
         "跌幅百分比(%)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5806,8 +5806,8 @@
         "price",
         "announcement"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Information on stocks with delayed closing status including trading date, stock codes, and company names",
       "sample_fields": [
         "交易日期",
@@ -5815,7 +5815,7 @@
         "股票名稱"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5832,8 +5832,8 @@
       "domain_tags": [
         "price"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Trading date, stock codes, and names of stocks experiencing temporarily delayed opening",
       "sample_fields": [
         "交易日期",
@@ -5841,7 +5841,7 @@
         "股票名稱"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5858,8 +5858,8 @@
       "domain_tags": [
         "announcement"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Central Counterparty (CCP) and Securities Settlement System (SSS) infrastructure disclosure reports with announcement dates and downloadable documents",
       "sample_fields": [
         "公告日期",
@@ -5868,7 +5868,7 @@
         "檔案下載 (ODS)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5886,8 +5886,8 @@
         "index",
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Daily market highlight indicators including trading indices, volume, and price movements for mainboard listings",
       "sample_fields": [
         "文件名稱",
@@ -5896,7 +5896,7 @@
         "更新日期"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5913,8 +5913,8 @@
       "domain_tags": [
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Monthly trading volume and turnover statistics for listed stocks on the main board",
       "sample_fields": [
         "日期",
@@ -5922,7 +5922,7 @@
         "下載ODS"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5939,8 +5939,8 @@
       "domain_tags": [
         "valuation"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Monthly valuation metrics including market capitalization, PE ratio, dividend yield, and investment return rate for TPEx listed companies",
       "sample_fields": [
         "日期",
@@ -5948,7 +5948,7 @@
         "下載ODS"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5966,8 +5966,8 @@
         "volume",
         "institutional"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Daily trading volume and transaction summaries aggregated by securities firms on the TPEX",
       "sample_fields": [
         "日期",
@@ -5975,7 +5975,7 @@
         "下載ODS"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -5992,15 +5992,15 @@
       "domain_tags": [
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Annual trading statistics reports including market volume, transaction counts, and daily turnover data for TPEx mainboard",
       "sample_fields": [
         "報表名稱",
         "下載CSV"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -8385,8 +8385,8 @@
       "domain_tags": [
         "announcement"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "TPEx market announcements with document numbers, dates, subjects, and detailed content",
       "sample_fields": [
         "項次",
@@ -8396,7 +8396,7 @@
         "詳細資料"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -8415,8 +8415,8 @@
         "price",
         "valuation"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Attention securities announcement with ticker, company name, announcement date, closing price, and P/E ratio",
       "sample_fields": [
         "編號",
@@ -8430,7 +8430,7 @@
         "link"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -8448,8 +8448,8 @@
         "corporate_action",
         "announcement"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Security par value change announcements including trading halt/resume dates, previous/new par values, and stock split ratios",
       "sample_fields": [
         "證券代號",
@@ -8462,7 +8462,7 @@
         "恢復買賣參考價"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -8480,8 +8480,8 @@
         "corporate_action",
         "price"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Reference prices, trading limits, and recovery trading details for securities resuming trade after par value adjustments",
       "sample_fields": [
         "恢復買賣日期",
@@ -8495,7 +8495,7 @@
         "詳細資料"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -8513,8 +8513,8 @@
         "announcement",
         "governance"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Default announcement records with declaration dates, violation categories, and net transaction amounts",
       "sample_fields": [
         "申報日期",
@@ -8523,7 +8523,7 @@
         "買進、賣出相抵後金額"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -8542,8 +8542,8 @@
         "corporate_action",
         "valuation"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Company securities disposal announcements including disposal period, reasons, closing prices, and P/E valuations",
       "sample_fields": [
         "編號",
@@ -8559,7 +8559,7 @@
         " "
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -8578,8 +8578,8 @@
         "corporate_action",
         "announcement"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Monthly announcements and downloadable data files for employee stock options, convertible bonds, and convertible preferred shares",
       "sample_fields": [
         "資料月份",
@@ -8587,7 +8587,7 @@
         "ODS檔案下載"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -8605,8 +8605,8 @@
         "announcement",
         "reference"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Public notices of stocks meeting specific standards with security identifiers, criteria status, trading alerts, announcement dates, and average prices",
       "sample_fields": [
         "編號",
@@ -8619,7 +8619,7 @@
         "link"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -8637,8 +8637,8 @@
         "announcement",
         "corporate_action"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Emerging stock disposal announcements with disposal periods, reasons, affected securities, and closing prices",
       "sample_fields": [
         "編號",
@@ -8653,7 +8653,7 @@
         " "
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -8671,8 +8671,8 @@
         "announcement",
         "governance"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Securities flagged for abnormal trading activity meeting cautionary trading publication standards",
       "sample_fields": [
         "編號",
@@ -8681,7 +8681,7 @@
         "近期達本公司「公布注意交易資訊」標準之情形"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -8699,8 +8699,8 @@
         "corporate_action",
         "dividend"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Ex-rights and ex-dividend announcements including ex-dates, stock dividend/cash dividend distributions, capital increase details, and subscription information",
       "sample_fields": [
         "除權息日期",
@@ -8718,7 +8718,7 @@
         "參考價試算"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -8736,8 +8736,8 @@
         "corporate_action",
         "announcement"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Stock capital increase/decrease and TDR issuance/cancellation announcements with company identifiers, quantity changes, and effective dates",
       "sample_fields": [
         "項次",
@@ -8753,7 +8753,7 @@
         "內容"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -8771,8 +8771,8 @@
         "announcement",
         "corporate_action"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Lists securities marked with special/abnormal trading status including security codes, names, and announcement dates",
       "sample_fields": [
         "編號",
@@ -8782,7 +8782,7 @@
         "公告日期"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -8800,8 +8800,8 @@
         "announcement",
         "reference"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Securities recommended in TV investment programs, including security codes, names, cumulative recommendation counts, and announcement dates",
       "sample_fields": [
         "編號",
@@ -8811,7 +8811,7 @@
         "公告日期"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -8828,8 +8828,8 @@
       "domain_tags": [
         "announcement"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "TPEx caution notice records with security codes, company names, and dates of abnormal trading warning triggers",
       "sample_fields": [
         "編號",
@@ -8838,7 +8838,7 @@
         "近期達本公司「公布注意交易資訊」標準之情形"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -9741,8 +9741,8 @@
         "announcement",
         "index"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Technical announcements and notifications about stock indices with publication dates, summaries, and downloadable documents",
       "sample_fields": [
         "公布日期",
@@ -9750,7 +9750,7 @@
         "檔案下載"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -9767,8 +9767,8 @@
       "domain_tags": [
         "index"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Cross-market stock indices with names, base periods, current values, price changes, and performance percentages",
       "sample_fields": [
         "合作機構",
@@ -9782,7 +9782,7 @@
         "金融商品"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -9801,8 +9801,8 @@
         "price",
         "reference"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "TPEx index constituent stocks with code, name, issued shares, closing price, and industry classification",
       "sample_fields": [
         "代號",
@@ -9812,7 +9812,7 @@
         "產業類別"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -9829,8 +9829,8 @@
       "domain_tags": [
         "index"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Monthly industry-classified market indices and returns for TPEx sectors including textiles, electronics, semiconductors, and other industry groups",
       "sample_fields": [
         "日期",
@@ -9850,7 +9850,7 @@
         "通信網路業"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -9868,8 +9868,8 @@
         "index",
         "price"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Monthly OHLC prices (open, high, low, close) and price change for TPEx industrial index",
       "sample_fields": [
         "日期",
@@ -9880,7 +9880,7 @@
         "漲/跌"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -9898,8 +9898,8 @@
         "index",
         "price"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Daily OHLC prices and price changes for TPEx indices organized by industrial sector classification",
       "sample_fields": [
         "類股名稱",
@@ -9910,7 +9910,7 @@
         "最低"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -9927,8 +9927,8 @@
       "domain_tags": [
         "index"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Monthly TPEx Index and Return Index values",
       "sample_fields": [
         "日期",
@@ -9936,7 +9936,7 @@
         "櫃買報酬指數(基期:94/12/30)"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -9953,8 +9953,8 @@
       "domain_tags": [
         "index"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Post-market sectoral index values for OTC market across 14 industry categories (textiles, electronics, steel, semiconductors, etc.) updated every 5 seconds",
       "sample_fields": [
         "時 間",
@@ -9974,7 +9974,7 @@
         "電子零件業"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -9991,8 +9991,8 @@
       "domain_tags": [
         "index"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Thematic market indices with base period, latest values, price changes, and related financial products",
       "sample_fields": [
         "指數名稱",
@@ -10006,7 +10006,7 @@
         "指數網址"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -11019,8 +11019,8 @@
         "dividend",
         "corporate_action"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Ex-dividend and ex-rights dates, cash/stock dividends, and capital increase/subscription rights information for OTC-listed stocks",
       "sample_fields": [
         "代號",
@@ -11035,7 +11035,7 @@
         "每股認購價格"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -11053,8 +11053,8 @@
         "volume",
         "index"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Emerging stock market aggregate statistics including market value, total capital, daily trading volume, and trading activity metrics",
       "sample_fields": [
         "登錄興櫃家數",
@@ -11065,7 +11065,7 @@
         "本日總成交筆數"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -11083,8 +11083,8 @@
         "price",
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Daily historical trading data (OHLCV) for emerging stocks listed on TPEx, provided as downloadable files organized by trading date.",
       "sample_fields": [
         "文件名稱",
@@ -11094,7 +11094,7 @@
         "備註"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -11112,8 +11112,8 @@
         "price",
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Monthly historical quotation statistics including monthly OHLCV data and trading volume aggregated by month for emerging stocks",
       "sample_fields": [
         "文件名稱",
@@ -11123,7 +11123,7 @@
         "備註"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -11141,8 +11141,8 @@
         "price",
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Weekly historical trading price and volume statistics for OTC-listed stocks",
       "sample_fields": [
         "文件名稱",
@@ -11152,7 +11152,7 @@
         "備註"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -11170,8 +11170,8 @@
         "price",
         "volume"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Historical annual trading quotes and statistics for TPEX listed stocks",
       "sample_fields": [
         "文件名稱",
@@ -11180,7 +11180,7 @@
         "備註"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
@@ -11199,8 +11199,8 @@
         "volume",
         "institutional"
       ],
-      "granularity": "",
-      "coverage": "",
+      "granularity": null,
+      "coverage": null,
       "fields_summary": "Daily pricing quotes with bid/ask prices, OHLC data, trading volumes, and investor trading sentiment",
       "sample_fields": [
         "代號",
@@ -11220,7 +11220,7 @@
         "進度日期"
       ],
       "supports_history": true,
-      "response_format": "",
+      "response_format": null,
       "date_params": [
         "date"
       ]
