@@ -1,7 +1,7 @@
 # Taiwan Official Financial Data Catalog
 
-> Machine-readable catalog of 606 official API endpoints from
-> Taiwan's TWSE, TPEx, and MOPS. Designed for AI agents to discover
+> Machine-readable catalog of 703 official API endpoints from
+> Taiwan's TWSE, TPEx, MOPS, and TDCC. Designed for AI agents to discover
 > available financial data sources.
 
 ## How to use
@@ -24,10 +24,12 @@ GET https://qadriscorp.github.io/QadrisDataDiscovery/openapi.yaml
   - Web: https://www.tpex.org.tw (historical)
 - **MOPS** (Market Observation Post System / 公開資訊觀測站): 74 endpoints
   - Web: https://mopsov.twse.com.tw (financial statements, revenue, governance)
+- **TDCC** (Taiwan Depository & Clearing Corporation / 臺灣集中保管結算所): 97 endpoints
+  - OpenAPI: https://openapi.tdcc.com.tw (snapshot only, current period; no history)
 
 ## Available domain tags
 
-volume, price, governance, financial_statement, index, reference, ownership, announcement, margin_trading, institutional, corporate_action, bond, warrant, valuation, ipo_listing, dividend, revenue, etf_fund
+volume, reference, price, ownership, governance, financial_statement, index, bond, announcement, warrant, margin_trading, etf_fund, corporate_action, institutional, valuation, dividend, ipo_listing, revenue, other
 
 ## Endpoint fields
 

@@ -50,6 +50,13 @@ SOURCE_META: dict[str, dict[str, Any]] = {
             "xbrl": "https://mops.twse.com.tw",
         },
     },
+    "tdcc": {
+        "name": "Taiwan Depository & Clearing Corporation (TDCC)",
+        "name_zh": "臺灣集中保管結算所",
+        "base_urls": {
+            "openapi": "https://openapi.tdcc.com.tw",
+        },
+    },
 }
 
 
@@ -103,7 +110,7 @@ def generate_catalog_json(
         "meta": {
             "title": "Taiwan Official Financial Data Catalog",
             "description": (
-                "Machine-readable catalog of TWSE, TPEx, and MOPS API endpoints. "
+                "Machine-readable catalog of TWSE, TPEx, MOPS, and TDCC API endpoints. "
                 "Designed for AI agents to discover official Taiwan financial data sources."
             ),
             "version": "1.0.0",
@@ -123,7 +130,7 @@ openapi: "3.1.0"
 info:
   title: Taiwan Financial Data Catalog API
   description: |
-    Static catalog of official Taiwan financial data API endpoints (TWSE, TPEx, MOPS).
+    Static catalog of official Taiwan financial data API endpoints (TWSE, TPEx, MOPS, TDCC).
     AI agents can fetch /catalog.json to discover available data sources,
     then call the actual endpoints directly.
   version: "1.0.0"
@@ -142,7 +149,7 @@ paths:
       summary: Get the full endpoint catalog
       description: |
         Returns a JSON object containing metadata about {endpoint_count} official
-        Taiwan financial data API endpoints from TWSE, TPEx, and MOPS.
+        Taiwan financial data API endpoints from TWSE, TPEx, MOPS, and TDCC.
         Each endpoint includes URL, method, description, domain tags,
         field summaries, and request examples.
       responses:
@@ -232,7 +239,7 @@ components:
           example: "twse:openapi:/exchangeReport/STOCK_DAY_ALL"
         source:
           type: string
-          enum: [twse, tpex, mops]
+          enum: [twse, tpex, mops, tdcc]
         endpoint_type:
           type: string
           enum: [openapi, web, xbrl]
@@ -308,7 +315,7 @@ def generate_llms_txt(endpoints: list[EndpointInfo]) -> str:
 # Taiwan Official Financial Data Catalog
 
 > Machine-readable catalog of {len(endpoints)} official API endpoints from
-> Taiwan's TWSE, TPEx, and MOPS. Designed for AI agents to discover
+> Taiwan's TWSE, TPEx, MOPS, and TDCC. Designed for AI agents to discover
 > available financial data sources.
 
 ## How to use
@@ -331,6 +338,8 @@ GET {GITHUB_PAGES_BASE}/openapi.yaml
   - Web: https://www.tpex.org.tw (historical)
 - **MOPS** (Market Observation Post System / 公開資訊觀測站): {source_counter['mops']} endpoints
   - Web: https://mopsov.twse.com.tw (financial statements, revenue, governance)
+- **TDCC** (Taiwan Depository & Clearing Corporation / 臺灣集中保管結算所): {source_counter['tdcc']} endpoints
+  - OpenAPI: https://openapi.tdcc.com.tw (snapshot only, current period; no history)
 
 ## Available domain tags
 
@@ -471,6 +480,7 @@ def generate_index_html(endpoint_count: int) -> str:
     <option value="twse">TWSE</option>
     <option value="tpex">TPEx</option>
     <option value="mops">MOPS</option>
+    <option value="tdcc">TDCC</option>
   </select>
   <select id="tag-filter">
     <option value="">All Tags</option>

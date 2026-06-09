@@ -1,10 +1,10 @@
 {
   "meta": {
     "title": "Taiwan Official Financial Data Catalog",
-    "description": "Machine-readable catalog of TWSE, TPEx, and MOPS API endpoints. Designed for AI agents to discover official Taiwan financial data sources.",
+    "description": "Machine-readable catalog of TWSE, TPEx, MOPS, and TDCC API endpoints. Designed for AI agents to discover official Taiwan financial data sources.",
     "version": "1.0.0",
-    "generated_at": "2026-04-14T08:57:05.456424+00:00",
-    "total_endpoints": 606,
+    "generated_at": "2026-06-09T09:22:39.265376+00:00",
+    "total_endpoints": 703,
     "sources": {
       "twse": {
         "name": "Taiwan Stock Exchange (TWSE)",
@@ -29,28 +29,36 @@
           "web": "https://mopsov.twse.com.tw",
           "xbrl": "https://mops.twse.com.tw"
         }
+      },
+      "tdcc": {
+        "name": "Taiwan Depository & Clearing Corporation (TDCC)",
+        "name_zh": "臺灣集中保管結算所",
+        "base_urls": {
+          "openapi": "https://openapi.tdcc.com.tw"
+        }
       }
     }
   },
   "tags": {
-    "volume": 135,
-    "price": 86,
-    "governance": 79,
+    "volume": 142,
+    "reference": 91,
+    "price": 88,
+    "ownership": 80,
+    "governance": 80,
     "financial_statement": 77,
-    "index": 71,
-    "reference": 69,
-    "ownership": 65,
+    "index": 72,
+    "bond": 63,
     "announcement": 60,
-    "margin_trading": 42,
+    "warrant": 44,
+    "margin_trading": 43,
+    "etf_fund": 41,
+    "corporate_action": 38,
     "institutional": 37,
-    "corporate_action": 36,
-    "bond": 34,
-    "warrant": 33,
-    "valuation": 23,
+    "valuation": 24,
+    "dividend": 21,
     "ipo_listing": 20,
-    "dividend": 18,
     "revenue": 11,
-    "etf_fund": 8
+    "other": 1
   },
   "endpoints": [
     {
@@ -2320,6 +2328,3340 @@
       "request_example": {
         "url": "https://mopsov.twse.com.tw/mops/web/t98sb02",
         "method": "POST"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-15",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-15",
+      "path": "/v1/opendata/2-15",
+      "method": "GET",
+      "description": "TAIBIR當日最近初級發行利率報價",
+      "category": "TAIBIR 資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Taiwan interbank borrowing rate (TAIBIR) quotes at multiple tenors (10-365 days) with issuing company and reporting timestamp",
+      "sample_fields": [
+        "30天期",
+        "120天期",
+        "﻿資料日期時間",
+        "票券公司",
+        "60天期",
+        "150天期",
+        "20天期(比率)",
+        "90天期",
+        "180天期",
+        "10天期(比率)",
+        "365天期",
+        "最後報價時間"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-15",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-16",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-16",
+      "path": "/v1/opendata/2-16",
+      "method": "GET",
+      "description": "TAIBIR當日最近次級買賣利率報價",
+      "category": "TAIBIR 資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Taiwan InterBank Interest Rate (TAIBIR) bid-ask quotes for various tenors from 20 to 365 days",
+      "sample_fields": [
+        "365天期買入小計",
+        "﻿資料日期時間",
+        "30天期賣出小計",
+        "20天期賣出小計",
+        "60天期賣出小計",
+        "90天期買入小計",
+        "120天期賣出小計",
+        "180天期買入小計",
+        "最後報價時間",
+        "150天期賣出小計",
+        "120天期買入小計",
+        "150天期買入小計",
+        "180天期賣出小計",
+        "30天期買入小計",
+        "20天期買入小計",
+        "票券公司",
+        "10天期買入小計",
+        "90天期賣出小計",
+        "60天期買入小計",
+        "10天期賣出小計",
+        "365天期賣出小計"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-16",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-17",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-17",
+      "path": "/v1/opendata/2-17",
+      "method": "GET",
+      "description": "TAIBIR 01當日初級發行利率報價定盤利率",
+      "category": "TAIBIR 資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "TAIBIR primary market bill interest rate fixing rates across multiple tenors (10-365 days) and issuers with timestamps",
+      "sample_fields": [
+        "20天期小計",
+        "120天期小計",
+        "﻿資料日期時間",
+        "票券公司",
+        "180天期小計",
+        "365天期小計",
+        "10天期小計",
+        "150天期小計",
+        "60天期小計",
+        "90天期小計",
+        "最後報價時間",
+        "30天期小計"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-17",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-18",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-18",
+      "path": "/v1/opendata/2-18",
+      "method": "GET",
+      "description": "TAIBIR 02當日次級買賣利率報價定盤利率",
+      "category": "TAIBIR 資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "TAIBIR secondary bond market bid-ask interest rates across multiple maturity periods (20-365 days) with dealer quotes and fixing rates",
+      "sample_fields": [
+        "365天期買入小計",
+        "﻿資料日期時間",
+        "30天期賣出小計",
+        "20天期賣出小計",
+        "60天期賣出小計",
+        "90天期買入小計",
+        "180天期買入小計",
+        "最後報價時間",
+        "150天期賣出小計",
+        "120天期買入小計",
+        "150天期買入小計",
+        "180天期賣出小計",
+        "30天期買入小計",
+        "20天期買入小計",
+        "票券公司",
+        "10天期買入小計",
+        "90天期賣出小計",
+        "120天期賣出",
+        "60天期買入小計",
+        "10天期賣出小計",
+        "365天期賣出小計"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-18",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-19",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-19",
+      "path": "/v1/opendata/2-19",
+      "method": "GET",
+      "description": "TAIBIR 01歷史初級發行利率報價定盤利率",
+      "category": "TAIBIR 資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Historical fixing rates for Taiwan Interbank Offered Rate (TAIBIR) across multiple tenor periods from 10 to 365 days",
+      "sample_fields": [
+        "30天期",
+        "120天期",
+        "60天期",
+        "150天期",
+        "﻿資料日期",
+        "20天期(比率)",
+        "90天期",
+        "180天期",
+        "10天期(比率)",
+        "365天期"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-19",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-20",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-20",
+      "path": "/v1/opendata/2-20",
+      "method": "GET",
+      "description": "TAIBIR 02歷史次級買賣利率報價定盤利率",
+      "category": "TAIBIR 資訊",
+      "domain_tags": [
+        "bond",
+        "index"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Historical TAIBIR (Taiwan Interbank Offered Rate) fixing rates across multiple tenors from 10 to 365 days",
+      "sample_fields": [
+        "30天期",
+        "120天期",
+        "60天期",
+        "150天期",
+        "﻿資料日期",
+        "20天期(比率)",
+        "90天期",
+        "180天期",
+        "10天期(比率)",
+        "365天期"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-20",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-21",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-21",
+      "path": "/v1/opendata/2-21",
+      "method": "GET",
+      "description": "TAIBIR 02上線前歷史次級買賣利率報價定盤利率",
+      "category": "TAIBIR 資訊",
+      "domain_tags": [
+        "other"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Taiwan Interbank Rate (TAIBIR) benchmark buying and selling rates for multiple maturity tenors (10-180 days)",
+      "sample_fields": [
+        "30天期",
+        "120天期",
+        "60天期",
+        "150天期",
+        "﻿資料日期",
+        "20天期(比率)",
+        "90天期",
+        "180天期",
+        "10天期(比率)"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-21",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-11",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-11",
+      "path": "/v1/opendata/2-11",
+      "method": "GET",
+      "description": "次級市場ABCP",
+      "category": "固定收益類 統計資訊",
+      "domain_tags": [
+        "bond",
+        "volume"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Trading volumes (buy and sell subtotals) for asset-backed commercial papers (ABCP) segmented by maturity periods in the secondary market",
+      "sample_fields": [
+        "365天期買入小計",
+        "﻿資料日期時間",
+        "30天期賣出小計",
+        "20天期賣出小計",
+        "60天期賣出小計",
+        "90天期買入小計",
+        "120天期賣出小計",
+        "180天期買入小計",
+        "150天期賣出小計",
+        "120天期買入小計",
+        "150天期買入小計",
+        "180天期賣出小計",
+        "30天期買入小計",
+        "20天期買入小計",
+        "票券公司",
+        "10天期買入小計",
+        "90天期賣出小計",
+        "60天期買入小計",
+        "10天期賣出小計",
+        "365天期賣出小計"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-11",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-12",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-12",
+      "path": "/v1/opendata/2-12",
+      "method": "GET",
+      "description": "ABCP成交資訊",
+      "category": "固定收益類 統計資訊",
+      "domain_tags": [
+        "bond",
+        "volume"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "ABCP (asset-backed commercial paper) trading statistics including date/time, weighted average interest rate, trading volume in millions, and maturity terms",
+      "sample_fields": [
+        "﻿資料日期時間",
+        "加權平均利率",
+        "成交量(佰萬元)",
+        "天期"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-12",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-13",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-13",
+      "path": "/v1/opendata/2-13",
+      "method": "GET",
+      "description": "國庫券成交資訊",
+      "category": "固定收益類 統計資訊",
+      "domain_tags": [
+        "bond",
+        "volume"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Treasury bond transaction statistics including volumes and weighted average interest rates by transaction type and tenor",
+      "sample_fields": [
+        "附條件成交量(小計)",
+        "﻿資料日期時間",
+        "天期(小計)",
+        "買賣斷成交量(小計)",
+        "買賣斷加權平均利率%",
+        "合計加權平均利率%(比率)",
+        "附條件加權平均利率%",
+        "合計成交量(小計)"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-13",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-14",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-14",
+      "path": "/v1/opendata/2-14",
+      "method": "GET",
+      "description": "國庫券買賣斷成交行情資訊",
+      "category": "固定收益類 統計資訊",
+      "domain_tags": [
+        "bond",
+        "volume"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Treasury bond repurchase agreement execution quotes including trading rates (minimum, maximum, weighted average), maturity periods, transaction amounts, and daily comparisons",
+      "sample_fields": [
+        "買賣斷成交利率(最低)",
+        "﻿資料日期時間",
+        "買賣斷成交利率(加權平均)",
+        "國庫券名稱",
+        "距到期天期",
+        "總筆數",
+        "天期(NumberofRecord)",
+        "國庫券代號",
+        "買賣斷成交利率(最高)",
+        "總成交金額(百萬元)",
+        "與前一營業日比較%"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "國庫券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-14",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-30",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-30",
+      "path": "/v1/opendata/2-30",
+      "method": "GET",
+      "description": "票券保管結算交割系統各類短期票券流通餘額表",
+      "category": "固定收益類 統計資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly circulation balances of short-term securities by type and currency with holding proportions",
+      "sample_fields": [
+        "﻿﻿資料年月",
+        "幣別",
+        "票劵別",
+        "當月底持有餘額",
+        "比率"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-30",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-31",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-31",
+      "path": "/v1/opendata/2-31",
+      "method": "GET",
+      "description": "票券保管結算交割系統結算交割時間統計",
+      "category": "固定收益類 統計資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Settlement and clearing time distribution statistics for bonds, showing ratios of settlement activity across trading day time slots",
+      "sample_fields": [
+        "﻿﻿資料年月",
+        "合計比率",
+        "09:00~14:30",
+        "16:30之後",
+        "14:30~16:30"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-31",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-32",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-32",
+      "path": "/v1/opendata/2-32",
+      "method": "GET",
+      "description": "票券保管結算交割系統參加單位一覽表",
+      "category": "固定收益類 統計資訊",
+      "domain_tags": [
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Master reference data of participating institutions in Taiwan's depository and clearing system, including unit codes, categories, and names",
+      "sample_fields": [
+        "參加單位代號",
+        "﻿﻿資料年月",
+        "參加單位類別",
+        "參加單位名稱"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "參加單位代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-32",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-33",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-33",
+      "path": "/v1/opendata/2-33",
+      "method": "GET",
+      "description": "票券保管結算交割系統票券部位別統計月報表",
+      "category": "固定收益類 統計資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly statistics of bond/securities positions by type (repo buy/sell, pledged, own holdings) with book balances and currency information.",
+      "sample_fields": [
+        "﻿﻿資料年月",
+        "附賣回部位",
+        "附買回部位",
+        "出質部位",
+        "質權部位",
+        "其他部位",
+        "自有部位",
+        "帳簿餘額",
+        "幣別"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-33",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-34",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-34",
+      "path": "/v1/opendata/2-34",
+      "method": "GET",
+      "description": "固定收益商品債券存摺開立統計月報表",
+      "category": "固定收益類 統計資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly bond passbook opening statistics including transaction amounts and counts",
+      "sample_fields": [
+        "數額",
+        "﻿年月",
+        "筆數"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-34",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-35",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-35",
+      "path": "/v1/opendata/2-35",
+      "method": "GET",
+      "description": "固定收益商品債券存摺開立統計年報表",
+      "category": "固定收益類 統計資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Annual statistics of fixed-income bond passbook openings, including total amounts and record counts by year",
+      "sample_fields": [
+        "數額",
+        "﻿年",
+        "筆數"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-35",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-36",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-36",
+      "path": "/v1/opendata/2-36",
+      "method": "GET",
+      "description": "票券保管結算交割系統票券撥轉月報表",
+      "category": "固定收益類 統計資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly bond settlement transfers including custody balances, underwriting, repurchase agreements, and redemptions",
+      "sample_fields": [
+        "前一日帳簿餘額",
+        "承銷/配銷",
+        "RP賣出",
+        "賣斷",
+        "跨系統撥轉淨額",
+        "幣別",
+        "兌償/退票/提領/還本",
+        "RP履約",
+        "買斷",
+        "﻿﻿資料年月",
+        "RS履約",
+        "帳簿餘額",
+        "RS買入"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-36",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-37",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-37",
+      "path": "/v1/opendata/2-37",
+      "method": "GET",
+      "description": "票券保管結算交割系統次級交易央清款項清算交割統計月報",
+      "category": "固定收益類 統計資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly secondary market bond settlement clearing payment statistics broken down by intraday time windows",
+      "sample_fields": [
+        "14:31 ~ 15:30金額",
+        "15:31 ~ 16:30比例",
+        "項次",
+        "超過 16:30金額",
+        "超過 16:30",
+        "﻿﻿資料年月",
+        "09:00~12:00金額",
+        "12:01 ~ 14:00金額",
+        "09:00~12:00比例",
+        "合計比率",
+        "14:01 ~ 14:30比例",
+        "合計金額",
+        "15:31 ~ 16:30金額",
+        "14:01 ~ 14:30金額",
+        "12:01 ~ 14:00比例",
+        "14:31 ~ 15:30比例"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-37",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-38",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-38",
+      "path": "/v1/opendata/2-38",
+      "method": "GET",
+      "description": "票券保管結算交割系統次級交易央清款項清算交割統計月報",
+      "category": "固定收益類 統計資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Secondary bond market settlement and clearing statistics including transaction amounts and proportions across different trading time periods.",
+      "sample_fields": [
+        "14:31 ~ 15:30金額",
+        "15:31 ~ 16:30比例",
+        "項次",
+        "超過 16:30金額",
+        "超過 16:30",
+        "﻿﻿資料年月",
+        "09:00~12:00金額",
+        "12:01 ~ 14:00金額",
+        "09:00~12:00比例",
+        "合計比率",
+        "14:01 ~ 14:30比例",
+        "合計金額",
+        "15:31 ~ 16:30金額",
+        "14:01 ~ 14:30金額",
+        "12:01 ~ 14:00比例",
+        "14:31 ~ 15:30比例"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-38",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-1",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-1",
+      "path": "/v1/opendata/3-1",
+      "method": "GET",
+      "description": "境外基金總代理資訊",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund",
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Overseas fund distributor information including distributor names, contact details, approved fund counts, and fund institution names",
+      "sample_fields": [
+        "核准基金筆數",
+        "總代理網址",
+        "總代理名稱",
+        "總代理信箱",
+        "﻿資料日期",
+        "申報基金總類股數",
+        "境外基金機構名稱"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-1",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-10",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-10",
+      "path": "/v1/opendata/3-10",
+      "method": "GET",
+      "description": "境外基金市場資訊-基金類別",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Foreign mutual fund market aggregates by fund category including subscription/redemption volumes, fund counts, transfer flows, and domestic investor holdings",
+      "sample_fields": [
+        "買回總金額",
+        "淨申贖總金額",
+        "基金筆數",
+        "﻿年月",
+        "基金類別",
+        "轉入總金額",
+        "轉出總金額",
+        "國內投資人持有金額",
+        "申購總金額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-10",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-11",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-11",
+      "path": "/v1/opendata/3-11",
+      "method": "GET",
+      "description": "境外基金市場資訊-投資區域別",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Offshore mutual fund market flows and holdings by investment region, including subscription/redemption amounts, transfers, domestic investor positions, and fund counts aggregated by month",
+      "sample_fields": [
+        "買回總金額",
+        "淨申贖總金額",
+        "投資區域細項",
+        "基金筆數",
+        "﻿年月",
+        "投資區域",
+        "轉入總金額",
+        "轉出總金額",
+        "國內投資人持有金額",
+        "申購總金額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-11",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-12",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-12",
+      "path": "/v1/opendata/3-12",
+      "method": "GET",
+      "description": "境外基金資訊傳輸暨款項收付平台使用機構查詢",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Offshore mutual fund institutions and their distributors with product counts and transaction details.",
+      "sample_fields": [
+        "身份別",
+        "銷售基金檔數",
+        "﻿資料時間",
+        "境外基金機構",
+        "使用機構名稱"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-12",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-13",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-13",
+      "path": "/v1/opendata/3-13",
+      "method": "GET",
+      "description": "境外基金資訊傳輸暨款項收付平台款項收付銀行查詢",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund",
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Settlement bank institution codes, names, and timestamps for offshore fund transaction processing",
+      "sample_fields": [
+        "收付銀行機構代號",
+        "﻿資料時間",
+        "收付銀行機構名稱"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "收付銀行機構代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-13",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-14",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-14",
+      "path": "/v1/opendata/3-14",
+      "method": "GET",
+      "description": "境外基金資訊傳輸暨款項收付平台全國性繳費稅金融機構查詢",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "reference",
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Directory of financial institutions participating in the overseas fund settlement and payment platform, including institution codes, names, and data timestamps",
+      "sample_fields": [
+        "金融機構代號",
+        "﻿資料時間",
+        "金融機構名稱"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "金融機構代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-14",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-15",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-15",
+      "path": "/v1/opendata/3-15",
+      "method": "GET",
+      "description": "境外基金短線交易與反稀釋等相關資訊",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund",
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Offshore mutual fund metadata including ISIN code, fund manager, anti-dilution clauses, and regulatory document URLs",
+      "sample_fields": [
+        "基金名稱",
+        "﻿資料時間",
+        "ISIN Code",
+        "公開說明書網址",
+        "有無反稀釋條款",
+        "基金經理人姓名",
+        "投資人須知網址"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-15",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-16",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-16",
+      "path": "/v1/opendata/3-16",
+      "method": "GET",
+      "description": "境外基金基金總覽-美元計價基金",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Overseas mutual fund overview including NAV, fund identifiers (ISIN, code), fund type, investment details, region, currency, and distributor information for USD-priced funds",
+      "sample_fields": [
+        "淨值日期",
+        "最新淨值小計(總額)",
+        "境外基金機構",
+        "﻿資料日期",
+        "計價幣別",
+        "基金名稱",
+        "基金種類",
+        "投資細項",
+        "基金ISIN_CODE",
+        "基金總代理名稱",
+        "基金代碼",
+        "投資區域",
+        "基金細項"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "基金代碼",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-16",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-17",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-17",
+      "path": "/v1/opendata/3-17",
+      "method": "GET",
+      "description": "境外基金基金總覽-歐元計價基金",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "EUR-denominated overseas mutual fund master data with NAV, fund codes, institution details, and investment region information",
+      "sample_fields": [
+        "淨值日期",
+        "最新淨值小計(總額)",
+        "境外基金機構",
+        "﻿資料日期",
+        "計價幣別",
+        "基金名稱",
+        "基金種類",
+        "投資細項",
+        "基金ISIN_CODE",
+        "基金總代理名稱",
+        "基金代碼",
+        "投資區域",
+        "基金細項"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "基金代碼",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-17",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-18",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-18",
+      "path": "/v1/opendata/3-18",
+      "method": "GET",
+      "description": "境外基金基金總覽-日圓計價基金",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund",
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Overseas mutual fund reference data including NAV, fund identifiers, types, distributors, and investment regions",
+      "sample_fields": [
+        "淨值日期",
+        "最新淨值小計(總額)",
+        "境外基金機構",
+        "﻿資料日期",
+        "計價幣別",
+        "基金名稱",
+        "基金種類",
+        "投資細項",
+        "基金ISIN_CODE",
+        "基金總代理名稱",
+        "基金代碼",
+        "投資區域",
+        "基金細項"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "基金代碼",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-18",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-19",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-19",
+      "path": "/v1/opendata/3-19",
+      "method": "GET",
+      "description": "境外基金基金總覽-其他計價幣別基金",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Overseas mutual fund overview data including net asset values, fund identifiers, types, pricing currencies, and investment region information for alternative-currency denominated funds",
+      "sample_fields": [
+        "淨值日期",
+        "最新淨值小計(總額)",
+        "境外基金機構",
+        "﻿資料日期",
+        "計價幣別",
+        "基金名稱",
+        "基金種類",
+        "投資細項",
+        "基金ISIN_CODE",
+        "基金總代理名稱",
+        "基金代碼",
+        "投資區域",
+        "基金細項"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "基金代碼",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-19",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-2",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-2",
+      "path": "/v1/opendata/3-2",
+      "method": "GET",
+      "description": "境外基金基本資料",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Offshore fund master data including fund names, ISIN codes, fund sizes with currencies, management/custody institutions, and custodian credit ratings.",
+      "sample_fields": [
+        "保管機構短期信評",
+        "境外基金機構",
+        "基金規模幣別",
+        "﻿資料日期",
+        "基金英文名稱",
+        "計價幣別",
+        "基金規模日期",
+        "保管機構信評公司",
+        "基金名稱",
+        "保管機構長期信評",
+        "基金成立日",
+        "基金規模(百萬)",
+        "基金管理機構",
+        "基金種類",
+        "基金ISIN_CODE",
+        "基金總代理名稱",
+        "風險收益等級",
+        "基金代碼",
+        "投資區域",
+        "基金類股規模(百萬)",
+        "保管機構"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "基金代碼",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-2",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-20",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-20",
+      "path": "/v1/opendata/3-20",
+      "method": "GET",
+      "description": "境外基金基金總覽-全球型基金",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Offshore mutual fund master data including fund identifiers (code, ISIN), net values, pricing currencies, fund types, investment regions, and managing institutions",
+      "sample_fields": [
+        "淨值日期",
+        "最新淨值小計(總額)",
+        "境外基金機構",
+        "﻿資料日期",
+        "計價幣別",
+        "基金名稱",
+        "基金種類",
+        "投資細項",
+        "基金ISIN_CODE",
+        "基金總代理名稱",
+        "基金代碼",
+        "投資區域",
+        "基金細項"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "基金代碼",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-20",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-21",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-21",
+      "path": "/v1/opendata/3-21",
+      "method": "GET",
+      "description": "境外基金基金總覽-單一國家型基金",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund",
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Offshore fund master data including name, code, ISIN, type, region, and latest net value information",
+      "sample_fields": [
+        "淨值日期",
+        "最新淨值小計(總額)",
+        "境外基金機構",
+        "﻿資料日期",
+        "計價幣別",
+        "基金名稱",
+        "基金種類",
+        "投資細項",
+        "基金ISIN_CODE",
+        "基金總代理名稱",
+        "基金代碼",
+        "投資區域",
+        "基金細項"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "基金代碼",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-21",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-22",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-22",
+      "path": "/v1/opendata/3-22",
+      "method": "GET",
+      "description": "境外基金基金總覽-區域型基金",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Overseas mutual fund master data including fund codes, names, ISIN codes, net asset values, pricing currencies, and regional fund classification.",
+      "sample_fields": [
+        "淨值日期",
+        "最新淨值小計(總額)",
+        "境外基金機構",
+        "﻿資料日期",
+        "計價幣別",
+        "基金名稱",
+        "基金種類",
+        "投資細項",
+        "基金ISIN_CODE",
+        "基金總代理名稱",
+        "基金代碼",
+        "投資區域",
+        "基金細項"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "基金代碼",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-22",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-23",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-23",
+      "path": "/v1/opendata/3-23",
+      "method": "GET",
+      "description": "境外基金投資人服務及保護-公平價格調整機制",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund",
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Overseas mutual fund investor protection data including fund names, general agents, and fair price adjustment mechanism information",
+      "sample_fields": [
+        "基金名稱",
+        "總代理人",
+        "﻿資料日期",
+        "備註",
+        "公平價格調整機制資料內容"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-23",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-25",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-25",
+      "path": "/v1/opendata/3-25",
+      "method": "GET",
+      "description": "境外基金基金總覽-股票型基金",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund",
+        "price",
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Overseas equity fund overview with latest NAV pricing, fund types, investment regions, and fund provider information",
+      "sample_fields": [
+        "基金名稱",
+        "淨值日期",
+        "最新淨值小計(總額)",
+        "基金種類",
+        "投資細項",
+        "境外基金機構",
+        "﻿資料日期",
+        "計價幣別",
+        "基金總代理名稱",
+        "投資區域",
+        "基金細項"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-25",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-26",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-26",
+      "path": "/v1/opendata/3-26",
+      "method": "GET",
+      "description": "境外基金基金總覽-固定收益型",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Offshore fixed income fund master data including net asset values, fund types, investment regions, and fund administrators.",
+      "sample_fields": [
+        "基金名稱",
+        "淨值日期",
+        "最新淨值小計(總額)",
+        "基金種類",
+        "投資細項",
+        "境外基金機構",
+        "﻿資料日期",
+        "計價幣別",
+        "基金總代理名稱",
+        "投資區域",
+        "基金細項"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-26",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-27",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-27",
+      "path": "/v1/opendata/3-27",
+      "method": "GET",
+      "description": "境外基金基金總覽-平衡型",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund",
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Overseas balanced fund information including fund name, net value, fund type, investment area, and fund institution details",
+      "sample_fields": [
+        "基金名稱",
+        "淨值日期",
+        "最新淨值小計(總額)",
+        "基金種類",
+        "投資細項",
+        "境外基金機構",
+        "﻿資料日期",
+        "計價幣別",
+        "基金總代理名稱",
+        "投資區域",
+        "基金細項"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-27",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-28",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-28",
+      "path": "/v1/opendata/3-28",
+      "method": "GET",
+      "description": "境外基金基金總覽-貨幣市場型",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund",
+        "valuation"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Offshore monetary market fund information including fund names, latest net asset values, fund types, institutions, and investment regions",
+      "sample_fields": [
+        "基金名稱",
+        "淨值日期",
+        "最新淨值小計(總額)",
+        "基金種類",
+        "投資細項",
+        "境外基金機構",
+        "﻿資料日期",
+        "計價幣別",
+        "基金總代理名稱",
+        "投資區域",
+        "基金細項"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-28",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-29",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-29",
+      "path": "/v1/opendata/3-29",
+      "method": "GET",
+      "description": "境外基金基金總覽-指數股票型(ETF)",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Overseas ETF fund overview data including fund name, net asset value, fund type, investment details, pricing currency, investment region, and fund agent information",
+      "sample_fields": [
+        "基金名稱",
+        "淨值日期",
+        "最新淨值小計(總額)",
+        "檢查日期",
+        "基金種類",
+        "投資細項",
+        "境外基金機構",
+        "﻿資料日期",
+        "計價幣別",
+        "基金總代理名稱",
+        "投資區域",
+        "基金細項"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-29",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-3",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-3",
+      "path": "/v1/opendata/3-3",
+      "method": "GET",
+      "description": "境外基金機構基本資料",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund",
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Basic institutional information (code, name, address, phone, principal contact) for offshore fund operators and management companies",
+      "sample_fields": [
+        "﻿總機構代碼",
+        "電話",
+        "公司名稱",
+        "地址",
+        "負責人"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "﻿總機構代碼",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-3",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-4",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-4",
+      "path": "/v1/opendata/3-4",
+      "method": "GET",
+      "description": "境外基金淨值",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Daily net asset values for offshore mutual funds with fund codes, institution details, and pricing currency",
+      "sample_fields": [
+        "基金名稱",
+        "日期",
+        "總代理機構",
+        "境外基金機構",
+        "﻿基金代碼",
+        "基金淨值(金額)",
+        "計價幣別",
+        "ISINCODE"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "﻿基金代碼",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-4",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-5",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-5",
+      "path": "/v1/opendata/3-5",
+      "method": "GET",
+      "description": "境外基金配息資訊",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "dividend",
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Foreign fund dividend distribution records including distribution dates, frequency, per-unit amounts, and fund identifiers",
+      "sample_fields": [
+        "境外基金機構",
+        "配息頻率",
+        "﻿資料日期",
+        "可分配淨利益/配息",
+        "配息發放日",
+        "基金名稱",
+        "本金/配息",
+        "單位數",
+        "基金幣別",
+        "基金總代理名稱",
+        "除息日",
+        "基金代碼",
+        "配息基準日"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "基金代碼",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-5",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-6",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-6",
+      "path": "/v1/opendata/3-6",
+      "method": "GET",
+      "description": "境外基金報價日及營業日查詢",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Foreign mutual fund quotation and business day information with fund identifiers.",
+      "sample_fields": [
+        "基金名稱",
+        "日期類型",
+        "基金ISIN CODE",
+        "日期",
+        "基金代號",
+        "﻿更新時間"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "基金代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-6",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-7",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-7",
+      "path": "/v1/opendata/3-7",
+      "method": "GET",
+      "description": "境外基金銷售機構查詢",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Overseas fund sales institutions and their general agents",
+      "sample_fields": [
+        "基金總代理",
+        "﻿資料時間",
+        "銷售機構"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-7",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-8",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-8",
+      "path": "/v1/opendata/3-8",
+      "method": "GET",
+      "description": "境外基金市場資訊-彙總",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly aggregated market statistics for overseas mutual funds by type and item",
+      "sample_fields": [
+        "﻿年月",
+        "統計類型",
+        "項目",
+        "金額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-8",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-9",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-9",
+      "path": "/v1/opendata/3-9",
+      "method": "GET",
+      "description": "境外基金市場資訊-計價幣別",
+      "category": "境外基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Offshore fund market statistics by pricing currency, including subscription, transfer-in/out, redemption volumes, and domestic investor holdings",
+      "sample_fields": [
+        "買回總金額",
+        "淨申贖總金額",
+        "計價幣別",
+        "基金筆數",
+        "﻿年月",
+        "轉入總金額",
+        "轉出總金額",
+        "國內投資人持有金額",
+        "申購總金額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-9",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/4-1",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/4-1",
+      "path": "/v1/opendata/4-1",
+      "method": "GET",
+      "description": "境外結構型商品發行人/總代理人資訊",
+      "category": "境外結構型商品資訊",
+      "domain_tags": [
+        "warrant"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Master data of foreign structured product issuers, agents, issuing institutions, and guarantee institutions",
+      "sample_fields": [
+        "發行人/總代理人身分別",
+        "﻿資料日期",
+        "所屬發行機構",
+        "所屬保證機構",
+        "境外結構型商品名稱"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/4-1",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/4-15",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/4-15",
+      "path": "/v1/opendata/4-15",
+      "method": "GET",
+      "description": "境外結構型商品受託或銷售金額每月累計統計表（連結標的-商品）",
+      "category": "境外結構型商品資訊",
+      "domain_tags": [
+        "warrant"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly statistics on custody and sales amounts of offshore structured products, including product counts and monthly totals in million TWD",
+      "sample_fields": [
+        "商品數",
+        "﻿年月",
+        "金額(百萬台幣)"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/4-15",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/4-16",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/4-16",
+      "path": "/v1/opendata/4-16",
+      "method": "GET",
+      "description": "境外結構型商品受託或銷售金額每月累計統計表（連結標的-信用事件）",
+      "category": "境外結構型商品資訊",
+      "domain_tags": [
+        "warrant"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly cumulative trust or sales amounts for foreign structured products with credit event linkages, including product counts and amounts in million TWD",
+      "sample_fields": [
+        "商品數",
+        "﻿年月",
+        "金額(百萬台幣)"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/4-16",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/4-17",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/4-17",
+      "path": "/v1/opendata/4-17",
+      "method": "GET",
+      "description": "境外結構型商品受託或銷售金額每月累計統計表（連結標的-其他利益)",
+      "category": "境外結構型商品資訊",
+      "domain_tags": [
+        "warrant"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly cumulative statistics of offshore structured product sales and entrusted amounts with product counts",
+      "sample_fields": [
+        "商品數",
+        "﻿年月",
+        "金額(百萬台幣)"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/4-17",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/4-2",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/4-2",
+      "path": "/v1/opendata/4-2",
+      "method": "GET",
+      "description": "境外結構型商品商品總覽",
+      "category": "境外結構型商品資訊",
+      "domain_tags": [
+        "warrant"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Offshore structured product master data including product codes (ISIN), identifiers, issuers, issue/termination dates, characteristics, and investor information",
+      "sample_fields": [
+        "連結標的類別",
+        "總代理",
+        "投資人類別",
+        "ISIN_Common Code",
+        "﻿資料日期",
+        "計價幣別",
+        "終止生效日",
+        "商品國內發行日",
+        "商品名稱",
+        "受託或銷售機構",
+        "發行機構",
+        "計價貨幣本金保本率",
+        "商品代號"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "商品代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/4-2",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/4-3",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/4-3",
+      "path": "/v1/opendata/4-3",
+      "method": "GET",
+      "description": "境外結構型商品機構基本資料查詢",
+      "category": "境外結構型商品資訊",
+      "domain_tags": [
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Basic information and contact details for overseas structured product institutions",
+      "sample_fields": [
+        "機構代碼",
+        "電話",
+        "﻿資料日期",
+        "公司名稱",
+        "地址"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "機構代碼",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/4-3",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/4-4",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/4-4",
+      "path": "/v1/opendata/4-4",
+      "method": "GET",
+      "description": "境外結構型商品受託或銷售機構查詢",
+      "category": "境外結構型商品資訊",
+      "domain_tags": [
+        "warrant",
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Offshore structured product trustees and distributors with product codes, names, and institution identifiers",
+      "sample_fields": [
+        "類別",
+        "﻿資料日期",
+        "受託或銷售之商品代號",
+        "總機構代碼",
+        "受託或銷售之商品名稱",
+        "受託或銷售機構名稱"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "受託或銷售之商品代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/4-4",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/4-5",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/4-5",
+      "path": "/v1/opendata/4-5",
+      "method": "GET",
+      "description": "境外結構型商品參考價格查詢",
+      "category": "境外結構型商品資訊",
+      "domain_tags": [
+        "warrant",
+        "price"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Daily reference prices for offshore structured products with product identifiers and codes",
+      "sample_fields": [
+        "商品名稱",
+        "日期",
+        "﻿資料日期",
+        "商品代號",
+        "參考價格"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "商品代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/4-5",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/4-6",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/4-6",
+      "path": "/v1/opendata/4-6",
+      "method": "GET",
+      "description": "境外結構型商品配息資訊查詢",
+      "category": "境外結構型商品資訊",
+      "domain_tags": [
+        "warrant",
+        "dividend"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Offshore structured product dividend distribution information including product details, issuers, distribution rates, currencies, and payment dates",
+      "sample_fields": [
+        "商品名稱",
+        "發行機構",
+        "發行人/總代理人",
+        "﻿資料日期",
+        "配息率",
+        "幣別",
+        "商品代號",
+        "配息日"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "商品代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/4-6",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-30",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-30",
+      "path": "/v1/opendata/3-30",
+      "method": "GET",
+      "description": "境外基金基金總覽-其他基金類型",
+      "category": "期信基金資訊",
+      "domain_tags": [
+        "etf_fund",
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Offshore fund overview data including fund names, types, net asset values, investment regions, pricing currencies, and fund management institutions",
+      "sample_fields": [
+        "基金名稱",
+        "淨值日期",
+        "基金種類",
+        "投資細項",
+        "境外基金機構",
+        "最新淨值(元)",
+        "﻿資料日期",
+        "計價幣別",
+        "基金總代理名稱",
+        "投資區域",
+        "基金細項"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-30",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/3-31",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/3-31",
+      "path": "/v1/opendata/3-31",
+      "method": "GET",
+      "description": "境外基金投資人服務及保護-反稀釋機制",
+      "category": "期信基金資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Offshore fund investor protection information including fund codes, fund names, general agents, and anti-dilution mechanism details",
+      "sample_fields": [
+        "更新日期",
+        "總代理人",
+        "日期",
+        "內容",
+        "備註",
+        "基金代碼",
+        "﻿基金名稱"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "基金代碼",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/3-31",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-1",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-1",
+      "path": "/v1/opendata/2-1",
+      "method": "GET",
+      "description": "集中保管有價證券業務概況表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "ownership"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Securities account holder statistics including total accounts, new accounts opened, account terminations, and cumulative accounts by year/month",
+      "sample_fields": [
+        "總開戶數",
+        "解約數",
+        "﻿資料年月",
+        "累計開戶數",
+        "新開戶數"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-1",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-10",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-10",
+      "path": "/v1/opendata/2-10",
+      "method": "GET",
+      "description": "票券保管結算交割統計表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "volume"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Primary and secondary market securities settlement and trading volumes, including underwriting, conditional transactions, and redemption statistics",
+      "sample_fields": [
+        "初級市場承銷/首買",
+        "次級市場小計",
+        "次級市場附條件交易",
+        "﻿資料年月",
+        "次級市場附條件履約",
+        "初級市場兌償",
+        "合計",
+        "次級市場買賣斷"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-10",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-2",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-2",
+      "path": "/v1/opendata/2-2",
+      "method": "GET",
+      "description": "集中保管債券收付統計表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Bond settlement statistics tracking registered deposits, payments, and balances in both quantity and monetary value by period",
+      "sample_fields": [
+        "收存/登錄交付加項(張數)",
+        "付出/登錄交付減項(張數)",
+        "餘額(數量)",
+        "收存/登錄交付加項(金額)",
+        "﻿資料年月",
+        "付出/登錄交付減項(金額)",
+        "餘額(金額)"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-2",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-22",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-22",
+      "path": "/v1/opendata/2-22",
+      "method": "GET",
+      "description": "有價證券集中保管個別股票異動月分析表－上市證券",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "ownership"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly statistics on TDCC-deposited securities quantities, shareholder account counts, and month-over-month changes for listed stocks",
+      "sample_fields": [
+        "股票名稱",
+        "本月底保管千股數",
+        "增減數額",
+        "增減百分比",
+        "﻿資料年月",
+        "集保股東戶數",
+        "股票代號",
+        "前月底保管千股數",
+        "發行千股數"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "股票代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-22",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-23",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-23",
+      "path": "/v1/opendata/2-23",
+      "method": "GET",
+      "description": "有價證券集中保管個別股票異動月分析表－上櫃證券",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "ownership"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly custodial shareholding statistics including share volumes, shareholder counts, and month-over-month changes for OTC-listed securities",
+      "sample_fields": [
+        "股票名稱",
+        "本月底保管千股數",
+        "增減數額",
+        "增減百分比",
+        "﻿資料年月",
+        "集保股東戶數",
+        "股票代號",
+        "前月底保管千股數",
+        "發行千股數"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "股票代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-23",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-24",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-24",
+      "path": "/v1/opendata/2-24",
+      "method": "GET",
+      "description": "有價證券集中保管個別股票異動月分析表－興櫃證券",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "ownership",
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly custody shares, shareholder count, and share distribution changes for emerging securities",
+      "sample_fields": [
+        "股票名稱",
+        "本月底保管千股數",
+        "增減數額",
+        "增減百分比",
+        "﻿資料年月",
+        "集保股東戶數",
+        "股票代號",
+        "前月底保管千股數",
+        "發行千股數"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "股票代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-24",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-25",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-25",
+      "path": "/v1/opendata/2-25",
+      "method": "GET",
+      "description": "上市保管有價證券週餘額表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "ownership"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Weekly securities custody holdings statistics for listed equities, including previous/current week balances, change amounts and ratios, and issuance information",
+      "sample_fields": [
+        "股票名稱",
+        "增減數額",
+        "增減比率",
+        "上週餘額",
+        "﻿資料日期",
+        "股票代號",
+        "發行比率",
+        "本週餘額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "股票代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-25",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-26",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-26",
+      "path": "/v1/opendata/2-26",
+      "method": "GET",
+      "description": "上櫃保管有價證券週餘額表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "ownership"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Weekly custody balance and change statistics of OTC-listed equity securities held in the central depository",
+      "sample_fields": [
+        "股票名稱",
+        "增減數額",
+        "增減比率",
+        "上週餘額",
+        "﻿資料日期",
+        "股票代號",
+        "發行比率",
+        "本週餘額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "股票代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-26",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-27",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-27",
+      "path": "/v1/opendata/2-27",
+      "method": "GET",
+      "description": "上櫃保管有價證券週餘額表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "ownership"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Weekly custody balance and changes for listed equity securities held at TDCC",
+      "sample_fields": [
+        "股票名稱",
+        "增減數額",
+        "增減比率",
+        "上週餘額",
+        "﻿資料日期",
+        "股票代號",
+        "發行比率",
+        "本週餘額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "股票代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-27",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-28",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-28",
+      "path": "/v1/opendata/2-28",
+      "method": "GET",
+      "description": "上市櫃檯合併保管有價證券週餘額表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "ownership"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Weekly balance of securities custodially held at TDCC with stock identifiers and week-over-week changes in aggregate holdings",
+      "sample_fields": [
+        "股票名稱",
+        "增減數額",
+        "增減比率",
+        "上週餘額",
+        "﻿資料日期",
+        "股票代號",
+        "發行比率",
+        "本週餘額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "股票代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-28",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-29",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-29",
+      "path": "/v1/opendata/2-29",
+      "method": "GET",
+      "description": "上市櫃檯合併保管有價證券週餘額表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "ownership"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Weekly custody balance of equity securities held at TDCC depository, including previous/current week amounts, changes in quantities and percentages, and issuance ratios",
+      "sample_fields": [
+        "股票名稱",
+        "增減數額",
+        "增減比率",
+        "上週餘額",
+        "﻿資料日期",
+        "股票代號",
+        "發行比率",
+        "本週餘額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "股票代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-29",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-3",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-3",
+      "path": "/v1/opendata/2-3",
+      "method": "GET",
+      "description": "集中保管債券收付統計表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Central depository bond custody statistics including physical custody volumes, dematerialized holdings, and quantity distributions across listed and unlisted bonds by month.",
+      "sample_fields": [
+        "實體保管(佔總保管股數比例)",
+        "總保管股數(上市櫃股數)",
+        "總保管股數(合計)",
+        "實體保管(張數)",
+        "無實體登錄(股數)",
+        "﻿資料年月",
+        "無實體登錄(佔總保管股數比例)",
+        "總保管股數(未上市櫃股數)",
+        "實體保管(股數)"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-3",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-39",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-39",
+      "path": "/v1/opendata/2-39",
+      "method": "GET",
+      "description": "境外結構型商品受託或銷售金額每月累計統計表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "warrant",
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly cumulative statistics on offshore structured products including product count and sales/trust amounts",
+      "sample_fields": [
+        "商品數",
+        "﻿年月",
+        "金額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-39",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-4",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-4",
+      "path": "/v1/opendata/2-4",
+      "method": "GET",
+      "description": "集中保管有價證券帳簿劃撥統計表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "volume",
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Trading volume and turnover statistics across TWSE, TPEx, and OTC markets for equities and bonds, including daily average and total figures",
+      "sample_fields": [
+        "興櫃證券平均每日成交量",
+        "店頭議價債券平均每日成交金額",
+        "﻿資料年月",
+        "上櫃證券平均每日成交量",
+        "上市證券總成交量",
+        "興櫃證券總成交量",
+        "上市證券平均每日成交量",
+        "上櫃證券總成交量",
+        "店頭議價債券總成交金額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-4",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-41",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-41",
+      "path": "/v1/opendata/2-41",
+      "method": "GET",
+      "description": "集中保管ETF月分析表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly ETF custody statistics including total holdings, number of account holders, and month-to-month changes by unit",
+      "sample_fields": [
+        "增減數額",
+        "發行單位數",
+        "證券名稱",
+        "證券代號",
+        "增減百分比",
+        "﻿資料年月",
+        "本月底保管數",
+        "集保戶數",
+        "前月底保管數"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "證券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-41",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-42",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-42",
+      "path": "/v1/opendata/2-42",
+      "method": "GET",
+      "description": "集中保管開放式受益憑證月分析表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "etf_fund"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly custodial statistics for open-end beneficiary certificates, including holdings quantity, number of accounts, and month-over-month changes.",
+      "sample_fields": [
+        "增減數額",
+        "增減百分比",
+        "﻿資料年月",
+        "開放式受益憑證名稱",
+        "本月底保管數",
+        "開放式受益憑證代號",
+        "集保戶數",
+        "前月底保管數"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "開放式受益憑證代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-42",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-43",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-43",
+      "path": "/v1/opendata/2-43",
+      "method": "GET",
+      "description": "集中保管黃金現貨月分析表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly gold spot holdings distribution in TDCC custody, with spot identifiers and account holder counts",
+      "sample_fields": [
+        "黃金現貨名稱",
+        "﻿資料年月",
+        "集保戶數",
+        "黃金現貨代號"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "黃金現貨代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-43",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-44",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-44",
+      "path": "/v1/opendata/2-44",
+      "method": "GET",
+      "description": "集中保管TDR月分析表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "ownership"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly TDR (Taiwan Depositary Receipt) holdings statistics including custody amounts, custodial account counts, issued units, and monthly changes",
+      "sample_fields": [
+        "增減數額",
+        "發行單位數",
+        "證券名稱",
+        "證券代號",
+        "增減百分比",
+        "﻿資料年月",
+        "本月底保管數",
+        "集保戶數",
+        "前月底保管數"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "證券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-44",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-5",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-5",
+      "path": "/v1/opendata/2-5",
+      "method": "GET",
+      "description": "帳簿劃撥配發新股統計表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "corporate_action"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Statistics on new stock distributions via book entry transfers, including counts of families, accounts, shares, and distribution dates",
+      "sample_fields": [
+        "家次",
+        "簽約家數",
+        "﻿資料年月",
+        "戶次",
+        "股數"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-5",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-6",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-6",
+      "path": "/v1/opendata/2-6",
+      "method": "GET",
+      "description": "集中保管有價證券帳簿劃撥設質交付統計表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "margin_trading"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Aggregate statistics on pledged collateral for equity securities in central custody, including balances, transaction counts, and growth rates",
+      "sample_fields": [
+        "設質餘額(股數)",
+        "質權設定(股數)",
+        "質權解除/實行質權(股數)",
+        "﻿資料年月",
+        "質權解除/實行質權(筆數)",
+        "設質餘額(筆數)",
+        "設質餘額(成長率)",
+        "質權設定(筆數)"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-6",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-7",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-7",
+      "path": "/v1/opendata/2-7",
+      "method": "GET",
+      "description": "境外基金交易平台業務量統計表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "etf_fund",
+        "volume"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Offshore mutual fund trading platform transaction statistics including purchase, conversion, and redemption counts and amounts by month",
+      "sample_fields": [
+        "轉換(筆數)",
+        "﻿資料年月",
+        "申購(筆數)",
+        "申購(金額)",
+        "轉換(金額)",
+        "買回(筆數)",
+        "買回(金額)"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-7",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-8",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-8",
+      "path": "/v1/opendata/2-8",
+      "method": "GET",
+      "description": "可轉換公司債月分析表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly convertible bond custody, issuance units, and account statistics with month-over-month changes",
+      "sample_fields": [
+        "增減數額",
+        "可轉換公司債代號",
+        "增減百分比",
+        "發行張數",
+        "﻿資料年月",
+        "本月底保管張數",
+        "集保股東戶數",
+        "前月底保管張數",
+        "可轉換公司債名稱"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "可轉換公司債代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-8",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/2-9",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/2-9",
+      "path": "/v1/opendata/2-9",
+      "method": "GET",
+      "description": "認購售權證月分析表",
+      "category": "權益證券類 統計資訊",
+      "domain_tags": [
+        "warrant"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Monthly warrant custody statistics including holdings, issuance volume, custodian accounts, and month-over-month changes",
+      "sample_fields": [
+        "增減數額",
+        "發行單位數",
+        "增減百分比",
+        "認購售權證代號",
+        "﻿資料年月",
+        "本月底保管數",
+        "集保戶數",
+        "認購售權證名稱",
+        "前月底保管數"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "認購售權證代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/2-9",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/1-1",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/1-1",
+      "path": "/v1/opendata/1-1",
+      "method": "GET",
+      "description": "證券基本資料",
+      "category": "股務資訊",
+      "domain_tags": [
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Securities master data including codes, names, par values, status, currency, and market attributes",
+      "sample_fields": [
+        "﻿證券代號",
+        "每股面額(元)",
+        "更新日期",
+        "證券名稱",
+        "限制部分帳簿劃撥功能註記",
+        "發行幣別",
+        "停止過戶領回",
+        "市場別",
+        "證券狀態",
+        "歸戶領回",
+        "無面無實體",
+        "股務單位"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "﻿證券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/1-1",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/1-10",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/1-10",
+      "path": "/v1/opendata/1-10",
+      "method": "GET",
+      "description": "私募有價證券無實體登錄資料查詢：特別股",
+      "category": "股務資訊",
+      "domain_tags": [
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Preferred stock master data including codes, names, and registered amounts by date",
+      "sample_fields": [
+        "特別股代號",
+        "﻿資料日期",
+        "特別股名稱",
+        "登錄數額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "特別股代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/1-10",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/1-11",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/1-11",
+      "path": "/v1/opendata/1-11",
+      "method": "GET",
+      "description": "私募有價證券無實體登錄資料查詢：公司債",
+      "category": "股務資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Corporate bond immaterial registration data including bond code, name, date, and registered amount",
+      "sample_fields": [
+        "公司債券代號",
+        "﻿資料日期",
+        "公司債券名稱",
+        "登錄數額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "公司債券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/1-11",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/1-12",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/1-12",
+      "path": "/v1/opendata/1-12",
+      "method": "GET",
+      "description": "私募有價證券無實體登錄資料查詢：轉換公司債",
+      "category": "股務資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Convertible corporate bond registration data including bond codes, names, dates, and registration amounts",
+      "sample_fields": [
+        "轉換公司債券代號",
+        "﻿資料日期",
+        "轉換公司債券名稱",
+        "登錄數額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "轉換公司債券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/1-12",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/1-13",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/1-13",
+      "path": "/v1/opendata/1-13",
+      "method": "GET",
+      "description": "有價證券轉(交)換/認股價格變更資料查詢",
+      "category": "股務資訊",
+      "domain_tags": [
+        "warrant",
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Conversion/exchange details and pricing information for convertible securities and warrants",
+      "sample_fields": [
+        "證券名稱",
+        "證券代號",
+        "轉(交)換後證券代號",
+        "﻿資料日期",
+        "轉(交)換價格",
+        "轉(交)換後證券名稱"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "證券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/1-13",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/1-14",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/1-14",
+      "path": "/v1/opendata/1-14",
+      "method": "GET",
+      "description": "有價證券董事收購相關資訊",
+      "category": "股務資訊",
+      "domain_tags": [
+        "ownership"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Director and insider securities purchases with purchase periods, security identifiers, prices, and transaction dates",
+      "sample_fields": [
+        "收購起日",
+        "收購迄日",
+        "證券名稱",
+        "證券代號",
+        "收購價格",
+        "﻿資料日期"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "證券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/1-14",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/1-2",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/1-2",
+      "path": "/v1/opendata/1-2",
+      "method": "GET",
+      "description": "公司股務單位資料",
+      "category": "股務資訊",
+      "domain_tags": [
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Shareholder services unit contact information, addresses, and operational details for listed companies",
+      "sample_fields": [
+        "證券名稱",
+        "證券代號",
+        "電話",
+        "﻿資料日期",
+        "市場別",
+        "股務單位地址",
+        "股務單位",
+        "備 註(終止日期)"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "證券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/1-2",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/1-3",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/1-3",
+      "path": "/v1/opendata/1-3",
+      "method": "GET",
+      "description": "固定收益證券發行資料",
+      "category": "股務資訊",
+      "domain_tags": [
+        "bond",
+        "reference"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Fixed income securities issuance data including bond identifiers, issuing institutions, and issuance method information",
+      "sample_fields": [
+        "發行機構名稱",
+        "債券代號",
+        "債券簡稱",
+        "﻿資料日期",
+        "發行辦法檔案網址(http://www.tdcc.com.tw/tcdata/tc11/)",
+        "發行機構名稱(英文)",
+        "發行辦法名稱"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "債券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/1-3",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/1-4",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/1-4",
+      "path": "/v1/opendata/1-4",
+      "method": "GET",
+      "description": "發行人董監分戶保管",
+      "category": "股務資訊",
+      "domain_tags": [
+        "ownership",
+        "governance"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Director/supervisor segregated safekeeping share inventory with mandatory and specific custody totals by security",
+      "sample_fields": [
+        "強制集保總股數",
+        "證券名稱",
+        "發行仟股數",
+        "證券代號",
+        "﻿資料日期",
+        "特定保管股數",
+        "分戶保管股數"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "證券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/1-4",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/1-5",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/1-5",
+      "path": "/v1/opendata/1-5",
+      "method": "GET",
+      "description": "集保戶股權分散表",
+      "category": "股務資訊",
+      "domain_tags": [
+        "ownership"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Shareholding distribution by tier, showing the number of shareholders in each bracket and their percentage of total TDCC holdings",
+      "sample_fields": [
+        "證券代號",
+        "占集保庫存數比例%",
+        "人數",
+        "﻿資料日期",
+        "股數",
+        "持股分級"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "證券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/1-5",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/1-6",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/1-6",
+      "path": "/v1/opendata/1-6",
+      "method": "GET",
+      "description": "債券持有對象分析",
+      "category": "股務資訊",
+      "domain_tags": [
+        "bond",
+        "ownership"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Bond holdings breakdown by holder type (individuals, corporates, proprietary traders, custodians) with bond details and balances",
+      "sample_fields": [
+        "債券代號",
+        "法人戶持有比率",
+        "自營商持有比率",
+        "其他持有比率",
+        "﻿資料年月",
+        "債券名稱",
+        "個人戶持有比率",
+        "保管機構持有比率",
+        "債券類別",
+        "債券餘額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "債券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/1-6",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/1-7",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/1-7",
+      "path": "/v1/opendata/1-7",
+      "method": "GET",
+      "description": "有價證券帳簿劃撥配發交付日期一覽表",
+      "category": "股務資訊",
+      "domain_tags": [
+        "corporate_action",
+        "dividend"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Securities delivery dates and allocation reasons for corporate action distributions through the depository system",
+      "sample_fields": [
+        "﻿證券代號",
+        "證券名稱",
+        "交付原因",
+        "交付日期"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "﻿證券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/1-7",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/1-8-1",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/1-8-1",
+      "path": "/v1/opendata/1-8-1",
+      "method": "GET",
+      "description": "債券基本資料",
+      "category": "股務資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Bond master data including issue details, interest rates, maturity dates, currency, ISIN code, and redemption information.",
+      "sample_fields": [
+        "發行日期",
+        "利率別",
+        "登錄機構",
+        "債券簡稱",
+        "﻿資料日期",
+        "債券名稱",
+        "幣別",
+        "債券代號",
+        "利率",
+        "發行面額",
+        "ISIN Code",
+        "到期日",
+        "本息兌領機構名稱",
+        "還本方式"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "債券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/1-8-1",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/1-8-2",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/1-8-2",
+      "path": "/v1/opendata/1-8-2",
+      "method": "GET",
+      "description": "債券還本付息明細資料",
+      "category": "股務資訊",
+      "domain_tags": [
+        "bond"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Bond principal repayment and interest payment schedule including payment dates, amounts, and bond identifiers",
+      "sample_fields": [
+        "還本付息日",
+        "付息金額",
+        "債券代號",
+        "還本金額",
+        "實際付款日",
+        "﻿資料日期",
+        "最小發行面額/發行總額",
+        "還本付息期次"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "債券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/1-8-2",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "tdcc:openapi:/v1/opendata/1-9",
+      "source": "tdcc",
+      "endpoint_type": "openapi",
+      "url": "https://openapi.tdcc.com.tw/v1/opendata/1-9",
+      "path": "/v1/opendata/1-9",
+      "method": "GET",
+      "description": "私募有價證券無實體登錄資料查詢：普通股",
+      "category": "股務資訊",
+      "domain_tags": [
+        "reference",
+        "ownership"
+      ],
+      "granularity": "snapshot",
+      "coverage": null,
+      "fields_summary": "Private securities registration data including security identifiers, registration date, and registered share quantities",
+      "sample_fields": [
+        "證券名稱",
+        "證券代號",
+        "﻿資料日期",
+        "登錄數額"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "證券代號",
+      "request_example": {
+        "url": "https://openapi.tdcc.com.tw/v1/opendata/1-9",
+        "method": "GET"
       }
     },
     {

@@ -29,7 +29,7 @@ def _generate_markdown(endpoints: list[EndpointInfo]) -> str:
     lines.append("| Source | Type | Total | OK | Empty | Error | History |")
     lines.append("|--------|------|-------|----|-------|-------|---------|")
 
-    for source in ["twse", "tpex", "mops"]:
+    for source in ["twse", "tpex", "mops", "tdcc"]:
         eps = by_source.get(source, [])
         by_type: dict[str, list[EndpointInfo]] = {}
         for ep in eps:
@@ -55,7 +55,7 @@ def _generate_markdown(endpoints: list[EndpointInfo]) -> str:
         "mops": "MOPS (Market Observation Post System)",
     }
 
-    for source in ["twse", "tpex", "mops"]:
+    for source in ["twse", "tpex", "mops", "tdcc"]:
         eps = by_source.get(source, [])
         if not eps:
             continue

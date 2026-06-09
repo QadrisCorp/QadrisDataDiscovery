@@ -19,6 +19,7 @@ class DiscoverySettings(BaseSettings):
     tpex_openapi_base: str = "https://www.tpex.org.tw/openapi/v1"
     tpex_web_base: str = "https://www.tpex.org.tw"
     mops_base: str = "https://mops.twse.com.tw"
+    tdcc_openapi_base: str = "https://openapi.tdcc.com.tw"
 
     # Output paths — default to cwd, overridable via RSR_PROJECT_ROOT
     project_root: Path = Path.cwd()
@@ -58,6 +59,7 @@ class DiscoverySettings(BaseSettings):
             ("tpex", "web"): self.tpex_web_base,
             ("mops", "web"): self.mops_base,
             ("mops", "xbrl"): self.mops_base,
+            ("tdcc", "openapi"): self.tdcc_openapi_base,
         }
         return mapping.get((source, endpoint_type), "")
 

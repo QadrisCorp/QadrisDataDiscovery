@@ -81,7 +81,7 @@ def search(
     ] = None,
     source: Annotated[
         str | None,
-        typer.Option("--source", "-s", help="Filter by source (twse/tpex/mops)"),
+        typer.Option("--source", "-s", help="Filter by source (twse/tpex/mops/tdcc)"),
     ] = None,
     status: Annotated[
         str | None, typer.Option("--status", help="Filter by status (ok/empty/error)")
@@ -310,8 +310,8 @@ def stats(
     table.add_column("Error", justify="right", style="red")
     table.add_column("Enriched", justify="right", style="magenta")
 
-    source_names = {"twse": "TWSE", "tpex": "TPEx", "mops": "MOPS"}
-    for src in ["twse", "tpex", "mops"]:
+    source_names = {"twse": "TWSE", "tpex": "TPEx", "mops": "MOPS", "tdcc": "TDCC"}
+    for src in ["twse", "tpex", "mops", "tdcc"]:
         eps = by_source.get(src, [])
         by_type: dict[str, list[EndpointInfo]] = {}
         for ep in eps:

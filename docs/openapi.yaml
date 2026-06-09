@@ -2,7 +2,7 @@ openapi: "3.1.0"
 info:
   title: Taiwan Financial Data Catalog API
   description: |
-    Static catalog of official Taiwan financial data API endpoints (TWSE, TPEx, MOPS).
+    Static catalog of official Taiwan financial data API endpoints (TWSE, TPEx, MOPS, TDCC).
     AI agents can fetch /catalog.json to discover available data sources,
     then call the actual endpoints directly.
   version: "1.0.0"
@@ -20,8 +20,8 @@ paths:
       operationId: getCatalog
       summary: Get the full endpoint catalog
       description: |
-        Returns a JSON object containing metadata about 606 official
-        Taiwan financial data API endpoints from TWSE, TPEx, and MOPS.
+        Returns a JSON object containing metadata about 703 official
+        Taiwan financial data API endpoints from TWSE, TPEx, MOPS, and TDCC.
         Each endpoint includes URL, method, description, domain tags,
         field summaries, and request examples.
       responses:
@@ -111,7 +111,7 @@ components:
           example: "twse:openapi:/exchangeReport/STOCK_DAY_ALL"
         source:
           type: string
-          enum: [twse, tpex, mops]
+          enum: [twse, tpex, mops, tdcc]
         endpoint_type:
           type: string
           enum: [openapi, web, xbrl]

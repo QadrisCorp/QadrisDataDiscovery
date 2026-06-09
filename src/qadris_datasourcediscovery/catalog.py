@@ -6,7 +6,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
-Source = Literal["twse", "tpex", "mops"]
+Source = Literal["twse", "tpex", "mops", "tdcc"]
 EndpointType = Literal["openapi", "web", "xbrl"]
 Status = Literal["unknown", "ok", "error", "timeout", "empty", "skipped"]
 State = Literal["discovered", "probed", "enriched"]
