@@ -1,6 +1,11 @@
 # QadrisDataDiscovery
 
-台灣官方金融資料源探索工具。自動發現、探測、標註 TWSE/TPEx/MOPS 的 API endpoint。
+官方金融資料源探索工具。自動發現、探測、標註官方 API endpoint。
+現況：台灣（TWSE/TPEx/MOPS/TDCC，DB 924 endpoints）；**日本擴充建置中**。
+
+> **進行中：日本市場擴充**——實作 SSOT 見 `docs/JP_EXTENSION_PLAN.md`
+> （框架泛化＋jquants/edinet/tdnet/jpx 四源，2026-07-07 定案，不走 steward、Bear 直接開 agent 實作）。
+> 開工前先讀該檔；完成一節就在該檔勾銷並補記偏離。
 
 ## Pipeline
 
