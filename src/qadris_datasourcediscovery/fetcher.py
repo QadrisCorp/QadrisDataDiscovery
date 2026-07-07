@@ -5,24 +5,53 @@ from __future__ import annotations
 import json
 import logging
 import time
-from io import StringIO
+from io import BytesIO, StringIO
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import pandas as pd
 import requests
 
 from qadris_datasourcediscovery.config import DiscoverySettings
 from qadris_datasourcediscovery.exceptions import FetchError
+from qadris_datasourcediscovery.registry import SOURCE_REGISTRY
 
 logger = logging.getLogger(__name__)
 
 
-def _create_session(*, settings: DiscoverySettings) -> requests.Session:
-    """Create a new HTTP session with configured headers."""
+def _create_session(
+    *, settings: DiscoverySettings, source: str | None = None
+) -> requests.Session:
+    """Create a new HTTP session with configured headers.
+
+    若 ``source`` 有 header 式認證（如 J-Quants x-api-key）且金鑰已設定，
+    自動注入認證 header。金鑰缺漏檢查由各 probe 呼叫
+    ``settings.require_api_key()`` 明確處理，這裡不拋錯。
+    """
     session = requests.Session()
     session.headers.update({"User-Agent": settings.user_agent})
+    if source:
+        spec = SOURCE_REGISTRY.get(source)
+        if spec and spec.auth and spec.auth.kind == "header":
+            key = settings.get_api_key(source)
+            if key:
+                session.headers[spec.auth.param_name] = key
     return session
+
+
+def auth_query_params(
+    source: str, *, settings: DiscoverySettings
+) -> dict[str, str]:
+    """Return query-param auth for a source（如 EDINET Subscription-Key）。
+
+    無 query 式認證或金鑰未設定時回傳空 dict。
+    """
+    spec = SOURCE_REGISTRY.get(source)
+    if spec and spec.auth and spec.auth.kind == "query":
+        key = settings.get_api_key(source)
+        if key:
+            return {spec.auth.param_name: key}
+    return {}
 
 
 def fetch_json(
@@ -117,6 +146,69 @@ def fetch_post_json(
         return None, resp.status_code
     except requests.RequestException as e:
         raise FetchError(f"POST JSON request failed {url}: {e}") from e
+
+
+def _find_header_row(df: pd.DataFrame, scan_rows: int = 15) -> int:
+    """在前 N 列中找最像 header 的一列（非空儲存格最多者，取最先）。
+
+    JPX 統計 Excel 常有標題列/註記列在真正欄位列之前。
+    """
+    best_idx = 0
+    best_count = -1
+    for i in range(min(scan_rows, len(df))):
+        count = int(df.iloc[i].notna().sum())
+        if count > best_count:
+            best_count = count
+            best_idx = i
+    return best_idx
+
+
+def fetch_excel_fields(
+    url: str,
+    *,
+    session: requests.Session,
+    settings: DiscoverySettings,
+) -> tuple[list[str], int, int]:
+    """下載 Excel（.xls/.xlsx）並擷取欄位名與資料列數。
+
+    Returns:
+        (fields, record_count, status_code)
+
+    Raises:
+        FetchError: 下載或解析失敗。
+    """
+    try:
+        resp = session.get(url, timeout=settings.request_timeout)
+        resp.raise_for_status()
+    except requests.RequestException as e:
+        raise FetchError(f"Excel fetch failed {url}: {e}") from e
+
+    content = resp.content
+    # 內容 sniff：xlsx 是 zip（PK），舊式 .xls 是 OLE2（D0 CF）
+    engine: Literal["openpyxl", "xlrd"]
+    if content[:2] == b"PK":
+        engine = "openpyxl"
+    elif content[:2] == b"\xd0\xcf":
+        engine = "xlrd"
+    else:
+        raise FetchError(f"Not an Excel file (magic={content[:4]!r}): {url}")
+
+    try:
+        df = pd.read_excel(BytesIO(content), header=None, engine=engine)
+    except Exception as e:
+        raise FetchError(f"Excel parse failed {url}: {e}") from e
+
+    if df.empty:
+        return [], 0, resp.status_code
+
+    header_idx = _find_header_row(df)
+    fields = [
+        str(v).strip().replace("\n", " ")
+        for v in df.iloc[header_idx].tolist()
+        if pd.notna(v) and str(v).strip()
+    ]
+    record_count = max(0, len(df) - header_idx - 1)
+    return fields, record_count, resp.status_code
 
 
 def save_sample(

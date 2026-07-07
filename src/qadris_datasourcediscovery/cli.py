@@ -14,10 +14,16 @@ from rich.table import Table
 from qadris_datasourcediscovery.catalog import EndpointInfo
 from qadris_datasourcediscovery.config import DiscoverySettings
 from qadris_datasourcediscovery.enrich import enrich_all
+from qadris_datasourcediscovery.exceptions import ConfigurationError
 from qadris_datasourcediscovery.llm import ClaudeCLI
+from qadris_datasourcediscovery.registry import (
+    SOURCE_REGISTRY,
+    get_market,
+    sources_for_market,
+)
 from qadris_datasourcediscovery.store import CatalogDB
 
-app = typer.Typer(help="Taiwan financial data source catalog tool.")
+app = typer.Typer(help="Official financial data source catalog tool (TW/JP).")
 console = Console()
 
 
@@ -81,7 +87,15 @@ def search(
     ] = None,
     source: Annotated[
         str | None,
-        typer.Option("--source", "-s", help="Filter by source (twse/tpex/mops/tdcc)"),
+        typer.Option(
+            "--source",
+            "-s",
+            help="Filter by source (twse/tpex/mops/tdcc/jquants/edinet/tdnet/jpx)",
+        ),
+    ] = None,
+    market: Annotated[
+        str | None,
+        typer.Option("--market", "-m", help="Filter by market (tw/jp)"),
     ] = None,
     status: Annotated[
         str | None, typer.Option("--status", help="Filter by status (ok/empty/error)")
@@ -96,8 +110,10 @@ def search(
     ] = None,
     output_json: Annotated[bool, typer.Option("--json", help="Output as JSON")] = False,
 ) -> None:
-    """Search endpoints by tag, keyword, source, status, or state."""
+    """Search endpoints by tag, keyword, source, market, status, or state."""
     endpoints = _load_endpoints(source=source, status=status, state=state)
+    if market:
+        endpoints = [ep for ep in endpoints if get_market(ep.source) == market]
     matches = [
         ep
         for ep in endpoints
@@ -268,10 +284,16 @@ def tags(
 
 @app.command()
 def stats(
+    market: Annotated[
+        str | None,
+        typer.Option("--market", "-m", help="Filter by market (tw/jp)"),
+    ] = None,
     output_json: Annotated[bool, typer.Option("--json", help="Output as JSON")] = False,
 ) -> None:
     """Show catalog summary statistics."""
     endpoints = _load_endpoints()
+    if market:
+        endpoints = [ep for ep in endpoints if get_market(ep.source) == market]
 
     by_source: dict[str, list[EndpointInfo]] = {}
     for ep in endpoints:
@@ -302,6 +324,7 @@ def stats(
     console.print(f"Enriched: {enriched_count}/{len(endpoints)}\n")
 
     table = Table(title="By Source")
+    table.add_column("Market", width=6)
     table.add_column("Source", style="cyan")
     table.add_column("Type")
     table.add_column("Total", justify="right")
@@ -310,8 +333,8 @@ def stats(
     table.add_column("Error", justify="right", style="red")
     table.add_column("Enriched", justify="right", style="magenta")
 
-    source_names = {"twse": "TWSE", "tpex": "TPEx", "mops": "MOPS", "tdcc": "TDCC"}
-    for src in ["twse", "tpex", "mops", "tdcc"]:
+    for src in sources_for_market(market):
+        spec = SOURCE_REGISTRY[src]
         eps = by_source.get(src, [])
         by_type: dict[str, list[EndpointInfo]] = {}
         for ep in eps:
@@ -323,7 +346,8 @@ def stats(
             error = sum(1 for e in type_eps if e.status == "error")
             enriched = sum(1 for e in type_eps if e.domain_tags)
             table.add_row(
-                source_names.get(src, src),
+                spec.market,
+                spec.display_name,
                 etype,
                 str(len(type_eps)),
                 str(ok),
@@ -338,7 +362,12 @@ def stats(
 
 @app.command()
 def probe(
-    source: Annotated[str, typer.Argument(help="Source to probe (twse)")] = "twse",
+    source: Annotated[
+        str,
+        typer.Argument(
+            help="Source to probe (twse/tpex/mops/jquants/edinet/tdnet/jpx)"
+        ),
+    ] = "twse",
     limit: Annotated[
         int, typer.Option("--limit", "-n", help="Max endpoints to probe")
     ] = 10,
@@ -348,21 +377,19 @@ def probe(
 
     settings = _get_settings()
 
-    if source == "twse":
-        from qadris_datasourcediscovery.discover_tse_web import probe_discovered
-
-        results = probe_discovered(settings=settings, limit=limit)
-    elif source == "tpex":
-        from qadris_datasourcediscovery.discover_otc_web import probe_discovered
-
-        results = probe_discovered(settings=settings, limit=limit)
-    elif source == "mops":
-        from qadris_datasourcediscovery.discover_mops import probe_discovered
-
-        results = probe_discovered(settings=settings, limit=limit)
-    else:
+    spec = SOURCE_REGISTRY.get(source)
+    if spec is None or spec.probe_module is None:
         console.print(f"[red]Probe not implemented for source: {source}[/red]")
         raise typer.Exit(1)
+
+    import importlib
+
+    module = importlib.import_module(spec.probe_module)
+    try:
+        results = module.probe_discovered(settings=settings, limit=limit)
+    except ConfigurationError as e:
+        console.print(f"[red]{e}[/red]")
+        raise typer.Exit(1) from None
 
     with _get_db() as db:
         db.upsert_endpoints(results)

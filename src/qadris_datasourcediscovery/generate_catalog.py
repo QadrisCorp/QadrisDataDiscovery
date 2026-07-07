@@ -6,6 +6,7 @@ import logging
 
 from qadris_datasourcediscovery.catalog import EndpointInfo
 from qadris_datasourcediscovery.config import DiscoverySettings
+from qadris_datasourcediscovery.registry import SOURCE_REGISTRY
 from qadris_datasourcediscovery.store import CatalogDB
 
 logger = logging.getLogger(__name__)
@@ -14,7 +15,7 @@ logger = logging.getLogger(__name__)
 def _generate_markdown(endpoints: list[EndpointInfo]) -> str:
     """Generate markdown report."""
     lines: list[str] = []
-    lines.append("# Taiwan Official Financial Data Source Catalog")
+    lines.append("# Official Financial Data Source Catalog (TW/JP)")
     lines.append("")
     lines.append(f"**Total: {len(endpoints)} endpoints**")
     lines.append("")
@@ -26,10 +27,10 @@ def _generate_markdown(endpoints: list[EndpointInfo]) -> str:
 
     lines.append("## Summary Statistics")
     lines.append("")
-    lines.append("| Source | Type | Total | OK | Empty | Error | History |")
-    lines.append("|--------|------|-------|----|-------|-------|---------|")
+    lines.append("| Market | Source | Type | Total | OK | Empty | Error | History |")
+    lines.append("|--------|--------|------|-------|----|-------|-------|---------|")
 
-    for source in ["twse", "tpex", "mops", "tdcc"]:
+    for source, spec in SOURCE_REGISTRY.items():
         eps = by_source.get(source, [])
         by_type: dict[str, list[EndpointInfo]] = {}
         for ep in eps:
@@ -40,27 +41,19 @@ def _generate_markdown(endpoints: list[EndpointInfo]) -> str:
             empty = sum(1 for e in type_eps if e.status == "empty")
             error = sum(1 for e in type_eps if e.status == "error")
             hist = sum(1 for e in type_eps if e.supports_history)
-            source_name = {"twse": "TWSE", "tpex": "TPEx", "mops": "MOPS"}[source]
             lines.append(
-                f"| {source_name} | {etype} | {len(type_eps)} "
+                f"| {spec.market} | {spec.display_name} | {etype} | {len(type_eps)} "
                 f"| {ok} | {empty} | {error} | {hist} |"
             )
 
     lines.append("")
 
-    # Detail per source
-    source_names = {
-        "twse": "TWSE (Taiwan Stock Exchange)",
-        "tpex": "TPEx (Taipei Exchange)",
-        "mops": "MOPS (Market Observation Post System)",
-    }
-
-    for source in ["twse", "tpex", "mops", "tdcc"]:
+    for source, spec in SOURCE_REGISTRY.items():
         eps = by_source.get(source, [])
         if not eps:
             continue
 
-        lines.append(f"## {source_names[source]}")
+        lines.append(f"## {spec.name_en}")
         lines.append("")
 
         source_by_type: dict[str, list[EndpointInfo]] = {}
@@ -143,6 +136,52 @@ def _generate_markdown(endpoints: list[EndpointInfo]) -> str:
     lines.append("- Monthly revenue via `/nas/t21/{type}/` static HTML")
     lines.append("- Financial statements return HTML tables directly")
     lines.append("- Date format: ROC calendar year")
+    lines.append("")
+    lines.append("### TDCC")
+    lines.append(
+        "- **OpenAPI**: `https://openapi.tdcc.com.tw` — snapshot only, no history"
+    )
+    lines.append("")
+    lines.append("### J-Quants (JP)")
+    lines.append(
+        "- **API**: `https://api.jquants.com/v2` — JPX official REST API, "
+        "requires API key (`x-api-key` header, RSR_JQUANTS_API_KEY)"
+    )
+    lines.append(
+        "- Rate limit: Free plan 5 req/min; plan tier per endpoint noted in `notes`"
+    )
+    lines.append("- Date format: `YYYY-MM-DD`; pagination via `pagination_key`")
+    lines.append("")
+    lines.append("### EDINET (JP)")
+    lines.append(
+        "- **API v2**: `https://api.edinet-fsa.go.jp/api/v2` — requires "
+        "`Subscription-Key` query param (RSR_EDINET_API_KEY, free registration)"
+    )
+    lines.append(
+        "- Document list by filing date; document fetch by docID + type "
+        "(1=XBRL zip, 2=PDF, 5=CSV zip)"
+    )
+    lines.append("")
+    lines.append("### TDnet (JP)")
+    lines.append(
+        "- **Web**: `https://www.release.tdnet.info` — free window is "
+        "**last 31 days only**; no official free API"
+    )
+    lines.append("- Daily list pages: `/inbs/I_list_{page}_{YYYYMMDD}.html`")
+    lines.append("")
+    lines.append("### JPX (JP)")
+    lines.append(
+        "- **Web**: `https://www.jpx.co.jp` statistics pages — mostly Excel "
+        "downloads; some tables PDF-only"
+    )
+    lines.append(
+        "- File URLs contain random CMS paths — must re-crawl listing pages, "
+        "never hardcode file URLs"
+    )
+    lines.append(
+        "- Cloud-hosted clients get HTTP 403 (independent of User-Agent); "
+        "fetch from a residential/local machine"
+    )
     lines.append("")
 
     return "\n".join(lines)

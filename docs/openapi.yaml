@@ -1,11 +1,12 @@
 openapi: "3.1.0"
 info:
-  title: Taiwan Financial Data Catalog API
+  title: Official Financial Data Catalog API (Taiwan & Japan)
   description: |
-    Static catalog of official Taiwan financial data API endpoints (TWSE, TPEx, MOPS, TDCC).
+    Static catalog of official financial data API endpoints:
+    Taiwan (TWSE, TPEx, MOPS, TDCC) and Japan (J-Quants, EDINET, TDnet, JPX).
     AI agents can fetch /catalog.json to discover available data sources,
     then call the actual endpoints directly.
-  version: "1.0.0"
+  version: "2.0.0"
   contact:
     name: QadrisCorp
     url: https://github.com/QadrisCorp/QadrisDataDiscovery
@@ -20,8 +21,9 @@ paths:
       operationId: getCatalog
       summary: Get the full endpoint catalog
       description: |
-        Returns a JSON object containing metadata about 703 official
-        Taiwan financial data API endpoints from TWSE, TPEx, MOPS, and TDCC.
+        Returns a JSON object containing metadata about 877 official
+        financial data API endpoints from Taiwan (TWSE, TPEx, MOPS, TDCC) and
+        Japan (J-Quants, EDINET, TDnet, JPX).
         Each endpoint includes URL, method, description, domain tags,
         field summaries, and request examples.
       responses:
@@ -84,7 +86,7 @@ components:
           type: integer
         sources:
           type: object
-          description: "Map of source key (twse, tpex, mops) to source metadata"
+          description: "Map of source key (twse/tpex/mops/tdcc/jquants/edinet/tdnet/jpx) to metadata"
           additionalProperties:
             type: object
             properties:
@@ -93,7 +95,11 @@ components:
                 description: English name of the data source
               name_zh:
                 type: string
-                description: Chinese name of the data source
+                description: Local-language name of the data source
+              market:
+                type: string
+                enum: [tw, jp]
+                description: Market the source belongs to
               base_urls:
                 type: object
                 description: "Map of endpoint_type to base URL"
@@ -111,7 +117,11 @@ components:
           example: "twse:openapi:/exchangeReport/STOCK_DAY_ALL"
         source:
           type: string
-          enum: [twse, tpex, mops, tdcc]
+          enum: [twse, tpex, mops, tdcc, jquants, edinet, tdnet, jpx]
+        market:
+          type: string
+          enum: [tw, jp]
+          description: Market the source belongs to
         endpoint_type:
           type: string
           enum: [openapi, web, xbrl]
@@ -142,6 +152,7 @@ components:
         coverage:
           type: [string, "null"]
           enum: [listed_only, otc_only, all, null]
+          description: "For jp sources 'all' = all TSE segments (Prime/Standard/Growth)"
         fields_summary:
           type: string
           description: LLM-generated summary of response fields
@@ -164,7 +175,7 @@ components:
           description: Complete request example with URL, method, params
         response_format:
           type: [string, "null"]
-          enum: [json, html_table, null]
+          enum: [json, html_table, excel, pdf, csv, zip, null]
         date_params:
           type: array
           items:

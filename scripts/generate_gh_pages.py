@@ -18,6 +18,7 @@ from typing import Any
 
 from qadris_datasourcediscovery.catalog import EndpointInfo
 from qadris_datasourcediscovery.config import DiscoverySettings
+from qadris_datasourcediscovery.registry import SOURCE_REGISTRY, get_market
 
 from qadris_datasourcediscovery.store import CatalogDB
 
@@ -25,38 +26,15 @@ logger = logging.getLogger(__name__)
 
 GITHUB_PAGES_BASE = "https://qadriscorp.github.io/QadrisDataDiscovery"
 
+# source metadata 由 registry 生成（name_zh 對日本源放當地語言名稱）
 SOURCE_META: dict[str, dict[str, Any]] = {
-    "twse": {
-        "name": "Taiwan Stock Exchange (TWSE)",
-        "name_zh": "臺灣證券交易所",
-        "base_urls": {
-            "openapi": "https://openapi.twse.com.tw/v1",
-            "web": "https://www.twse.com.tw",
-        },
-    },
-    "tpex": {
-        "name": "Taipei Exchange (TPEx)",
-        "name_zh": "證券櫃檯買賣中心",
-        "base_urls": {
-            "openapi": "https://www.tpex.org.tw/openapi/v1",
-            "web": "https://www.tpex.org.tw",
-        },
-    },
-    "mops": {
-        "name": "Market Observation Post System (MOPS)",
-        "name_zh": "公開資訊觀測站",
-        "base_urls": {
-            "web": "https://mopsov.twse.com.tw",
-            "xbrl": "https://mops.twse.com.tw",
-        },
-    },
-    "tdcc": {
-        "name": "Taiwan Depository & Clearing Corporation (TDCC)",
-        "name_zh": "臺灣集中保管結算所",
-        "base_urls": {
-            "openapi": "https://openapi.tdcc.com.tw",
-        },
-    },
+    key: {
+        "name": spec.name_en,
+        "name_zh": spec.name_local,
+        "market": spec.market,
+        "base_urls": dict(spec.catalog_base_urls),
+    }
+    for key, spec in SOURCE_REGISTRY.items()
 }
 
 
@@ -73,6 +51,7 @@ def _endpoint_to_dict(ep: EndpointInfo, settings: DiscoverySettings) -> dict[str
     entry: dict[str, Any] = {
         "id": f"{ep.source}:{ep.endpoint_type}:{ep.path}",
         "source": ep.source,
+        "market": get_market(ep.source),
         "endpoint_type": ep.endpoint_type,
         "url": _build_full_url(ep, settings),
         "path": ep.path,
@@ -108,12 +87,13 @@ def generate_catalog_json(
 
     return {
         "meta": {
-            "title": "Taiwan Official Financial Data Catalog",
+            "title": "Official Financial Data Catalog (Taiwan & Japan)",
             "description": (
-                "Machine-readable catalog of TWSE, TPEx, MOPS, and TDCC API endpoints. "
-                "Designed for AI agents to discover official Taiwan financial data sources."
+                "Machine-readable catalog of official financial data API endpoints: "
+                "Taiwan (TWSE, TPEx, MOPS, TDCC) and Japan (J-Quants, EDINET, TDnet, JPX). "
+                "Designed for AI agents to discover official financial data sources."
             ),
-            "version": "1.0.0",
+            "version": "2.0.0",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "total_endpoints": len(endpoints),
             "sources": SOURCE_META,
@@ -128,12 +108,13 @@ def generate_openapi_yaml(endpoint_count: int) -> str:
     return f"""\
 openapi: "3.1.0"
 info:
-  title: Taiwan Financial Data Catalog API
+  title: Official Financial Data Catalog API (Taiwan & Japan)
   description: |
-    Static catalog of official Taiwan financial data API endpoints (TWSE, TPEx, MOPS, TDCC).
+    Static catalog of official financial data API endpoints:
+    Taiwan (TWSE, TPEx, MOPS, TDCC) and Japan (J-Quants, EDINET, TDnet, JPX).
     AI agents can fetch /catalog.json to discover available data sources,
     then call the actual endpoints directly.
-  version: "1.0.0"
+  version: "2.0.0"
   contact:
     name: QadrisCorp
     url: https://github.com/QadrisCorp/QadrisDataDiscovery
@@ -149,7 +130,8 @@ paths:
       summary: Get the full endpoint catalog
       description: |
         Returns a JSON object containing metadata about {endpoint_count} official
-        Taiwan financial data API endpoints from TWSE, TPEx, MOPS, and TDCC.
+        financial data API endpoints from Taiwan (TWSE, TPEx, MOPS, TDCC) and
+        Japan (J-Quants, EDINET, TDnet, JPX).
         Each endpoint includes URL, method, description, domain tags,
         field summaries, and request examples.
       responses:
@@ -212,7 +194,7 @@ components:
           type: integer
         sources:
           type: object
-          description: "Map of source key (twse, tpex, mops) to source metadata"
+          description: "Map of source key (twse/tpex/mops/tdcc/jquants/edinet/tdnet/jpx) to metadata"
           additionalProperties:
             type: object
             properties:
@@ -221,7 +203,11 @@ components:
                 description: English name of the data source
               name_zh:
                 type: string
-                description: Chinese name of the data source
+                description: Local-language name of the data source
+              market:
+                type: string
+                enum: [tw, jp]
+                description: Market the source belongs to
               base_urls:
                 type: object
                 description: "Map of endpoint_type to base URL"
@@ -239,7 +225,11 @@ components:
           example: "twse:openapi:/exchangeReport/STOCK_DAY_ALL"
         source:
           type: string
-          enum: [twse, tpex, mops, tdcc]
+          enum: [twse, tpex, mops, tdcc, jquants, edinet, tdnet, jpx]
+        market:
+          type: string
+          enum: [tw, jp]
+          description: Market the source belongs to
         endpoint_type:
           type: string
           enum: [openapi, web, xbrl]
@@ -270,6 +260,7 @@ components:
         coverage:
           type: [string, "null"]
           enum: [listed_only, otc_only, all, null]
+          description: "For jp sources 'all' = all TSE segments (Prime/Standard/Growth)"
         fields_summary:
           type: string
           description: LLM-generated summary of response fields
@@ -292,13 +283,49 @@ components:
           description: Complete request example with URL, method, params
         response_format:
           type: [string, "null"]
-          enum: [json, html_table, null]
+          enum: [json, html_table, excel, pdf, csv, zip, null]
         date_params:
           type: array
           items:
             type: string
           description: Date parameter names for historical queries
 """
+
+
+_SOURCE_NOTES: dict[str, list[str]] = {
+    "twse": [
+        "OpenAPI: https://openapi.twse.com.tw/v1 (real-time, current day)",
+        "Web: https://www.twse.com.tw (historical, add &response=json)",
+    ],
+    "tpex": [
+        "OpenAPI: https://www.tpex.org.tw/openapi/v1 (real-time, current day)",
+        "Web: https://www.tpex.org.tw (historical)",
+    ],
+    "mops": [
+        "Web: https://mopsov.twse.com.tw (financial statements, revenue, governance)",
+    ],
+    "tdcc": [
+        "OpenAPI: https://openapi.tdcc.com.tw (snapshot only; no history)",
+    ],
+    "jquants": [
+        "API: https://api.jquants.com/v2 (JPX official; API key in x-api-key header)",
+        "Rate limit: Free plan 5 req/min; endpoint plan tier noted in notes",
+    ],
+    "edinet": [
+        "API v2: https://api.edinet-fsa.go.jp/api/v2 "
+        "(Subscription-Key query param; free registration)",
+        "Statutory filings: annual/semi-annual reports XBRL+CSV, "
+        "large shareholding reports",
+    ],
+    "tdnet": [
+        "Web: https://www.release.tdnet.info (timely disclosure; "
+        "free window = last 31 days only)",
+    ],
+    "jpx": [
+        "Web: https://www.jpx.co.jp statistics pages (Excel downloads; some PDF-only)",
+        "Cloud-hosted clients get HTTP 403 — fetch from a local machine",
+    ],
+}
 
 
 def generate_llms_txt(endpoints: list[EndpointInfo]) -> str:
@@ -311,17 +338,27 @@ def generate_llms_txt(endpoints: list[EndpointInfo]) -> str:
 
     top_tags = ", ".join(tag for tag, _ in tag_counter.most_common(20))
 
+    source_lines: list[str] = []
+    for key, spec in SOURCE_REGISTRY.items():
+        source_lines.append(
+            f"- **{spec.display_name}** ({spec.name_en} / {spec.name_local}) "
+            f"[market: {spec.market}]: {source_counter[key]} endpoints"
+        )
+        for note in _SOURCE_NOTES.get(key, []):
+            source_lines.append(f"  - {note}")
+    sources_block = "\n".join(source_lines)
+
     return f"""\
-# Taiwan Official Financial Data Catalog
+# Official Financial Data Catalog (Taiwan & Japan)
 
 > Machine-readable catalog of {len(endpoints)} official API endpoints from
-> Taiwan's TWSE, TPEx, MOPS, and TDCC. Designed for AI agents to discover
-> available financial data sources.
+> Taiwan (TWSE, TPEx, MOPS, TDCC) and Japan (J-Quants, EDINET, TDnet, JPX).
+> Designed for AI agents to discover available financial data sources.
 
 ## How to use
 
 1. Fetch the full catalog: GET {GITHUB_PAGES_BASE}/catalog.json
-2. Search endpoints by domain_tags, description, or category
+2. Search endpoints by domain_tags, description, category, or market (tw/jp)
 3. Use the endpoint's url, method, and request_example to call the actual API
 
 ## OpenAPI spec
@@ -330,16 +367,7 @@ GET {GITHUB_PAGES_BASE}/openapi.yaml
 
 ## Sources
 
-- **TWSE** (Taiwan Stock Exchange / 臺灣證券交易所): {source_counter['twse']} endpoints
-  - OpenAPI: https://openapi.twse.com.tw/v1 (real-time, current day)
-  - Web: https://www.twse.com.tw (historical, add &response=json)
-- **TPEx** (Taipei Exchange / 證券櫃檯買賣中心): {source_counter['tpex']} endpoints
-  - OpenAPI: https://www.tpex.org.tw/openapi/v1 (real-time, current day)
-  - Web: https://www.tpex.org.tw (historical)
-- **MOPS** (Market Observation Post System / 公開資訊觀測站): {source_counter['mops']} endpoints
-  - Web: https://mopsov.twse.com.tw (financial statements, revenue, governance)
-- **TDCC** (Taiwan Depository & Clearing Corporation / 臺灣集中保管結算所): {source_counter['tdcc']} endpoints
-  - OpenAPI: https://openapi.tdcc.com.tw (snapshot only, current period; no history)
+{sources_block}
 
 ## Available domain tags
 
@@ -348,7 +376,7 @@ GET {GITHUB_PAGES_BASE}/openapi.yaml
 ## Endpoint fields
 
 Each endpoint in catalog.json includes:
-- id, source, endpoint_type, url, path, method
+- id, source, market (tw/jp), endpoint_type, url, path, method
 - description (often in Chinese), category
 - domain_tags — semantic classification
 - granularity — daily, monthly, quarterly, yearly, snapshot
@@ -368,6 +396,10 @@ Each endpoint in catalog.json includes:
 - MOPS endpoints use POST method and ROC calendar dates
 - TWSE/TPEx OpenAPI endpoints are real-time snapshots (no history)
 - TWSE/TPEx Web endpoints support historical queries with date parameters
+- J-Quants requires an API key (x-api-key header); Free plan is 5 req/min
+- EDINET requires a Subscription-Key query param (free registration)
+- TDnet free web pages only keep the last 31 days
+- JPX statistics file URLs contain random CMS paths — re-crawl, do not hardcode
 """
 
 
@@ -379,7 +411,7 @@ def generate_index_html(endpoint_count: int) -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Taiwan Financial Data Catalog</title>
+<title>Official Financial Data Catalog (TW/JP)</title>
 <style>
   :root {{
     --bg: #0a0a0a; --surface: #141414; --border: #2a2a2a;
@@ -464,8 +496,9 @@ def generate_index_html(endpoint_count: int) -> str:
 </head>
 <body>
 
-<h1>Taiwan Financial Data Catalog</h1>
-<p class="subtitle">{endpoint_count} official API endpoints from TWSE, TPEx, MOPS</p>
+<h1>Official Financial Data Catalog (TW/JP)</h1>
+<p class="subtitle">{endpoint_count} official API endpoints —
+Taiwan (TWSE, TPEx, MOPS, TDCC) &amp; Japan (J-Quants, EDINET, TDnet, JPX)</p>
 
 <div class="agent-links">
   <a href="catalog.json">catalog.json</a>
@@ -475,12 +508,21 @@ def generate_index_html(endpoint_count: int) -> str:
 
 <div class="controls">
   <input type="text" id="search" placeholder="Search description, tags, fields...">
+  <select id="market-filter">
+    <option value="">All Markets</option>
+    <option value="tw">Taiwan</option>
+    <option value="jp">Japan</option>
+  </select>
   <select id="source-filter">
     <option value="">All Sources</option>
     <option value="twse">TWSE</option>
     <option value="tpex">TPEx</option>
     <option value="mops">MOPS</option>
     <option value="tdcc">TDCC</option>
+    <option value="jquants">J-Quants</option>
+    <option value="edinet">EDINET</option>
+    <option value="tdnet">TDnet</option>
+    <option value="jpx">JPX</option>
   </select>
   <select id="tag-filter">
     <option value="">All Tags</option>
@@ -526,11 +568,13 @@ async function init() {{
 
 function render() {{
   const query = document.getElementById("search").value.toLowerCase();
+  const market = document.getElementById("market-filter").value;
   const source = document.getElementById("source-filter").value;
   const tag = document.getElementById("tag-filter").value;
   const gran = document.getElementById("granularity-filter").value;
 
   const filtered = catalog.endpoints.filter(ep => {{
+    if (market && ep.market !== market) return false;
     if (source && ep.source !== source) return false;
     if (tag && !ep.domain_tags.includes(tag)) return false;
     if (gran && ep.granularity !== gran) return false;
@@ -575,6 +619,7 @@ function render() {{
 }}
 
 document.getElementById("search").addEventListener("input", render);
+document.getElementById("market-filter").addEventListener("change", render);
 document.getElementById("source-filter").addEventListener("change", render);
 document.getElementById("tag-filter").addEventListener("change", render);
 document.getElementById("granularity-filter").addEventListener("change", render);

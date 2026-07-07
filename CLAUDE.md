@@ -1,11 +1,20 @@
 # QadrisDataDiscovery
 
-官方金融資料源探索工具。自動發現、探測、標註官方 API endpoint。
-現況：台灣（TWSE/TPEx/MOPS/TDCC，DB 924 endpoints）；**日本擴充建置中**。
+官方金融資料源探索工具（多市場）。自動發現、探測、標註官方 API endpoint。
+現況：台灣（TWSE/TPEx/MOPS/TDCC，924 endpoints）＋日本
+（J-Quants/EDINET/TDnet/JPX，230 endpoints）。
 
-> **進行中：日本市場擴充**——實作 SSOT 見 `docs/JP_EXTENSION_PLAN.md`
-> （框架泛化＋jquants/edinet/tdnet/jpx 四源，2026-07-07 定案，不走 steward、Bear 直接開 agent 實作）。
-> 開工前先讀該檔；完成一節就在該檔勾銷並補記偏離。
+> 日本擴充實作紀錄與偏離見 `docs/JP_EXTENSION_PLAN.md`（2026-07-07 實作）。
+> jquants/edinet 的 probe 需 API 金鑰（`RSR_JQUANTS_API_KEY`／`RSR_EDINET_API_KEY`，
+> 人工註冊），未設定時 probe 明確報「需要金鑰」。
+
+## 多市場架構
+
+- **`registry.py` 的 `SOURCE_REGISTRY` 是 source 的 SSOT**：market（tw/jp）、顯示名、
+  base URL 欄位、probe 模組、認證方式（header/query param）。新增來源只改
+  registry＋config.py 的 base URL 欄位，CLI/GH Pages/enrich 全部自動跟上。
+- `search`/`stats` 支援 `--market tw|jp`；GH Pages catalog.json 每個 endpoint 有 `market` 欄。
+- DB schema 不含 market 欄——由 source 經 registry 推導。
 
 ## Pipeline
 
@@ -65,3 +74,7 @@ State 只升不降 — 重跑 discovery 不會把已 probed/enriched 的 endpoin
 - **rule-based enrich 會升 state**: `enrich --rules-only --force` 會把 probed 升成 enriched，導致後續不加 force 的 LLM enrich 找不到目標。如果要分開跑 rules 和 LLM，用 `--force` 配 `--llm-only`
 - **Python print buffering**: 背景跑長時間腳本時，output file 可能看起來是空的。加 `flush=True` 或用 `sys.stderr`
 - **MOPS 安全機制**: 短時間大量 POST 可能被擋（`頁面無法執行`），需要適當 delay
+- **J-Quants rate limit**: Free 方案 5 req/min → probe 間隔 ≥13s（`FREE_PLAN_PROBE_DELAY`）；方案未涵蓋的 endpoint probe 回 401/403 → 標 `skipped`（非 error），欄位資訊已由 spec 站預填
+- **TDnet 免費窗口 31 天**: 超窗檔案偶存數日但不可依賴；検索 POST 空 q 回「該当なし」（q 必填）；一覧頁與検索結果頁 markup 不同（前者 oddnew/evennew class、後者 odd/even＋語意 class）
+- **JPX 對雲端 client 回 403**（與 UA 無關）：discovery/probe 需在本機跑；檔案 URL 含 CMS 隨機路徑（`tXXvrt…-att`），一律重爬列表頁解析 href，絕不可寫死
+- **JPX Excel 舊格式**: 統計檔多為 BIFF .xls（xlrd）；`fetch_excel_fields` 用 magic bytes sniff 引擎，header 列用「非空儲存格最多」啟發式定位

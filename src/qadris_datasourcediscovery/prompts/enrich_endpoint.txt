@@ -1,4 +1,4 @@
-You are a Taiwan financial data expert. Analyze this API endpoint and classify it.
+You are a {market} financial data expert. Analyze this API endpoint and classify it.
 
 ## Endpoint Information
 - Source: {source}
@@ -31,6 +31,7 @@ You are a Taiwan financial data expert. Analyze this API endpoint and classify i
 - warrant: Warrants, structured products
 - futures_options: Futures, options, derivatives
 - announcement: Company announcements, material information, news
+- timely_disclosure: Timely disclosure filings (e.g. TDnet kessan tanshin, earnings flash reports)
 - reference: Company master data, basic info, industry classification
 - other: Does not fit any above category
 

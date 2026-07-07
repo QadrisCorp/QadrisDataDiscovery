@@ -5,6 +5,7 @@ from pathlib import Path
 from pydantic_settings import BaseSettings
 
 from qadris_datasourcediscovery.exceptions import ConfigurationError
+from qadris_datasourcediscovery.registry import SOURCE_REGISTRY
 
 
 class DiscoverySettings(BaseSettings):
@@ -13,13 +14,23 @@ class DiscoverySettings(BaseSettings):
     All fields are read from environment variables with the ``RSR_`` prefix.
     """
 
-    # Base URLs
+    # Base URLs — Taiwan
     twse_openapi_base: str = "https://openapi.twse.com.tw/v1"
     twse_web_base: str = "https://www.twse.com.tw"
     tpex_openapi_base: str = "https://www.tpex.org.tw/openapi/v1"
     tpex_web_base: str = "https://www.tpex.org.tw"
     mops_base: str = "https://mops.twse.com.tw"
     tdcc_openapi_base: str = "https://openapi.tdcc.com.tw"
+
+    # Base URLs — Japan
+    jquants_base: str = "https://api.jquants.com/v2"
+    edinet_base: str = "https://api.edinet-fsa.go.jp/api/v2"
+    tdnet_base: str = "https://www.release.tdnet.info"
+    jpx_base: str = "https://www.jpx.co.jp"
+
+    # API keys（RSR_JQUANTS_API_KEY / RSR_EDINET_API_KEY）
+    jquants_api_key: str = ""
+    edinet_api_key: str = ""
 
     # Output paths — default to cwd, overridable via RSR_PROJECT_ROOT
     project_root: Path = Path.cwd()
@@ -52,16 +63,39 @@ class DiscoverySettings(BaseSettings):
 
     def get_base_url(self, source: str, endpoint_type: str) -> str:
         """Return base URL for a given source and endpoint type."""
-        mapping: dict[tuple[str, str], str] = {
-            ("twse", "openapi"): self.twse_openapi_base,
-            ("twse", "web"): self.twse_web_base,
-            ("tpex", "openapi"): self.tpex_openapi_base,
-            ("tpex", "web"): self.tpex_web_base,
-            ("mops", "web"): self.mops_base,
-            ("mops", "xbrl"): self.mops_base,
-            ("tdcc", "openapi"): self.tdcc_openapi_base,
-        }
-        return mapping.get((source, endpoint_type), "")
+        spec = SOURCE_REGISTRY.get(source)
+        if spec is None:
+            return ""
+        attr = spec.base_url_fields.get(endpoint_type, "")
+        if not attr:
+            return ""
+        value: str = getattr(self, attr, "")
+        return value
+
+    def get_api_key(self, source: str) -> str:
+        """Return the configured API key for a source ("" if none/not needed)."""
+        spec = SOURCE_REGISTRY.get(source)
+        if spec is None or spec.auth is None:
+            return ""
+        value: str = getattr(self, spec.auth.settings_field, "")
+        return value
+
+    def require_api_key(self, source: str) -> str:
+        """Return the API key for a source, raising if missing.
+
+        Raises:
+            ConfigurationError: 該源需要金鑰但未設定（明確報錯，不靜默失敗）。
+        """
+        spec = SOURCE_REGISTRY.get(source)
+        if spec is None or spec.auth is None:
+            return ""
+        key = self.get_api_key(source)
+        if not key:
+            env_name = f"RSR_{spec.auth.settings_field.upper()}"
+            raise ConfigurationError(
+                f"{spec.display_name} 需要 API 金鑰：請在 .env 設定 {env_name}"
+            )
+        return key
 
     def validate_settings(self) -> None:
         """Validate that required settings are configured.

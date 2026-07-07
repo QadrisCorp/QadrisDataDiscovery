@@ -1,13 +1,13 @@
-# Taiwan Official Financial Data Catalog
+# Official Financial Data Catalog (Taiwan & Japan)
 
-> Machine-readable catalog of 703 official API endpoints from
-> Taiwan's TWSE, TPEx, MOPS, and TDCC. Designed for AI agents to discover
-> available financial data sources.
+> Machine-readable catalog of 877 official API endpoints from
+> Taiwan (TWSE, TPEx, MOPS, TDCC) and Japan (J-Quants, EDINET, TDnet, JPX).
+> Designed for AI agents to discover available financial data sources.
 
 ## How to use
 
 1. Fetch the full catalog: GET https://qadriscorp.github.io/QadrisDataDiscovery/catalog.json
-2. Search endpoints by domain_tags, description, or category
+2. Search endpoints by domain_tags, description, category, or market (tw/jp)
 3. Use the endpoint's url, method, and request_example to call the actual API
 
 ## OpenAPI spec
@@ -16,25 +16,36 @@ GET https://qadriscorp.github.io/QadrisDataDiscovery/openapi.yaml
 
 ## Sources
 
-- **TWSE** (Taiwan Stock Exchange / 臺灣證券交易所): 231 endpoints
+- **TWSE** (Taiwan Stock Exchange (TWSE) / 臺灣證券交易所) [market: tw]: 231 endpoints
   - OpenAPI: https://openapi.twse.com.tw/v1 (real-time, current day)
   - Web: https://www.twse.com.tw (historical, add &response=json)
-- **TPEx** (Taipei Exchange / 證券櫃檯買賣中心): 301 endpoints
+- **TPEx** (Taipei Exchange (TPEx) / 證券櫃檯買賣中心) [market: tw]: 301 endpoints
   - OpenAPI: https://www.tpex.org.tw/openapi/v1 (real-time, current day)
   - Web: https://www.tpex.org.tw (historical)
-- **MOPS** (Market Observation Post System / 公開資訊觀測站): 74 endpoints
+- **MOPS** (Market Observation Post System (MOPS) / 公開資訊觀測站) [market: tw]: 74 endpoints
   - Web: https://mopsov.twse.com.tw (financial statements, revenue, governance)
-- **TDCC** (Taiwan Depository & Clearing Corporation / 臺灣集中保管結算所): 97 endpoints
-  - OpenAPI: https://openapi.tdcc.com.tw (snapshot only, current period; no history)
+- **TDCC** (Taiwan Depository & Clearing Corporation (TDCC) / 臺灣集中保管結算所) [market: tw]: 97 endpoints
+  - OpenAPI: https://openapi.tdcc.com.tw (snapshot only; no history)
+- **J-Quants** (J-Quants API (JPX official) / J-Quants API（JPX公式）) [market: jp]: 0 endpoints
+  - API: https://api.jquants.com/v2 (JPX official; API key in x-api-key header)
+  - Rate limit: Free plan 5 req/min; endpoint plan tier noted in notes
+- **EDINET** (EDINET API v2 (Financial Services Agency) / EDINET（金融庁）) [market: jp]: 0 endpoints
+  - API v2: https://api.edinet-fsa.go.jp/api/v2 (Subscription-Key query param; free registration)
+  - Statutory filings: annual/semi-annual reports XBRL+CSV, large shareholding reports
+- **TDnet** (TDnet Timely Disclosure (Tokyo Stock Exchange) / TDnet（適時開示情報閲覧サービス）) [market: jp]: 8 endpoints
+  - Web: https://www.release.tdnet.info (timely disclosure; free window = last 31 days only)
+- **JPX** (Japan Exchange Group statistics (JPX) / 日本取引所グループ（統計情報）) [market: jp]: 166 endpoints
+  - Web: https://www.jpx.co.jp statistics pages (Excel downloads; some PDF-only)
+  - Cloud-hosted clients get HTTP 403 — fetch from a local machine
 
 ## Available domain tags
 
-volume, reference, price, ownership, governance, financial_statement, index, bond, announcement, warrant, margin_trading, etf_fund, corporate_action, institutional, valuation, dividend, ipo_listing, revenue, other
+volume, price, institutional, reference, ownership, index, financial_statement, governance, margin_trading, announcement, bond, etf_fund, warrant, corporate_action, valuation, ipo_listing, dividend, timely_disclosure, revenue, other
 
 ## Endpoint fields
 
 Each endpoint in catalog.json includes:
-- id, source, endpoint_type, url, path, method
+- id, source, market (tw/jp), endpoint_type, url, path, method
 - description (often in Chinese), category
 - domain_tags — semantic classification
 - granularity — daily, monthly, quarterly, yearly, snapshot
@@ -54,3 +65,7 @@ Each endpoint in catalog.json includes:
 - MOPS endpoints use POST method and ROC calendar dates
 - TWSE/TPEx OpenAPI endpoints are real-time snapshots (no history)
 - TWSE/TPEx Web endpoints support historical queries with date parameters
+- J-Quants requires an API key (x-api-key header); Free plan is 5 req/min
+- EDINET requires a Subscription-Key query param (free registration)
+- TDnet free web pages only keep the last 31 days
+- JPX statistics file URLs contain random CMS paths — re-crawl, do not hardcode

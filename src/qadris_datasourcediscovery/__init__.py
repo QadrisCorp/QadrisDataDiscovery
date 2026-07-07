@@ -24,9 +24,17 @@ from qadris_datasourcediscovery.exceptions import (
     ParseError,
     StoreError,
 )
+from qadris_datasourcediscovery.registry import (
+    SOURCE_REGISTRY,
+    Market,
+    SourceSpec,
+    get_market,
+    sources_for_market,
+)
 from qadris_datasourcediscovery.store import CatalogDB
 
 __all__ = [
+    "SOURCE_REGISTRY",
     "CatalogDB",
     "ConfigurationError",
     "DataSourceDiscoveryError",
@@ -35,10 +43,14 @@ __all__ = [
     "EndpointType",
     "FetchError",
     "LLMError",
+    "Market",
     "ParseError",
     "Source",
+    "SourceSpec",
     "State",
     "Status",
     "StoreError",
     "enrich_all",
+    "get_market",
+    "sources_for_market",
 ]

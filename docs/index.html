@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Taiwan Financial Data Catalog</title>
+<title>Official Financial Data Catalog (TW/JP)</title>
 <style>
   :root {
     --bg: #0a0a0a; --surface: #141414; --border: #2a2a2a;
@@ -88,8 +88,9 @@
 </head>
 <body>
 
-<h1>Taiwan Financial Data Catalog</h1>
-<p class="subtitle">703 official API endpoints from TWSE, TPEx, MOPS</p>
+<h1>Official Financial Data Catalog (TW/JP)</h1>
+<p class="subtitle">877 official API endpoints —
+Taiwan (TWSE, TPEx, MOPS, TDCC) &amp; Japan (J-Quants, EDINET, TDnet, JPX)</p>
 
 <div class="agent-links">
   <a href="catalog.json">catalog.json</a>
@@ -99,12 +100,21 @@
 
 <div class="controls">
   <input type="text" id="search" placeholder="Search description, tags, fields...">
+  <select id="market-filter">
+    <option value="">All Markets</option>
+    <option value="tw">Taiwan</option>
+    <option value="jp">Japan</option>
+  </select>
   <select id="source-filter">
     <option value="">All Sources</option>
     <option value="twse">TWSE</option>
     <option value="tpex">TPEx</option>
     <option value="mops">MOPS</option>
     <option value="tdcc">TDCC</option>
+    <option value="jquants">J-Quants</option>
+    <option value="edinet">EDINET</option>
+    <option value="tdnet">TDnet</option>
+    <option value="jpx">JPX</option>
   </select>
   <select id="tag-filter">
     <option value="">All Tags</option>
@@ -150,11 +160,13 @@ async function init() {
 
 function render() {
   const query = document.getElementById("search").value.toLowerCase();
+  const market = document.getElementById("market-filter").value;
   const source = document.getElementById("source-filter").value;
   const tag = document.getElementById("tag-filter").value;
   const gran = document.getElementById("granularity-filter").value;
 
   const filtered = catalog.endpoints.filter(ep => {
+    if (market && ep.market !== market) return false;
     if (source && ep.source !== source) return false;
     if (tag && !ep.domain_tags.includes(tag)) return false;
     if (gran && ep.granularity !== gran) return false;
@@ -199,6 +211,7 @@ function render() {
 }
 
 document.getElementById("search").addEventListener("input", render);
+document.getElementById("market-filter").addEventListener("change", render);
 document.getElementById("source-filter").addEventListener("change", render);
 document.getElementById("tag-filter").addEventListener("change", render);
 document.getElementById("granularity-filter").addEventListener("change", render);

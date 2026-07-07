@@ -6,7 +6,9 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
-Source = Literal["twse", "tpex", "mops", "tdcc"]
+Source = Literal[
+    "twse", "tpex", "mops", "tdcc", "jquants", "edinet", "tdnet", "jpx"
+]
 EndpointType = Literal["openapi", "web", "xbrl"]
 Status = Literal["unknown", "ok", "error", "timeout", "empty", "skipped"]
 State = Literal["discovered", "probed", "enriched"]
@@ -35,7 +37,7 @@ class EndpointInfo(BaseModel):
     history_method: str = ""
     id_field: str = ""
     request_example: dict[str, Any] = Field(default_factory=dict)
-    response_format: str = ""  # json, html_table
+    response_format: str = ""  # json, html_table, excel, pdf, csv, zip
     coverage: str = ""  # listed_only, otc_only, all
     fields_summary: str = ""
 

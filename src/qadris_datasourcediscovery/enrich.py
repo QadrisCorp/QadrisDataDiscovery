@@ -10,6 +10,7 @@ from qadris_datasourcediscovery.catalog import EndpointInfo
 from qadris_datasourcediscovery.config import DiscoverySettings
 from qadris_datasourcediscovery.exceptions import LLMError
 from qadris_datasourcediscovery.llm import ClaudeCLI, load_prompt_template
+from qadris_datasourcediscovery.registry import MARKET_LABELS, get_market
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +25,12 @@ _KNOWN_ID_FIELDS = [
     "StockCode",
     "SecuritiesCode",
     "公司代碼",
+    # 日本源
+    "LocalCode",
+    "銘柄コード",
+    "証券コード",
+    "edinetCode",
+    "docID",
 ]
 
 # --- Default settings for base URL resolution ---
@@ -63,7 +70,9 @@ class CatalogStore(Protocol):
 
 def infer_granularity(ep: EndpointInfo) -> str:
     """從 endpoint_type 和 date_params 推斷資料粒度。"""
-    if ep.endpoint_type == "openapi":
+    # 台灣三源的 OpenAPI 皆為當期 snapshot；日本 REST API（J-Quants/EDINET）
+    # 帶 date 參數支援歷史查詢，走下方 date_params 推斷
+    if ep.endpoint_type == "openapi" and get_market(ep.source) == "tw":
         return "snapshot"
 
     params = ep.date_params
@@ -103,6 +112,18 @@ def infer_history_method(ep: EndpointInfo) -> str:
             return f"{method} year=ROC_YEAR&month=1-12"
         if ep.supports_history:
             return f"{method} (see notes for params)"
+    elif ep.source == "jquants":
+        if "date" in params or "from" in params:
+            return f"{method} date=YYYY-MM-DD or from/to range (pagination_key)"
+    elif ep.source == "edinet":
+        if "date" in params:
+            return f"{method} date=YYYY-MM-DD (提出日, JST)"
+    elif ep.source == "tdnet":
+        if ep.supports_history:
+            return f"{method} I_list_{{page}}_YYYYMMDD.html (free window: last 31 days)"
+    elif ep.source == "jpx":
+        if ep.supports_history:
+            return f"{method} archive pages per year/month (see notes)"
 
     if params:
         param_str = "&".join(f"{p}=?" for p in params)
@@ -119,7 +140,7 @@ def infer_id_field(ep: EndpointInfo) -> str:
     # 模糊比對
     for field in ep.sample_fields:
         lower = field.lower()
-        if "代號" in field or "代碼" in field:
+        if "代號" in field or "代碼" in field or "コード" in field:
             return field
         if lower in ("code", "stockcode", "stockno"):
             return field
@@ -132,7 +153,8 @@ def infer_request_example(ep: EndpointInfo) -> dict[str, Any]:
     if not base:
         return {}
 
-    if ep.endpoint_type == "openapi":
+    # 台灣三源 OpenAPI 無參數即可打；日本 REST API 需帶認證/日期，走下方分支
+    if ep.endpoint_type == "openapi" and get_market(ep.source) == "tw":
         return {"url": f"{base}{ep.path}", "method": "GET"}
 
     url = f"{base}{ep.path}"
@@ -152,8 +174,19 @@ def infer_request_example(ep: EndpointInfo) -> dict[str, Any]:
             params["season"] = "1"
         if "month" in ep.date_params:
             params["month"] = "3"
+    elif ep.source == "jquants":
+        if "date" in ep.date_params:
+            params["date"] = "2026-06-30"
+        if "code" in ep.date_params:
+            params["code"] = "7203"
+    elif ep.source == "edinet":
+        if "date" in ep.date_params:
+            params["date"] = "2026-06-30"
+        params["Subscription-Key"] = "<YOUR_API_KEY>"
 
     example: dict[str, Any] = {"url": url, "method": ep.method}
+    if ep.source == "jquants":
+        example["headers"] = {"x-api-key": "<YOUR_API_KEY>"}
     if params:
         example["params"] = params
     return example
@@ -165,6 +198,11 @@ def infer_response_format(ep: EndpointInfo) -> str:
         return "json"
     if ep.source == "mops":
         return "html_table"
+    if ep.source == "tdnet":
+        return "html_table"
+    if ep.source == "jpx":
+        # JPX 統計頁產物多為 Excel；PDF-only 表在 discovery/probe 時明確標 pdf
+        return "excel"
     # TWSE/TPEx web endpoints
     return "json"
 
@@ -177,6 +215,10 @@ def infer_coverage(ep: EndpointInfo) -> str:
         return "otc_only"
     if ep.source == "mops":
         # MOPS 的 TYPEK 參數決定涵蓋範圍
+        return "all"
+    if get_market(ep.source) == "jp":
+        # 日本源預設涵蓋東證全市場（Prime/Standard/Growth）；
+        # 分段限定表（如 Prime-only 統計）在 discovery 時明確覆寫
         return "all"
     return ""
 
@@ -217,8 +259,10 @@ def enrich_llm(ep: EndpointInfo, llm: ClaudeCLI) -> dict[str, Any]:
     template_path = _get_prompts_dir() / "enrich_endpoint.txt"
 
     fields_str = ", ".join(ep.sample_fields[:15]) if ep.sample_fields else "(none)"
+    market_label = MARKET_LABELS.get(get_market(ep.source), "Taiwan")
     prompt_text = load_prompt_template(
         template_path,
+        market=market_label,
         source=ep.source,
         endpoint_type=ep.endpoint_type,
         path=ep.path,
