@@ -48,7 +48,8 @@
 
 ## 5. 順序與交付
 
-本擴充是 **QadrisDatalakeJP 的 Phase 0**：目錄出第一版後，datalake 那邊的 dataset 來源調查
-（`docs/datasets/` 六段骨架的「來源調查」段）直接引用本目錄。建議實作順序：
+本擴充與 QadrisDatalakeJP **平行進行、非其前置**：datalake 的 M0–M3 來源已定案不等本目錄；
+本目錄的消費點是 datalake **M4/M5**（財報/股利鏈的逐表來源調查，`docs/datasets/` 六段骨架
+的「來源調查」段直接引用）——故 edinet/tdnet 兩源建議優先完成。建議實作順序：
 框架泛化 → jquants＋edinet（正規 API，快）→ tdnet → jpx（最花時間）→ enrich＋發佈。
 合計粗估 **6–11 個工作天**。
