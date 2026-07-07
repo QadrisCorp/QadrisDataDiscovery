@@ -13,10 +13,9 @@
 - **台股 924 endpoints 零回歸**：所有改動不得降級/覆寫既有資料；現有 134 個測試須全綠。
 - 日本源特性與台灣的差異：EDINET/J-Quants 是正規 REST（比 MOPS 逆向工程簡單），無民國年/Big5 問題；**新增複雜度是認證**（J-Quants API key、EDINET Subscription-Key）與 **Excel/PDF 下載型 probe**（JPX）。
 
-> **實作進度（2026-07-07，agent session）**：
-> §1 框架泛化 ✅、§2 四源模組 ✅（jquants 28／edinet 28／tdnet 8／jpx 166 endpoints，
-> 合計 230，全數 discovered；tdnet/jpx 已 live probe，jquants/edinet probe 待金鑰）。
-> 偏離紀錄見各節「⚠ 偏離」。
+> **實作完成（2026-07-07，agent session）**：§1–§4 全部完成。
+> 四源合計 230 endpoints、230/230 enriched、error 0；台股 924 零回歸；
+> GH Pages 918 endpoints 含 market 篩選。偏離紀錄見各節「⚠ 偏離」。
 
 ## 1. 框架泛化（先做，估 0.5–1.5 天）✅ 完成
 
@@ -68,7 +67,7 @@
 >   （notes 記 history_method）。代表檔 URL 存 request_example（probe 用），
 >   notes 明示不可寫死。
 
-## 3. Enrich 與發佈（估 1–2 天）✅ tdnet/jpx 完成；jquants/edinet 待金鑰
+## 3. Enrich 與發佈（估 1–2 天）✅ 四源全數完成
 
 - 四源 probe 完跑 `enrich --rules-only` → LLM enrich（prompt 已泛化；日文欄位名 Claude 可直接處理）。
 - `generate_gh_pages.py`：市場篩選＋Technical Notes 補日本源段落（帳號需求、rate limit、31 天窗、JPX 403 特性）。
@@ -76,23 +75,27 @@
 
 > ⚠ 偏離（§3）：enrich 改為 **jp 來源限定腳本**（rules＋LLM 一次跑，haiku），
 > 不用 CLI 的全域 enrich——避免動到台股 113 個先前刻意未 enrich 的列（零回歸）。
-> tdnet＋jpx 174/174 已 enriched；**jquants/edinet 依 pipeline 語意留在 discovered**
-> （若先 enrich 會讓金鑰到位後的 probe 找不到 state=discovered 的目標）。
-> GH Pages 已重生（877 endpoints＝台股 703＋日本 174）。
+> 金鑰到位後（2026-07-07 同日）jquants/edinet 已 probe＋enrich：
+> jquants 16 ok／12 skipped（Premium/Add-on 方案外，金鑰實際涵蓋到 Standard 級）、
+> edinet 25 ok／3 empty（僅四半期報告書＝2024-04 廢止，近窗無新件，符合預期）；
+> 週次/有報系 3 個 endpoint 補 probe 用對日期（週五申込日／6 月有報潮）轉 ok。
+> 另補框架缺口：`DiscoverySettings` 加 `env_file=".env"`（原本 pydantic-settings
+> 沒設，`.env` 讀不到——既有四源全無認證所以未曾暴露）。
+> 四源 230/230 enriched；GH Pages 重生 918 endpoints（台股 703＋日本 215）。
 
 ## 4. 驗收條件（2026-07-07 檢核）
 
 1. **零回歸**：既有 134 tests 全綠；台股 924 endpoints state/資料無任何降級（跑 `stats` 前後對照）。
    ✅ 209 tests 全綠（134 既有＋75 新增）；stats 前後對照台股四源逐欄一致。
 2. 四源皆達 discovered→probed→enriched，最低 endpoint 數：jquants ≥30、edinet ≥15、tdnet ≥8、jpx ≥80；`status=ok` 比例 ≥70%（JPX PDF-only 者標 pdf 不算 error）。
-   ⚠ 部分達成：endpoint 數 jquants 28（spec 站實際規模，見 §2 偏離）／edinet 28 ✅／tdnet 8 ✅／jpx 166 ✅。
-   tdnet 8/8 ok、jpx 166/166 ok（PDF 標 pdf 且可達→ok）→ 已 probe 者 ok 比例 100%。
-   **jquants/edinet 的 probe→enrich 待 Bear 註冊金鑰**（J-Quants Free＋EDINET API key，
-   人工步驟）；金鑰設定後跑 `qadris-discovery probe jquants|edinet` → jp 限定 enrich → 重生 GH Pages。
+   ✅（一處偏離）：四源皆達 enriched（230/230）。endpoint 數 jquants **28**
+   （spec 站實際規模，見 §2 偏離）／edinet 28 ✅／tdnet 8 ✅／jpx 166 ✅。
+   ok 比例：全體 215/230＝93%（jquants 16 ok＋12 skipped＝方案外不算 error、
+   edinet 3 empty＝廢止的四半期報告書、error 0）。
 3. `qadris-discovery search --market jp --tag financial_statement` 能找到 EDINET/TDnet/J-Quants 的財報 endpoints（Phase 1 datalake 的三個域——財報/股價/股利——都查得到對應 endpoint）。
-   ⚠ 部分達成：TDnet（短信 XBRL）＋JPX 決算短信集計已可以 tag 查到；EDINET/J-Quants
-   description/notes 已可用 keyword 查（決算/株価/配当），tag 需待 enrich（同上金鑰前置）。
-4. GH Pages 目錄含 market 篩選、正常發佈。✅（877 endpoints＝tw 703＋jp 174；market 欄＋篩選器）
+   ✅ financial_statement 30 個（四源都有）；price 22（jquants/jpx）；
+   dividend 2（jquants fins/dividend＋jpx 配当落）。
+4. GH Pages 目錄含 market 篩選、正常發佈。✅（918 endpoints＝tw 703＋jp 215；market 欄＋篩選器）
 5. 新來源模組有單元測試（HTTP mock，照既有慣例）；`.env.example`、README、CLAUDE.md 更新（多市場說明＋新 gotchas：J-Quants rate limit、JPX 403、TDnet 31 天）。✅
 
 ## 5. 順序與交付

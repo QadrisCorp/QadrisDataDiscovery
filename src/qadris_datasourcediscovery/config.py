@@ -50,7 +50,12 @@ class DiscoverySettings(BaseSettings):
         "Chrome/131.0.0.0 Safari/537.36"
     )
 
-    model_config = {"env_prefix": "RSR_"}
+    model_config = {
+        "env_prefix": "RSR_",
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "extra": "ignore",
+    }
 
     def model_post_init(self, __context: object) -> None:
         """Derive paths from project_root after init."""

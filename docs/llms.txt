@@ -1,6 +1,6 @@
 # Official Financial Data Catalog (Taiwan & Japan)
 
-> Machine-readable catalog of 877 official API endpoints from
+> Machine-readable catalog of 918 official API endpoints from
 > Taiwan (TWSE, TPEx, MOPS, TDCC) and Japan (J-Quants, EDINET, TDnet, JPX).
 > Designed for AI agents to discover available financial data sources.
 
@@ -26,10 +26,10 @@ GET https://qadriscorp.github.io/QadrisDataDiscovery/openapi.yaml
   - Web: https://mopsov.twse.com.tw (financial statements, revenue, governance)
 - **TDCC** (Taiwan Depository & Clearing Corporation (TDCC) / 臺灣集中保管結算所) [market: tw]: 97 endpoints
   - OpenAPI: https://openapi.tdcc.com.tw (snapshot only; no history)
-- **J-Quants** (J-Quants API (JPX official) / J-Quants API（JPX公式）) [market: jp]: 0 endpoints
+- **J-Quants** (J-Quants API (JPX official) / J-Quants API（JPX公式）) [market: jp]: 16 endpoints
   - API: https://api.jquants.com/v2 (JPX official; API key in x-api-key header)
   - Rate limit: Free plan 5 req/min; endpoint plan tier noted in notes
-- **EDINET** (EDINET API v2 (Financial Services Agency) / EDINET（金融庁）) [market: jp]: 0 endpoints
+- **EDINET** (EDINET API v2 (Financial Services Agency) / EDINET（金融庁）) [market: jp]: 25 endpoints
   - API v2: https://api.edinet-fsa.go.jp/api/v2 (Subscription-Key query param; free registration)
   - Statutory filings: annual/semi-annual reports XBRL+CSV, large shareholding reports
 - **TDnet** (TDnet Timely Disclosure (Tokyo Stock Exchange) / TDnet（適時開示情報閲覧サービス）) [market: jp]: 8 endpoints
@@ -40,7 +40,7 @@ GET https://qadriscorp.github.io/QadrisDataDiscovery/openapi.yaml
 
 ## Available domain tags
 
-volume, price, institutional, reference, ownership, index, financial_statement, governance, margin_trading, announcement, bond, etf_fund, warrant, corporate_action, valuation, ipo_listing, dividend, timely_disclosure, revenue, other
+volume, ownership, price, financial_statement, institutional, reference, index, governance, announcement, margin_trading, bond, etf_fund, warrant, corporate_action, valuation, timely_disclosure, ipo_listing, dividend, revenue, other
 
 ## Endpoint fields
 

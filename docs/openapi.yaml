@@ -21,7 +21,7 @@ paths:
       operationId: getCatalog
       summary: Get the full endpoint catalog
       description: |
-        Returns a JSON object containing metadata about 877 official
+        Returns a JSON object containing metadata about 918 official
         financial data API endpoints from Taiwan (TWSE, TPEx, MOPS, TDCC) and
         Japan (J-Quants, EDINET, TDnet, JPX).
         Each endpoint includes URL, method, description, domain tags,

@@ -12,8 +12,8 @@
 | tw | TPEx | web | 194 | 94 | 20 | 80 | 126 |
 | tw | MOPS | web | 101 | 75 | 0 | 26 | 9 |
 | tw | TDCC | openapi | 134 | 97 | 37 | 0 | 0 |
-| jp | J-Quants | openapi | 28 | 0 | 0 | 0 | 23 |
-| jp | EDINET | openapi | 28 | 0 | 0 | 0 | 28 |
+| jp | J-Quants | openapi | 28 | 16 | 0 | 0 | 23 |
+| jp | EDINET | openapi | 28 | 25 | 3 | 0 | 28 |
 | jp | TDnet | web | 8 | 8 | 0 | 0 | 7 |
 | jp | JPX | web | 166 | 166 | 0 | 0 | 106 |
 
@@ -1315,69 +1315,69 @@
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/bulk/get` | Get File Download URL（CSV ファイル取得 URL） | unknown | N | 0 | url |
-| `/bulk/list` | List of Downloadable Files（CSV 一括DL可能ファイル一覧） | unknown | N | 0 | Key, LastModified, Size |
+| `/bulk/get` | Get File Download URL（CSV ファイル取得 URL） | skipped | N | 0 | url |
+| `/bulk/list` | List of Downloadable Files（CSV 一括DL可能ファイル一覧） | ok | N | 125 | Key, LastModified, Size |
 
 #### Derivatives
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/derivatives/bars/daily/futures` | Futures OHLC（先物四本値） | unknown | Y | 0 | Code, ProdCat, Date, O, H |
-| `/derivatives/bars/daily/options` | Options OHLC（オプション四本値） | unknown | Y | 0 | Code, ProdCat, UndSSO, Date, O |
-| `/derivatives/bars/daily/options/225` | Nikkei 225 Index Option OHLC（日経225オプション四本値） | unknown | Y | 0 | Date, Code, O, H, L |
+| `/derivatives/bars/daily/futures` | Futures OHLC（先物四本値） | skipped | Y | 0 | Code, ProdCat, Date, O, H |
+| `/derivatives/bars/daily/options` | Options OHLC（オプション四本値） | skipped | Y | 0 | Code, ProdCat, UndSSO, Date, O |
+| `/derivatives/bars/daily/options/225` | Nikkei 225 Index Option OHLC（日経225オプション四本値） | ok | Y | 8494 | Date, Code, O, H, L |
 
 #### EDINET
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/edinet/cross-shareholdings` | Cross-Shareholdings from EDINET（政策保有株式，有報由来） | unknown | Y | 0 | DocId, Code, EdinetCode, FilerName, FilerNameEn |
-| `/edinet/major-shareholders` | Major Shareholders from EDINET（大株主状況，有報由来） | unknown | Y | 0 | DocId, Code, EdinetCode, FilerName, FilerNameEn |
+| `/edinet/cross-shareholdings` | Cross-Shareholdings from EDINET（政策保有株式，有報由来） | ok | Y | 130 | DocId, Code, EdinetCode, FilerName, FilerNameEn |
+| `/edinet/major-shareholders` | Major Shareholders from EDINET（大株主状況，有報由来） | ok | Y | 181 | DocId, Code, EdinetCode, FilerName, FilerNameEn |
 
 #### Equities
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/equities/bars/daily` | Stock Prices OHLC（株価四本値，含調整價與 AdjFactor） | unknown | Y | 0 | Date, Code, O, H, L |
-| `/equities/bars/daily/am` | Morning Session Stock Prices（前場四本値） | unknown | Y | 0 | Date, Code, MO, MH, ML |
-| `/equities/bars/minute` | Minute Stock Prices OHLC（分足） | unknown | Y | 0 | Date, Time, Code, O, H |
-| `/equities/earnings-calendar` | Earnings Calendar（決算発表予定日） | unknown | N | 0 | Date, Code, CoName, FY, SectorNm |
-| `/equities/investor-types` | Trading by Type of Investors（投資部門別売買状況，週次） | unknown | Y | 0 | PubDate, StDate, EnDate, Section, PropSell |
-| `/equities/master` | Listed Issue Master（上場銘柄一覧，point-in-time） | unknown | Y | 0 | Date, Code, CoName, CoNameEn, S17 |
-| `/equities/trades` | Stock Prices Tick（ティックデータ） | unknown | Y | 0 |  |
+| `/equities/bars/daily` | Stock Prices OHLC（株価四本値，含調整價與 AdjFactor） | ok | Y | 4451 | Date, Code, O, H, L |
+| `/equities/bars/daily/am` | Morning Session Stock Prices（前場四本値） | skipped | Y | 0 | Date, Code, MO, MH, ML |
+| `/equities/bars/minute` | Minute Stock Prices OHLC（分足） | skipped | Y | 0 | Date, Time, Code, O, H |
+| `/equities/earnings-calendar` | Earnings Calendar（決算発表予定日） | ok | N | 14 | Date, Code, CoName, FY, SectorNm |
+| `/equities/investor-types` | Trading by Type of Investors（投資部門別売買状況，週次） | ok | Y | 223 | PubDate, StDate, EnDate, Section, PropSell |
+| `/equities/master` | Listed Issue Master（上場銘柄一覧，point-in-time） | ok | Y | 4451 | Date, Code, CoName, CoNameEn, S17 |
+| `/equities/trades` | Stock Prices Tick（ティックデータ） | skipped | Y | 0 |  |
 
 #### Financials
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/fins/details` | Financial Statement Data BS/PL/CF（財務諸表明細） | unknown | Y | 0 | DiscDate, DiscTime, Code, DiscNo, DocType |
-| `/fins/dividend` | Cash Dividend Data（配当金明細） | unknown | Y | 0 | PubDate, PubTime, Code, RefNo, StatCode |
-| `/fins/summary` | Financial Data Summary（決算短信サマリ財務情報） | unknown | Y | 0 | DiscDate, DiscTime, Code, DiscNo, DocType |
+| `/fins/details` | Financial Statement Data BS/PL/CF（財務諸表明細） | skipped | Y | 0 | DiscDate, DiscTime, Code, DiscNo, DocType |
+| `/fins/dividend` | Cash Dividend Data（配当金明細） | skipped | Y | 0 | PubDate, PubTime, Code, RefNo, StatCode |
+| `/fins/summary` | Financial Data Summary（決算短信サマリ財務情報） | ok | Y | 19 | DiscDate, DiscTime, Code, DiscNo, DocType |
 
 #### Indices
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/indices/bars/daily` | Indices OHLC（指数四本値） | unknown | Y | 0 | Date, Code, O, H, L |
-| `/indices/bars/daily/topix` | TOPIX Prices OHLC（TOPIX指数四本値） | unknown | Y | 0 | Date, O, H, L, C |
+| `/indices/bars/daily` | Indices OHLC（指数四本値） | ok | Y | 79 | Date, Code, O, H, L |
+| `/indices/bars/daily/topix` | TOPIX Prices OHLC（TOPIX指数四本値） | ok | Y | 2441 | Date, O, H, L, C |
 
 #### Markets
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/markets/breakdown` | Breakdown Trading Data(売買内訳データ) | unknown | Y | 0 | Date, Code, LongSellVa, ShrtNoMrgnVa, MrgnSellN... |
-| `/markets/calendar` | Trading Calendar（取引カレンダー） | unknown | Y | 0 | Date, HolDiv |
-| `/markets/margin-alert` | Margin Trading Outstanding — daily publication（日々公表信用取引残高） | unknown | Y | 0 | PubDate, Code, AppDate, PubReason, ShrtOut |
-| `/markets/margin-interest` | Margin Trading Outstandings（信用取引週末残高） | unknown | Y | 0 | Date, Code, ShrtVol, LongVol, ShrtNegVol |
-| `/markets/short-ratio` | Short Sale Value and Ratio by Sector（業種別空売り比率） | unknown | Y | 0 | Date, S33, SellExShortVa, ShrtWithResVa, ShrtNo... |
-| `/markets/short-sale-report` | Outstanding Short Selling Positions（空売り残高報告，≥0.5% 部位） | unknown | Y | 0 | DiscDate, CalcDate, Code, SSName, SSAddr |
+| `/markets/breakdown` | Breakdown Trading Data(売買内訳データ) | skipped | Y | 0 | Date, Code, LongSellVa, ShrtNoMrgnVa, MrgnSellN... |
+| `/markets/calendar` | Trading Calendar（取引カレンダー） | ok | Y | 4195 | Date, HolDiv |
+| `/markets/margin-alert` | Margin Trading Outstanding — daily publication（日々公表信用取引残高） | ok | Y | 293 | PubDate, Code, AppDate, PubReason, ShrtOut |
+| `/markets/margin-interest` | Margin Trading Outstandings（信用取引週末残高） | ok | Y | 4257 | Date, Code, ShrtVol, LongVol, ShrtNegVol |
+| `/markets/short-ratio` | Short Sale Value and Ratio by Sector（業種別空売り比率） | ok | Y | 34 | Date, S33, SellExShortVa, ShrtWithResVa, ShrtNo... |
+| `/markets/short-sale-report` | Outstanding Short Selling Positions（空売り残高報告，≥0.5% 部位） | ok | Y | 794 | DiscDate, CalcDate, Code, SSName, SSAddr |
 
 #### TDnet
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/td/bulk` | TDnet/Company Disclosure Index CSV Download（インデックス一括DL） | unknown | N | 0 | lastUpdated, url |
-| `/td/files` | TDnet/Company Disclosure Files（開示資料ファイル取得） | unknown | N | 0 | discNo, files, files.pdf, files.summaryPdf, fil... |
-| `/td/list` | TDnet/Company Disclosure Index List（適時開示インデックス一覧） | unknown | Y | 0 | DiscNo, Code, Name, DiscDate, DiscTime |
+| `/td/bulk` | TDnet/Company Disclosure Index CSV Download（インデックス一括DL） | skipped | N | 0 | lastUpdated, url |
+| `/td/files` | TDnet/Company Disclosure Files（開示資料ファイル取得） | skipped | N | 0 | discNo, files, files.pdf, files.summaryPdf, fil... |
+| `/td/list` | TDnet/Company Disclosure Index List（適時開示インデックス一覧） | skipped | Y | 0 | DiscNo, Code, Name, DiscDate, DiscTime |
 
 ## EDINET API v2 (Financial Services Agency)
 
@@ -1387,79 +1387,79 @@
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/documents/{docID}?type=1#docTypeCode=160` | 半期報告書 — XBRL 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=2#docTypeCode=160` | 半期報告書 — PDF 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=5#docTypeCode=160` | 半期報告書 — CSV 取得 | unknown | Y | 0 |  |
+| `/documents/{docID}?type=1#docTypeCode=160` | 半期報告書 — XBRL 取得 | ok | Y | 27 |  |
+| `/documents/{docID}?type=2#docTypeCode=160` | 半期報告書 — PDF 取得 | ok | Y | 47 |  |
+| `/documents/{docID}?type=5#docTypeCode=160` | 半期報告書 — CSV 取得 | ok | Y | 27 |  |
 
 #### 四半期報告書
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/documents/{docID}?type=1#docTypeCode=140` | 四半期報告書 — XBRL 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=2#docTypeCode=140` | 四半期報告書 — PDF 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=5#docTypeCode=140` | 四半期報告書 — CSV 取得 | unknown | Y | 0 |  |
+| `/documents/{docID}?type=1#docTypeCode=140` | 四半期報告書 — XBRL 取得 | empty | Y | 0 |  |
+| `/documents/{docID}?type=2#docTypeCode=140` | 四半期報告書 — PDF 取得 | empty | Y | 0 |  |
+| `/documents/{docID}?type=5#docTypeCode=140` | 四半期報告書 — CSV 取得 | empty | Y | 0 |  |
 
 #### 大量保有報告書
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/documents/{docID}?type=1#docTypeCode=350` | 大量保有報告書 — XBRL 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=2#docTypeCode=350` | 大量保有報告書 — PDF 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=5#docTypeCode=350` | 大量保有報告書 — CSV 取得 | unknown | Y | 0 |  |
+| `/documents/{docID}?type=1#docTypeCode=350` | 大量保有報告書 — XBRL 取得 | ok | Y | 305 |  |
+| `/documents/{docID}?type=2#docTypeCode=350` | 大量保有報告書 — PDF 取得 | ok | Y | 305 |  |
+| `/documents/{docID}?type=5#docTypeCode=350` | 大量保有報告書 — CSV 取得 | ok | Y | 305 |  |
 
 #### 書類一覧
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/documents.json` | 書類一覧 API（提出書類一覧及びメタデータ） | unknown | Y | 0 | docID, edinetCode, secCode, JCN, filerName |
+| `/documents.json` | 書類一覧 API（提出書類一覧及びメタデータ） | ok | Y | 2051 | seqNumber, docID, edinetCode, secCode, JCN |
 
 #### 有価証券報告書
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/documents/{docID}?type=1#docTypeCode=120` | 有価証券報告書 — XBRL 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=2#docTypeCode=120` | 有価証券報告書 — PDF 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=5#docTypeCode=120` | 有価証券報告書 — CSV 取得 | unknown | Y | 0 |  |
+| `/documents/{docID}?type=1#docTypeCode=120` | 有価証券報告書 — XBRL 取得 | ok | Y | 102 |  |
+| `/documents/{docID}?type=2#docTypeCode=120` | 有価証券報告書 — PDF 取得 | ok | Y | 170 |  |
+| `/documents/{docID}?type=5#docTypeCode=120` | 有価証券報告書 — CSV 取得 | ok | Y | 102 | 要素ID, 項目名, コンテキストID, 相対年度, 連結・個別 |
 
 #### 臨時報告書
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/documents/{docID}?type=1#docTypeCode=180` | 臨時報告書 — XBRL 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=2#docTypeCode=180` | 臨時報告書 — PDF 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=5#docTypeCode=180` | 臨時報告書 — CSV 取得 | unknown | Y | 0 |  |
+| `/documents/{docID}?type=1#docTypeCode=180` | 臨時報告書 — XBRL 取得 | ok | Y | 820 |  |
+| `/documents/{docID}?type=2#docTypeCode=180` | 臨時報告書 — PDF 取得 | ok | Y | 824 |  |
+| `/documents/{docID}?type=5#docTypeCode=180` | 臨時報告書 — CSV 取得 | ok | Y | 820 |  |
 
 #### 訂正半期報告書
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/documents/{docID}?type=1#docTypeCode=170` | 訂正半期報告書 — XBRL 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=2#docTypeCode=170` | 訂正半期報告書 — PDF 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=5#docTypeCode=170` | 訂正半期報告書 — CSV 取得 | unknown | Y | 0 |  |
+| `/documents/{docID}?type=1#docTypeCode=170` | 訂正半期報告書 — XBRL 取得 | ok | Y | 2 |  |
+| `/documents/{docID}?type=2#docTypeCode=170` | 訂正半期報告書 — PDF 取得 | ok | Y | 2 |  |
+| `/documents/{docID}?type=5#docTypeCode=170` | 訂正半期報告書 — CSV 取得 | ok | Y | 2 |  |
 
 #### 訂正四半期報告書
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/documents/{docID}?type=1#docTypeCode=150` | 訂正四半期報告書 — XBRL 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=2#docTypeCode=150` | 訂正四半期報告書 — PDF 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=5#docTypeCode=150` | 訂正四半期報告書 — CSV 取得 | unknown | Y | 0 |  |
+| `/documents/{docID}?type=1#docTypeCode=150` | 訂正四半期報告書 — XBRL 取得 | ok | Y | 1 |  |
+| `/documents/{docID}?type=2#docTypeCode=150` | 訂正四半期報告書 — PDF 取得 | ok | Y | 1 |  |
+| `/documents/{docID}?type=5#docTypeCode=150` | 訂正四半期報告書 — CSV 取得 | ok | Y | 1 |  |
 
 #### 訂正大量保有報告書
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/documents/{docID}?type=1#docTypeCode=360` | 訂正大量保有報告書 — XBRL 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=2#docTypeCode=360` | 訂正大量保有報告書 — PDF 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=5#docTypeCode=360` | 訂正大量保有報告書 — CSV 取得 | unknown | Y | 0 |  |
+| `/documents/{docID}?type=1#docTypeCode=360` | 訂正大量保有報告書 — XBRL 取得 | ok | Y | 34 |  |
+| `/documents/{docID}?type=2#docTypeCode=360` | 訂正大量保有報告書 — PDF 取得 | ok | Y | 34 |  |
+| `/documents/{docID}?type=5#docTypeCode=360` | 訂正大量保有報告書 — CSV 取得 | ok | Y | 34 |  |
 
 #### 訂正有価証券報告書
 
 | Path | Description | Status | History | Count | Fields |
 |------|-------------|--------|---------|-------|--------|
-| `/documents/{docID}?type=1#docTypeCode=130` | 訂正有価証券報告書 — XBRL 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=2#docTypeCode=130` | 訂正有価証券報告書 — PDF 取得 | unknown | Y | 0 |  |
-| `/documents/{docID}?type=5#docTypeCode=130` | 訂正有価証券報告書 — CSV 取得 | unknown | Y | 0 |  |
+| `/documents/{docID}?type=1#docTypeCode=130` | 訂正有価証券報告書 — XBRL 取得 | ok | Y | 31 |  |
+| `/documents/{docID}?type=2#docTypeCode=130` | 訂正有価証券報告書 — PDF 取得 | ok | Y | 33 |  |
+| `/documents/{docID}?type=5#docTypeCode=130` | 訂正有価証券報告書 — CSV 取得 | ok | Y | 31 |  |
 
 ## TDnet Timely Disclosure (Tokyo Stock Exchange)
 

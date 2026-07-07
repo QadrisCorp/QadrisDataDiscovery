@@ -117,7 +117,8 @@ class TestApiKeys:
         assert s.require_api_key("twse") == ""
 
     def test_get_api_key(self) -> None:
-        s = DiscoverySettings(edinet_api_key="e456")
+        # _env_file=None：隔離開發機本地 .env 的金鑰
+        s = DiscoverySettings(_env_file=None, edinet_api_key="e456")
         assert s.get_api_key("edinet") == "e456"
         assert s.get_api_key("jquants") == ""
 
@@ -139,9 +140,10 @@ class TestAuthInjection:
         assert "x-api-key" not in session.headers
 
     def test_query_auth_params(self) -> None:
-        s = DiscoverySettings(edinet_api_key="e456")
+        s = DiscoverySettings(_env_file=None, edinet_api_key="e456")
         assert auth_query_params("edinet", settings=s) == {"Subscription-Key": "e456"}
-        assert auth_query_params("edinet", settings=DiscoverySettings()) == {}
+        no_key = DiscoverySettings(_env_file=None)
+        assert auth_query_params("edinet", settings=no_key) == {}
         assert auth_query_params("twse", settings=s) == {}
 
 

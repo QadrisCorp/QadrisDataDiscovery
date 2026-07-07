@@ -3,8 +3,8 @@
     "title": "Official Financial Data Catalog (Taiwan & Japan)",
     "description": "Machine-readable catalog of official financial data API endpoints: Taiwan (TWSE, TPEx, MOPS, TDCC) and Japan (J-Quants, EDINET, TDnet, JPX). Designed for AI agents to discover official financial data sources.",
     "version": "2.0.0",
-    "generated_at": "2026-07-07T05:42:54.474700+00:00",
-    "total_endpoints": 877,
+    "generated_at": "2026-07-07T06:09:27.775812+00:00",
+    "total_endpoints": 918,
     "sources": {
       "twse": {
         "name": "Taiwan Stock Exchange (TWSE)",
@@ -76,28 +76,897 @@
     }
   },
   "tags": {
-    "volume": 221,
-    "price": 103,
-    "institutional": 102,
-    "reference": 100,
-    "ownership": 98,
-    "index": 90,
-    "financial_statement": 86,
-    "governance": 80,
-    "margin_trading": 70,
-    "announcement": 68,
+    "volume": 223,
+    "ownership": 109,
+    "price": 105,
+    "financial_statement": 103,
+    "institutional": 103,
+    "reference": 102,
+    "index": 93,
+    "governance": 86,
+    "announcement": 74,
+    "margin_trading": 74,
     "bond": 65,
     "etf_fund": 54,
     "warrant": 44,
     "corporate_action": 39,
     "valuation": 38,
+    "timely_disclosure": 24,
     "ipo_listing": 22,
     "dividend": 22,
-    "timely_disclosure": 17,
     "revenue": 11,
-    "other": 1
+    "other": 3,
+    "futures_options": 1
   },
   "endpoints": [
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=1#docTypeCode=160",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=160",
+      "path": "/documents/{docID}?type=1#docTypeCode=160",
+      "method": "GET",
+      "description": "半期報告書 — XBRL 取得",
+      "category": "半期報告書",
+      "domain_tags": [
+        "financial_statement"
+      ],
+      "granularity": "semiannual",
+      "coverage": "all",
+      "fields_summary": "Semi-annual (interim period) consolidated financial statements in XBRL format including income statement, balance sheet, and cash flow statement",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "zip",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=160",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=2#docTypeCode=160",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=160",
+      "path": "/documents/{docID}?type=2#docTypeCode=160",
+      "method": "GET",
+      "description": "半期報告書 — PDF 取得",
+      "category": "半期報告書",
+      "domain_tags": [
+        "financial_statement"
+      ],
+      "granularity": "semiannual",
+      "coverage": "all",
+      "fields_summary": "PDF document containing semi-annual financial statements including income statement, balance sheet, and cash flow statement",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "pdf",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=160",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=5#docTypeCode=160",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=160",
+      "path": "/documents/{docID}?type=5#docTypeCode=160",
+      "method": "GET",
+      "description": "半期報告書 — CSV 取得",
+      "category": "半期報告書",
+      "domain_tags": [
+        "financial_statement"
+      ],
+      "granularity": "semiannual",
+      "coverage": "all",
+      "fields_summary": "Semi-annual consolidated financial statements including income statement, balance sheet, and cash flow data",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "csv",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=160",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=1#docTypeCode=350",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=350",
+      "path": "/documents/{docID}?type=1#docTypeCode=350",
+      "method": "GET",
+      "description": "大量保有報告書 — XBRL 取得",
+      "category": "大量保有報告書",
+      "domain_tags": [
+        "ownership",
+        "announcement"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Large shareholding report in XBRL format with acquirer identification, shareholding percentage, share acquisition details, and market impact information",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "zip",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=350",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=2#docTypeCode=350",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=350",
+      "path": "/documents/{docID}?type=2#docTypeCode=350",
+      "method": "GET",
+      "description": "大量保有報告書 — PDF 取得",
+      "category": "大量保有報告書",
+      "domain_tags": [
+        "ownership"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Large shareholder identity, ownership percentage, acquisition purpose, and financing details",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "pdf",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=350",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=5#docTypeCode=350",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=350",
+      "path": "/documents/{docID}?type=5#docTypeCode=350",
+      "method": "GET",
+      "description": "大量保有報告書 — CSV 取得",
+      "category": "大量保有報告書",
+      "domain_tags": [
+        "ownership",
+        "announcement"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Large shareholding report disclosures containing acquirer identity, share quantities acquired, ownership percentages, acquisition dates, and strategic motivation information",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "csv",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=350",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents.json",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents.json",
+      "path": "/documents.json",
+      "method": "GET",
+      "description": "書類一覧 API（提出書類一覧及びメタデータ）",
+      "category": "書類一覧",
+      "domain_tags": [
+        "timely_disclosure",
+        "financial_statement"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Metadata catalog of EDINET financial disclosure filings with document type, company information, reporting periods, and submission details.",
+      "sample_fields": [
+        "seqNumber",
+        "docID",
+        "edinetCode",
+        "secCode",
+        "JCN",
+        "filerName",
+        "fundCode",
+        "ordinanceCode",
+        "formCode",
+        "docTypeCode",
+        "periodStart",
+        "periodEnd",
+        "submitDateTime",
+        "docDescription",
+        "issuerEdinetCode"
+      ],
+      "supports_history": true,
+      "response_format": "json",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents.json",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=1#docTypeCode=120",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=120",
+      "path": "/documents/{docID}?type=1#docTypeCode=120",
+      "method": "GET",
+      "description": "有価証券報告書 — XBRL 取得",
+      "category": "有価証券報告書",
+      "domain_tags": [
+        "financial_statement",
+        "governance"
+      ],
+      "granularity": "yearly",
+      "coverage": "all",
+      "fields_summary": "XBRL-formatted annual securities report containing consolidated and non-consolidated financial statements (income statement, balance sheet, cash flow), management discussion, and corporate governance information",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "zip",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=120",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=2#docTypeCode=120",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=120",
+      "path": "/documents/{docID}?type=2#docTypeCode=120",
+      "method": "GET",
+      "description": "有価証券報告書 — PDF 取得",
+      "category": "有価証券報告書",
+      "domain_tags": [
+        "financial_statement",
+        "governance",
+        "ownership",
+        "reference"
+      ],
+      "granularity": "yearly",
+      "coverage": "all",
+      "fields_summary": "Full PDF of annual securities report containing consolidated financial statements, management discussion, corporate governance, and executive information",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "pdf",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=120",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=5#docTypeCode=120",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=120",
+      "path": "/documents/{docID}?type=5#docTypeCode=120",
+      "method": "GET",
+      "description": "有価証券報告書 — CSV 取得",
+      "category": "有価証券報告書",
+      "domain_tags": [
+        "financial_statement"
+      ],
+      "granularity": "yearly",
+      "coverage": "all",
+      "fields_summary": "Financial statement elements from annual securities reports (有価証券報告書) with values, units, consolidated/individual breakdown, and period context",
+      "sample_fields": [
+        "要素ID",
+        "項目名",
+        "コンテキストID",
+        "相対年度",
+        "連結・個別",
+        "期間・時点",
+        "ユニットID",
+        "単位",
+        "値"
+      ],
+      "supports_history": true,
+      "response_format": "csv",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=120",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=1#docTypeCode=180",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=180",
+      "path": "/documents/{docID}?type=1#docTypeCode=180",
+      "method": "GET",
+      "description": "臨時報告書 — XBRL 取得",
+      "category": "臨時報告書",
+      "domain_tags": [
+        "timely_disclosure",
+        "announcement"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "XBRL structured disclosure data for material corporate events and ad-hoc announcements",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "zip",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=180",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=2#docTypeCode=180",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=180",
+      "path": "/documents/{docID}?type=2#docTypeCode=180",
+      "method": "GET",
+      "description": "臨時報告書 — PDF 取得",
+      "category": "臨時報告書",
+      "domain_tags": [
+        "timely_disclosure",
+        "announcement"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "PDF document retrieval for EDINET temporary disclosure reports (type 180)",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "pdf",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=180",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=5#docTypeCode=180",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=180",
+      "path": "/documents/{docID}?type=5#docTypeCode=180",
+      "method": "GET",
+      "description": "臨時報告書 — CSV 取得",
+      "category": "臨時報告書",
+      "domain_tags": [
+        "timely_disclosure",
+        "announcement"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Temporary report document containing material company announcements and disclosures retrieved in CSV format",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "csv",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=180",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=1#docTypeCode=170",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=170",
+      "path": "/documents/{docID}?type=1#docTypeCode=170",
+      "method": "GET",
+      "description": "訂正半期報告書 — XBRL 取得",
+      "category": "訂正半期報告書",
+      "domain_tags": [
+        "financial_statement"
+      ],
+      "granularity": "semiannual",
+      "coverage": "all",
+      "fields_summary": "XBRL-formatted corrected semi-annual financial report including balance sheet, income statement, and cash flow statement",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "zip",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=170",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=2#docTypeCode=170",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=170",
+      "path": "/documents/{docID}?type=2#docTypeCode=170",
+      "method": "GET",
+      "description": "訂正半期報告書 — PDF 取得",
+      "category": "訂正半期報告書",
+      "domain_tags": [
+        "financial_statement"
+      ],
+      "granularity": "semiannual",
+      "coverage": "all",
+      "fields_summary": "Corrected semi-annual financial report document containing income statement, balance sheet, and financial disclosures",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "pdf",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=170",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=5#docTypeCode=170",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=170",
+      "path": "/documents/{docID}?type=5#docTypeCode=170",
+      "method": "GET",
+      "description": "訂正半期報告書 — CSV 取得",
+      "category": "訂正半期報告書",
+      "domain_tags": [
+        "financial_statement"
+      ],
+      "granularity": "semiannual",
+      "coverage": "all",
+      "fields_summary": "Corrected semi-annual financial statements including income statement, balance sheet, and cash flow statement in CSV format",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "csv",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=170",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=1#docTypeCode=150",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=150",
+      "path": "/documents/{docID}?type=1#docTypeCode=150",
+      "method": "GET",
+      "description": "訂正四半期報告書 — XBRL 取得",
+      "category": "訂正四半期報告書",
+      "domain_tags": [
+        "financial_statement"
+      ],
+      "granularity": "quarterly",
+      "coverage": "all",
+      "fields_summary": "Corrected quarterly financial report (XBRL format) containing balance sheet, income statement, and cash flow statement",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "zip",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=150",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=2#docTypeCode=150",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=150",
+      "path": "/documents/{docID}?type=2#docTypeCode=150",
+      "method": "GET",
+      "description": "訂正四半期報告書 — PDF 取得",
+      "category": "訂正四半期報告書",
+      "domain_tags": [
+        "financial_statement",
+        "timely_disclosure"
+      ],
+      "granularity": "quarterly",
+      "coverage": "all",
+      "fields_summary": "Corrected quarterly financial report PDF containing financial statements (income statement, balance sheet, cash flow) and business performance data",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "pdf",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=150",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=5#docTypeCode=150",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=150",
+      "path": "/documents/{docID}?type=5#docTypeCode=150",
+      "method": "GET",
+      "description": "訂正四半期報告書 — CSV 取得",
+      "category": "訂正四半期報告書",
+      "domain_tags": [
+        "financial_statement"
+      ],
+      "granularity": "quarterly",
+      "coverage": "all",
+      "fields_summary": "Amended quarterly financial statements including income statement, balance sheet, and cash flow data in CSV format",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "csv",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=150",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=1#docTypeCode=360",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=360",
+      "path": "/documents/{docID}?type=1#docTypeCode=360",
+      "method": "GET",
+      "description": "訂正大量保有報告書 — XBRL 取得",
+      "category": "訂正大量保有報告書",
+      "domain_tags": [
+        "ownership",
+        "timely_disclosure"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Amended large shareholder holdings and shareholding information in XBRL format",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "zip",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=360",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=2#docTypeCode=360",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=360",
+      "path": "/documents/{docID}?type=2#docTypeCode=360",
+      "method": "GET",
+      "description": "訂正大量保有報告書 — PDF 取得",
+      "category": "訂正大量保有報告書",
+      "domain_tags": [
+        "ownership"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "PDF documents of revised large shareholder notification reports (訂正大量保有報告書) disclosing shareholding changes exceeding regulatory thresholds",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "pdf",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=360",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=5#docTypeCode=360",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=360",
+      "path": "/documents/{docID}?type=5#docTypeCode=360",
+      "method": "GET",
+      "description": "訂正大量保有報告書 — CSV 取得",
+      "category": "訂正大量保有報告書",
+      "domain_tags": [
+        "ownership"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Shareholder identity, shares held, ownership percentage, and shareholding transaction details from corrective large holding reports (5%+ stakeholder disclosures)",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "csv",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=360",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=1#docTypeCode=130",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=130",
+      "path": "/documents/{docID}?type=1#docTypeCode=130",
+      "method": "GET",
+      "description": "訂正有価証券報告書 — XBRL 取得",
+      "category": "訂正有価証券報告書",
+      "domain_tags": [
+        "financial_statement",
+        "governance",
+        "ownership"
+      ],
+      "granularity": "yearly",
+      "coverage": "all",
+      "fields_summary": "Amended securities report in XBRL format containing annual financial statements, corporate governance information, and shareholding structure",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "zip",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=1#docTypeCode=130",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=2#docTypeCode=130",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=130",
+      "path": "/documents/{docID}?type=2#docTypeCode=130",
+      "method": "GET",
+      "description": "訂正有価証券報告書 — PDF 取得",
+      "category": "訂正有価証券報告書",
+      "domain_tags": [
+        "financial_statement",
+        "governance"
+      ],
+      "granularity": "yearly",
+      "coverage": "all",
+      "fields_summary": "Amended securities report document containing consolidated financial statements, governance disclosures, and business overview (PDF format)",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "pdf",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=2#docTypeCode=130",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "edinet:openapi:/documents/{docID}?type=5#docTypeCode=130",
+      "source": "edinet",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=130",
+      "path": "/documents/{docID}?type=5#docTypeCode=130",
+      "method": "GET",
+      "description": "訂正有価証券報告書 — CSV 取得",
+      "category": "訂正有価証券報告書",
+      "domain_tags": [
+        "financial_statement",
+        "governance",
+        "ownership"
+      ],
+      "granularity": "yearly",
+      "coverage": "all",
+      "fields_summary": "Financial statements, corporate governance information, and shareholding structure from amended annual securities reports",
+      "sample_fields": [],
+      "supports_history": true,
+      "response_format": "csv",
+      "history_method": "GET date=YYYY-MM-DD (提出日, JST)",
+      "id_field": "docID",
+      "request_example": {
+        "url": "https://api.edinet-fsa.go.jp/api/v2/documents/{docID}?type=5#docTypeCode=130",
+        "method": "GET",
+        "params": {
+          "date": "2026-06-30",
+          "Subscription-Key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
     {
       "id": "jpx:web:/markets/statistics-equities/examination/02.html#ETF*-j.pdf",
       "source": "jpx",
@@ -4893,6 +5762,747 @@
         "url": "https://www.jpx.co.jp/markets/statistics-equities/misc/um3qrc0000026p4r-att/perpbr202509.xlsx",
         "method": "GET"
       }
+    },
+    {
+      "id": "jquants:openapi:/bulk/list",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/bulk/list",
+      "path": "/bulk/list",
+      "method": "GET",
+      "description": "List of Downloadable Files（CSV 一括DL可能ファイル一覧）",
+      "category": "Bulk",
+      "domain_tags": [
+        "other"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Metadata catalog of available bulk downloadable CSV files including key identifier, last modified timestamp, and file size",
+      "sample_fields": [
+        "Key",
+        "LastModified",
+        "Size"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "GET date=YYYY-MM-DD or from/to range (pagination_key)",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/bulk/list",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        },
+        "params": {
+          "date": "2026-06-30"
+        }
+      },
+      "date_params": [
+        "date",
+        "from",
+        "to"
+      ]
+    },
+    {
+      "id": "jquants:openapi:/derivatives/bars/daily/options/225",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/derivatives/bars/daily/options/225",
+      "path": "/derivatives/bars/daily/options/225",
+      "method": "GET",
+      "description": "Nikkei 225 Index Option OHLC（日経225オプション四本値）",
+      "category": "Derivatives",
+      "domain_tags": [
+        "futures_options",
+        "index"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Daily OHLC data for Nikkei 225 index options including exercise settlement and ask prices with trading volume",
+      "sample_fields": [
+        "Date",
+        "Code",
+        "O",
+        "H",
+        "L",
+        "C",
+        "EO",
+        "EH",
+        "EL",
+        "EC",
+        "AO",
+        "AH",
+        "AL",
+        "AC",
+        "Vo"
+      ],
+      "supports_history": true,
+      "response_format": "json",
+      "history_method": "GET date=YYYY-MM-DD or from/to range (pagination_key)",
+      "id_field": "Code",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/derivatives/bars/daily/options/225",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        },
+        "params": {
+          "date": "2026-06-30"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "jquants:openapi:/edinet/cross-shareholdings",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/edinet/cross-shareholdings",
+      "path": "/edinet/cross-shareholdings",
+      "method": "GET",
+      "description": "Cross-Shareholdings from EDINET（政策保有株式，有報由来）",
+      "category": "EDINET",
+      "domain_tags": [
+        "ownership",
+        "governance"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Cross-shareholding percentages and rankings between companies from EDINET mandatory disclosures, with company identifiers and submission metadata.",
+      "sample_fields": [
+        "DocId",
+        "Code",
+        "EdinetCode",
+        "FilerName",
+        "FilerNameEn",
+        "DocTypeCode",
+        "SubDate",
+        "SubTime",
+        "PerSt",
+        "PerEn",
+        "Report",
+        "Largest",
+        "SecondLargest"
+      ],
+      "supports_history": true,
+      "response_format": "json",
+      "history_method": "GET date=YYYY-MM-DD or from/to range (pagination_key)",
+      "id_field": "Code",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/edinet/cross-shareholdings",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        },
+        "params": {
+          "date": "2026-06-30"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "jquants:openapi:/edinet/major-shareholders",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/edinet/major-shareholders",
+      "path": "/edinet/major-shareholders",
+      "method": "GET",
+      "description": "Major Shareholders from EDINET（大株主状況，有報由来）",
+      "category": "EDINET",
+      "domain_tags": [
+        "ownership"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Major shareholder composition including holder names, holding percentages, and EDINET filing metadata",
+      "sample_fields": [
+        "DocId",
+        "Code",
+        "EdinetCode",
+        "FilerName",
+        "FilerNameEn",
+        "DocTypeCode",
+        "SubDate",
+        "SubTime",
+        "PerSt",
+        "PerEn",
+        "Hldrs"
+      ],
+      "supports_history": true,
+      "response_format": "json",
+      "history_method": "GET date=YYYY-MM-DD or from/to range (pagination_key)",
+      "id_field": "Code",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/edinet/major-shareholders",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        },
+        "params": {
+          "date": "2026-06-30"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "jquants:openapi:/equities/bars/daily",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/equities/bars/daily",
+      "path": "/equities/bars/daily",
+      "method": "GET",
+      "description": "Stock Prices OHLC（株価四本値，含調整價與 AdjFactor）",
+      "category": "Equities",
+      "domain_tags": [
+        "price",
+        "volume"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Daily OHLC stock prices with adjustment factors and trading volume/turnover data",
+      "sample_fields": [
+        "Date",
+        "Code",
+        "O",
+        "H",
+        "L",
+        "C",
+        "UL",
+        "LL",
+        "Vo",
+        "Va",
+        "AdjFactor",
+        "AdjO",
+        "AdjH",
+        "AdjL",
+        "AdjC"
+      ],
+      "supports_history": true,
+      "response_format": "json",
+      "history_method": "GET date=YYYY-MM-DD or from/to range (pagination_key)",
+      "id_field": "Code",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/equities/bars/daily",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        },
+        "params": {
+          "date": "2026-06-30"
+        }
+      },
+      "date_params": [
+        "date",
+        "from",
+        "to"
+      ]
+    },
+    {
+      "id": "jquants:openapi:/equities/earnings-calendar",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/equities/earnings-calendar",
+      "path": "/equities/earnings-calendar",
+      "method": "GET",
+      "description": "Earnings Calendar（決算発表予定日）",
+      "category": "Equities",
+      "domain_tags": [
+        "announcement"
+      ],
+      "granularity": "snapshot",
+      "coverage": "all",
+      "fields_summary": "Scheduled earnings announcement dates by company and fiscal period",
+      "sample_fields": [
+        "Date",
+        "Code",
+        "CoName",
+        "FY",
+        "SectorNm",
+        "FQ",
+        "Section"
+      ],
+      "supports_history": false,
+      "response_format": "json",
+      "history_method": "snapshot_only",
+      "id_field": "Code",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/equities/earnings-calendar",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        }
+      }
+    },
+    {
+      "id": "jquants:openapi:/equities/investor-types",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/equities/investor-types",
+      "path": "/equities/investor-types",
+      "method": "GET",
+      "description": "Trading by Type of Investors（投資部門別売買状況，週次）",
+      "category": "Equities",
+      "domain_tags": [
+        "institutional",
+        "volume"
+      ],
+      "granularity": "weekly",
+      "coverage": "all",
+      "fields_summary": "Weekly trading volumes (buy, sell, balances) segmented by investor type (individual, broker) and market section",
+      "sample_fields": [
+        "PubDate",
+        "StDate",
+        "EnDate",
+        "Section",
+        "PropSell",
+        "PropBuy",
+        "PropTot",
+        "PropBal",
+        "BrkSell",
+        "BrkBuy",
+        "BrkTot",
+        "BrkBal",
+        "TotSell",
+        "TotBuy",
+        "TotTot"
+      ],
+      "supports_history": true,
+      "response_format": "json",
+      "history_method": "GET date=YYYY-MM-DD or from/to range (pagination_key)",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/equities/investor-types",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "from",
+        "to"
+      ]
+    },
+    {
+      "id": "jquants:openapi:/equities/master",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/equities/master",
+      "path": "/equities/master",
+      "method": "GET",
+      "description": "Listed Issue Master（上場銘柄一覧，point-in-time）",
+      "category": "Equities",
+      "domain_tags": [
+        "reference"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Master data of listed equities with company identifiers, market classifications, and margin trading eligibility attributes",
+      "sample_fields": [
+        "Date",
+        "Code",
+        "CoName",
+        "CoNameEn",
+        "S17",
+        "S17Nm",
+        "S33",
+        "S33Nm",
+        "ScaleCat",
+        "Mkt",
+        "MktNm",
+        "Mrgn",
+        "MrgnNm",
+        "ProdCat"
+      ],
+      "supports_history": true,
+      "response_format": "json",
+      "history_method": "GET date=YYYY-MM-DD or from/to range (pagination_key)",
+      "id_field": "Code",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/equities/master",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        },
+        "params": {
+          "date": "2026-06-30"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "jquants:openapi:/fins/summary",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/fins/summary",
+      "path": "/fins/summary",
+      "method": "GET",
+      "description": "Financial Data Summary（決算短信サマリ財務情報）",
+      "category": "Financials",
+      "domain_tags": [
+        "timely_disclosure",
+        "financial_statement"
+      ],
+      "granularity": "quarterly",
+      "coverage": "all",
+      "fields_summary": "Earnings flash report (tanshin) summaries with disclosure date/time, company code, reporting periods, and key financial metrics including sales and operating profit",
+      "sample_fields": [
+        "DiscDate",
+        "DiscTime",
+        "Code",
+        "DiscNo",
+        "DocType",
+        "CurPerType",
+        "CurPerSt",
+        "CurPerEn",
+        "CurFYSt",
+        "CurFYEn",
+        "NxtFYSt",
+        "NxtFYEn",
+        "Sales",
+        "OP",
+        "OdP"
+      ],
+      "supports_history": true,
+      "response_format": "json",
+      "history_method": "GET date=YYYY-MM-DD or from/to range (pagination_key)",
+      "id_field": "Code",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/fins/summary",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        },
+        "params": {
+          "date": "2026-06-30"
+        }
+      },
+      "date_params": [
+        "date"
+      ]
+    },
+    {
+      "id": "jquants:openapi:/indices/bars/daily",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/indices/bars/daily",
+      "path": "/indices/bars/daily",
+      "method": "GET",
+      "description": "Indices OHLC（指数四本値）",
+      "category": "Indices",
+      "domain_tags": [
+        "index"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Daily OHLC (Open, High, Low, Close) price data for market indices with date and index code",
+      "sample_fields": [
+        "Date",
+        "Code",
+        "O",
+        "H",
+        "L",
+        "C"
+      ],
+      "supports_history": true,
+      "response_format": "json",
+      "history_method": "GET date=YYYY-MM-DD or from/to range (pagination_key)",
+      "id_field": "Code",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/indices/bars/daily",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        },
+        "params": {
+          "date": "2026-06-30"
+        }
+      },
+      "date_params": [
+        "date",
+        "from",
+        "to"
+      ]
+    },
+    {
+      "id": "jquants:openapi:/indices/bars/daily/topix",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/indices/bars/daily/topix",
+      "path": "/indices/bars/daily/topix",
+      "method": "GET",
+      "description": "TOPIX Prices OHLC（TOPIX指数四本値）",
+      "category": "Indices",
+      "domain_tags": [
+        "index",
+        "price"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Daily OHLC (open, high, low, close) prices for the TOPIX stock market index",
+      "sample_fields": [
+        "Date",
+        "O",
+        "H",
+        "L",
+        "C"
+      ],
+      "supports_history": true,
+      "response_format": "json",
+      "history_method": "GET date=YYYY-MM-DD or from/to range (pagination_key)",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/indices/bars/daily/topix",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "from",
+        "to"
+      ]
+    },
+    {
+      "id": "jquants:openapi:/markets/calendar",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/markets/calendar",
+      "path": "/markets/calendar",
+      "method": "GET",
+      "description": "Trading Calendar（取引カレンダー）",
+      "category": "Markets",
+      "domain_tags": [
+        "other"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Market trading calendar with dates and holiday indicators showing trading days and market closures",
+      "sample_fields": [
+        "Date",
+        "HolDiv"
+      ],
+      "supports_history": true,
+      "response_format": "json",
+      "history_method": "GET date=YYYY-MM-DD or from/to range (pagination_key)",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/markets/calendar",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "from",
+        "to"
+      ]
+    },
+    {
+      "id": "jquants:openapi:/markets/margin-alert",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/markets/margin-alert",
+      "path": "/markets/margin-alert",
+      "method": "GET",
+      "description": "Margin Trading Outstanding — daily publication（日々公表信用取引残高）",
+      "category": "Markets",
+      "domain_tags": [
+        "margin_trading"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Daily outstanding margin trading positions with short selling and margin buying quantities, changes, ratios, and position breakdowns by stock code",
+      "sample_fields": [
+        "PubDate",
+        "Code",
+        "AppDate",
+        "PubReason",
+        "ShrtOut",
+        "ShrtOutChg",
+        "ShrtOutRatio",
+        "LongOut",
+        "LongOutChg",
+        "LongOutRatio",
+        "SLRatio",
+        "ShrtNegOut",
+        "ShrtNegOutChg",
+        "ShrtStdOut",
+        "ShrtStdOutChg"
+      ],
+      "supports_history": true,
+      "response_format": "json",
+      "history_method": "GET date=YYYY-MM-DD or from/to range (pagination_key)",
+      "id_field": "Code",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/markets/margin-alert",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        },
+        "params": {
+          "date": "2026-06-30"
+        }
+      },
+      "date_params": [
+        "date",
+        "from",
+        "to"
+      ]
+    },
+    {
+      "id": "jquants:openapi:/markets/margin-interest",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/markets/margin-interest",
+      "path": "/markets/margin-interest",
+      "method": "GET",
+      "description": "Margin Trading Outstandings（信用取引週末残高）",
+      "category": "Markets",
+      "domain_tags": [
+        "margin_trading"
+      ],
+      "granularity": "weekly",
+      "coverage": "all",
+      "fields_summary": "Weekly margin trading outstandings with long/short selling volumes and standardized volumes by stock code and issue type",
+      "sample_fields": [
+        "Date",
+        "Code",
+        "ShrtVol",
+        "LongVol",
+        "ShrtNegVol",
+        "LongNegVol",
+        "ShrtStdVol",
+        "LongStdVol",
+        "IssType"
+      ],
+      "supports_history": true,
+      "response_format": "json",
+      "history_method": "GET date=YYYY-MM-DD or from/to range (pagination_key)",
+      "id_field": "Code",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/markets/margin-interest",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        },
+        "params": {
+          "date": "2026-06-30"
+        }
+      },
+      "date_params": [
+        "date",
+        "from",
+        "to"
+      ]
+    },
+    {
+      "id": "jquants:openapi:/markets/short-ratio",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/markets/short-ratio",
+      "path": "/markets/short-ratio",
+      "method": "GET",
+      "description": "Short Sale Value and Ratio by Sector（業種別空売り比率）",
+      "category": "Markets",
+      "domain_tags": [
+        "margin_trading"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Daily short sale values and ratios by sector, broken down by restriction status",
+      "sample_fields": [
+        "Date",
+        "S33",
+        "SellExShortVa",
+        "ShrtWithResVa",
+        "ShrtNoResVa"
+      ],
+      "supports_history": true,
+      "response_format": "json",
+      "history_method": "GET date=YYYY-MM-DD or from/to range (pagination_key)",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/markets/short-ratio",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        },
+        "params": {
+          "date": "2026-06-30"
+        }
+      },
+      "date_params": [
+        "date",
+        "from",
+        "to"
+      ]
+    },
+    {
+      "id": "jquants:openapi:/markets/short-sale-report",
+      "source": "jquants",
+      "market": "jp",
+      "endpoint_type": "openapi",
+      "url": "https://api.jquants.com/v2/markets/short-sale-report",
+      "path": "/markets/short-sale-report",
+      "method": "GET",
+      "description": "Outstanding Short Selling Positions（空売り残高報告，≥0.5% 部位）",
+      "category": "Markets",
+      "domain_tags": [
+        "margin_trading"
+      ],
+      "granularity": "daily",
+      "coverage": "all",
+      "fields_summary": "Short-selling positions by entity including position ratios to shares outstanding, shares/units held, and historical comparisons.",
+      "sample_fields": [
+        "DiscDate",
+        "CalcDate",
+        "Code",
+        "SSName",
+        "SSAddr",
+        "DICName",
+        "DICAddr",
+        "FundName",
+        "ShrtPosToSO",
+        "ShrtPosShares",
+        "ShrtPosUnits",
+        "PrevRptDate",
+        "PrevRptRatio",
+        "Notes"
+      ],
+      "supports_history": true,
+      "response_format": "json",
+      "history_method": "GET disc_date=?&disc_date_from=?&disc_date_to=?&calc_date=?",
+      "id_field": "Code",
+      "request_example": {
+        "url": "https://api.jquants.com/v2/markets/short-sale-report",
+        "method": "GET",
+        "headers": {
+          "x-api-key": "<YOUR_API_KEY>"
+        }
+      },
+      "date_params": [
+        "disc_date",
+        "disc_date_from",
+        "disc_date_to",
+        "calc_date"
+      ]
     },
     {
       "id": "mops:web:/mops/web/ajax_t05sr01_1",
